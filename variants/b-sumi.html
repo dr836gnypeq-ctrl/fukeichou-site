@@ -1,0 +1,129 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>風景帖 — デザインB「墨」</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<style>
+:root{
+--ink:#e8e0d4;--ink-light:#b8ad9e;--ink-faint:#7a7268;
+--paper:#1a1816;--paper-warm:#222019;
+--moss:#c49a5c;--moss-light:#d4ad72;
+--gold:#e8c47a;--gold-light:#f0d898;
+--white:#f5efe6;--black:#0e0d0c;--border:#3a3632;
+--serif:'Zen Old Mincho',serif;--sans:'Noto Sans JP',sans-serif;
+}
+body{color:var(--ink);background:var(--paper)}
+a{color:var(--moss)}
+a:hover{color:var(--gold)}
+.version-badge{background:#c49a5c}
+.hero{background:linear-gradient(135deg,#0e0d0c 0%,#1a1510 50%,#0e0c08 100%)}
+.hero-overlay{background:linear-gradient(to bottom,rgba(14,13,12,.2)0%,rgba(14,13,12,.4)50%,rgba(14,13,12,.6)100%)}
+.site-header.scrolled{background:rgba(26,24,22,.95);border-bottom-color:var(--border)}
+.site-header.scrolled .logo-text{color:var(--ink)}
+.site-header.scrolled nav a{color:var(--ink-light)}
+.pain-card{background:var(--paper-warm);border-color:var(--border)}
+.pain-card p{color:var(--ink-light)}
+.feature-card{background:var(--paper-warm);border-color:var(--border)}
+.feature-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.feature-a{color:var(--ink-light)}
+.evidence-card{background:var(--paper-warm);border-color:var(--border)}
+.evidence-card p{color:var(--ink-light)}
+.evidence-stat{color:var(--moss)}
+.faq-item{border-color:var(--border)}
+.faq-item summary::after{color:var(--ink-faint)}
+.faq-item p{color:var(--ink-light)}
+.pricing-card{background:var(--paper-warm);border-color:var(--border)}
+.pricing-header{background:linear-gradient(135deg,#3a2e1e 0%,#5a4830 100%)}
+.pricing-badge{background:var(--moss)}
+.pricing-includes{background:var(--paper-warm)}
+.pricing-includes h4{color:var(--ink-faint)}
+.pricing-includes li{border-color:var(--border);color:var(--ink)}
+.pricing-includes li::before{color:var(--moss)}
+.pricing-discount{background:var(--paper)}
+.pricing-discount p{color:var(--ink)}
+.pricing-note p{color:var(--ink-faint)}
+.tab-btn{border-color:var(--border);background:var(--paper-warm);color:var(--ink-light)}
+.tab-btn.active{background:var(--moss);color:var(--black);border-color:var(--moss)}
+.section-contact{background:#2a2318}
+.flow-note{background:var(--moss);color:var(--black)}
+.flow-step p{color:var(--ink-light)}
+.btn-primary{background:var(--moss);color:var(--black)}
+.btn-primary:hover{background:var(--moss-light);color:var(--black);box-shadow:0 4px 20px rgba(196,154,92,.3)}
+.nav-cta{background:var(--moss)!important;color:var(--black)!important}
+.site-header.scrolled .nav-cta{background:var(--moss)!important}
+.section-heading{color:var(--ink)}
+.section-lead{color:var(--ink-light)}
+</style>
+</head>
+<body>
+
+<div class="version-badge">B「墨」Sumi</div>
+
+{% include header.html %}
+{% include hero.html %}
+
+<section class="section" id="pain">
+<div class="container">
+<h2 class="section-heading">待合室のモニタ、何を流していますか？</h2>
+<p class="section-lead">施設によって課題は異なります。あなたの現場に近いほうをお選びください。</p>
+<div class="tab-switcher">
+<button class="tab-btn active" onclick="switchTab('clinic')">クリニックの方</button>
+<button class="tab-btn" onclick="switchTab('care')">介護施設の方</button>
+</div>
+<div class="tab-content active" id="tab-clinic">
+<div class="pain-grid">
+<div class="pain-card"><div class="pain-icon">📺</div><h3>ワイドショーの音が<br>診察の妨げになる</h3><p>音量を上げれば呼び出しの声がかき消され、下げれば高齢の患者さんには聞こえない。</p></div>
+<div class="pain-card"><div class="pain-icon">🔇</div><h3>癒しの映像を流してみたが<br>なんだか空回りしている</h3><p>YouTubeの4K風景を流してみたものの、待たされている患者さんには逆効果のことも。</p></div>
+<div class="pain-card"><div class="pain-icon">⭐</div><h3>待ち時間の不満が<br>口コミに出てしまう</h3><p>診療の質には自信がある。でも「待ち時間が長い」の一言がGoogleの星を下げる。</p></div>
+</div>
+</div>
+<div class="tab-content" id="tab-care">
+<div class="pain-grid">
+<div class="pain-card"><div class="pain-icon">🪟</div><h3>外出できない入居者に<br>季節の変化を届けたい</h3><p>足腰が不自由で外出が叶わない方にも、桜や紅葉、海の景色を見せてあげたい。</p></div>
+<div class="pain-card"><div class="pain-icon">📺</div><h3>共用スペースのテレビが<br>一日中つけっぱなし</h3><p>チャンネル選びで入居者同士がもめることもある。かといって消すと静まり返る。</p></div>
+<div class="pain-card"><div class="pain-icon">💬</div><h3>レクのネタが尽きてきた</h3><p>準備に時間がかかる割に盛り上がらない。季節の風景映像があれば自然に会話が始まる。</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="service">
+<div class="container">
+<h2 class="section-heading">風景帖という選択肢</h2>
+<p class="section-lead">クリニック・介護施設の「モニタに何を流すか問題」に、<br>ひとつの答えを用意しました。</p>
+<div class="feature-grid">
+<div class="feature-card"><p class="feature-q">「また機器の管理が増えるの？」<br>——いいえ。</p><p class="feature-a">初期設定だけ済ませれば、あとはスタッフが触る必要は一切ありません。すべて自動。</p></div>
+<div class="feature-card"><p class="feature-q">「音が問題にならない？」<br>——映像だけで成立します。</p><p class="feature-a">風景映像は音量ゼロでも十分に機能します。診察の呼び出しや事務の声を邪魔しません。</p></div>
+<div class="feature-card"><p class="feature-q">「同じ映像の繰り返しにならない？」<br>——季節と時間帯で自動で変わります。</p><p class="feature-a">150時間超のライブラリから、今の季節・今の時間帯に合った映像が自動で再生されます。</p></div>
+<div class="feature-card"><p class="feature-q">「院内ネットワークに影響しない？」<br>——完全オフラインです。</p><p class="feature-a">インターネットへの接続は一切行いません。院内のセキュリティポリシーに影響しません。</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="pricing">
+<div class="container">
+<h2 class="section-heading">料金</h2>
+<div class="pricing-card">
+<div class="pricing-header">
+<span class="pricing-badge">初月無料</span>
+<div class="pricing-amount"><span class="pricing-currency">月額</span><span class="pricing-number">19,800</span><span class="pricing-unit">円<small>（税込）</small></span></div>
+</div>
+<div class="pricing-includes"><h4>含まれるもの</h4><ul><li>150時間超の4K HDR実写映像ライブラリ</li><li>専用再生ハードウェアの貸出</li><li>HDMIケーブル</li><li>初期設定マニュアル</li><li>メールサポート</li></ul></div>
+<div class="pricing-discount"><p><strong>2台目以降 15%引き</strong><br><small>同一住所・同一請求書に限ります</small></p></div>
+<a href="#contact" class="btn btn-primary btn-lg">導入のご相談</a>
+</div>
+</div>
+</section>
+
+{% include footer.html %}
+<script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

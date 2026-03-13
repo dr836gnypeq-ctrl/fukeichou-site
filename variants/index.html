@@ -1,0 +1,125 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>風景帖 — デザインバリエーション</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:#1a1a1a;color:#e8e8e8;min-height:100vh;padding:60px 24px}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-size:1.8rem;font-weight:300;text-align:center;margin-bottom:8px;letter-spacing:.1em}
+.sub{text-align:center;color:#888;font-size:.9rem;margin-bottom:48px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{border-radius:12px;overflow:hidden;transition:transform .3s,box-shadow .3s;text-decoration:none;color:inherit}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.swatch{height:180px;display:flex;align-items:flex-end;padding:20px}
+.card-body{padding:20px;background:#222}
+.card-body h2{font-size:1.1rem;margin-bottom:6px;font-weight:500}
+.card-body p{font-size:.85rem;color:#999;line-height:1.7}
+.tag{display:inline-block;font-size:.7rem;padding:3px 8px;border-radius:4px;margin-right:6px;margin-top:8px}
+
+/* Current */
+.s-current{background:linear-gradient(135deg,#faf8f5,#f5f0ea);border-left:4px solid #2d4a3e}
+.s-current .tag{background:#2d4a3e;color:#fff}
+.s-current h2,.s-current p{color:#2c2c2c}
+/* A */
+.s-a{background:linear-gradient(135deg,#f7f9fc,#eef2f7);border-left:4px solid #1e3a5f}
+.s-a .tag{background:#1e3a5f;color:#fff}
+.s-a h2,.s-a p{color:#1a2332}
+/* B */
+.s-b{background:linear-gradient(135deg,#1a1816,#222019);border-left:4px solid #c49a5c}
+.s-b .tag{background:#c49a5c;color:#0e0d0c}
+/* C */
+.s-c{background:linear-gradient(135deg,#ffffff,#f5f7f8);border-left:4px solid #1a8a7a}
+.s-c .tag{background:#1a8a7a;color:#fff}
+.s-c h2,.s-c p{color:#2a2a2a}
+
+.colors{display:flex;gap:6px;margin-top:12px}
+.dot{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.15)}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>デザインバリエーション</h1>
+<p class="sub">各カードをクリックすると実際のページを表示します</p>
+
+<div class="grid">
+
+<a class="card" href="{{ '/index.html' | relative_url }}">
+<div class="swatch s-current">
+</div>
+<div class="card-body s-current">
+<h2>現行「和紙」</h2>
+<p>温かみのある和紙の色合い。苔緑と金のアクセント。落ち着きと信頼感。</p>
+<span class="tag">苔緑</span><span class="tag" style="background:#b8965a">金</span>
+<div class="colors">
+<div class="dot" style="background:#faf8f5"></div>
+<div class="dot" style="background:#f5f0ea"></div>
+<div class="dot" style="background:#2d4a3e"></div>
+<div class="dot" style="background:#b8965a"></div>
+<div class="dot" style="background:#2c2c2c"></div>
+</div>
+</div>
+</a>
+
+<a class="card" href="{{ '/variants/a-shinai.html' | relative_url }}">
+<div class="swatch s-a">
+</div>
+<div class="card-body s-a">
+<h2>A「深藍」Shinai</h2>
+<p>深い藍色。知的で清潔感のある印象。医療機関との親和性が高い。</p>
+<span class="tag">深藍</span><span class="tag" style="background:#c9933a;color:#fff">琥珀</span>
+<div class="colors">
+<div class="dot" style="background:#f7f9fc"></div>
+<div class="dot" style="background:#eef2f7"></div>
+<div class="dot" style="background:#1e3a5f"></div>
+<div class="dot" style="background:#c9933a"></div>
+<div class="dot" style="background:#1a2332"></div>
+</div>
+</div>
+</a>
+
+<a class="card" href="{{ '/variants/b-sumi.html' | relative_url }}">
+<div class="swatch s-b">
+</div>
+<div class="card-body s-b">
+<h2>B「墨」Sumi</h2>
+<p>ダークモード。映像の美しさが最も映える。シネマティックで高級感。</p>
+<span class="tag">墨</span><span class="tag" style="background:#e8c47a;color:#0e0d0c">琥珀金</span>
+<div class="colors">
+<div class="dot" style="background:#1a1816"></div>
+<div class="dot" style="background:#222019"></div>
+<div class="dot" style="background:#c49a5c"></div>
+<div class="dot" style="background:#e8c47a"></div>
+<div class="dot" style="background:#e8e0d4"></div>
+</div>
+</div>
+</a>
+
+<a class="card" href="{{ '/variants/c-hakuji.html' | relative_url }}">
+<div class="swatch s-c">
+</div>
+<div class="card-body s-c">
+<h2>C「白磁」Hakuji</h2>
+<p>純白ベース。ティール（青緑）のアクセント。清潔感と現代的な信頼性。</p>
+<span class="tag">白磁</span><span class="tag" style="background:#d4883a;color:#fff">橙</span>
+<div class="colors">
+<div class="dot" style="background:#ffffff"></div>
+<div class="dot" style="background:#f5f7f8"></div>
+<div class="dot" style="background:#1a8a7a"></div>
+<div class="dot" style="background:#d4883a"></div>
+<div class="dot" style="background:#2a2a2a"></div>
+</div>
+</div>
+</a>
+
+</div>
+</div>
+</body>
+</html>
