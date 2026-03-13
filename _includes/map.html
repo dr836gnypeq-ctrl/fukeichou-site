@@ -6,17 +6,16 @@
 
 <div class="map-wrapper" id="map-container">
   <div class="map-loading">地図を読み込んでいます...</div>
+  <!-- 動画ポップアップ（map-wrapper内に配置 → position:relativeの子） -->
+  <div class="map-video-popup" id="map-video-popup">
+    <video id="map-popup-video" muted playsinline loop></video>
+  </div>
 </div>
 
 <p class="map-note">全国100箇所以上の景勝地で撮影。四季・時間帯あわせて150時間超の映像ライブラリ。</p>
 <p class="map-source">地図データ出典：国土数値情報（国土交通省）</p>
 </div>
 </section>
-
-<!-- 動画ポップアップ -->
-<div class="map-video-popup" id="map-video-popup">
-  <video id="map-popup-video" muted playsinline loop></video>
-</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
@@ -31,13 +30,7 @@
 
   var base='{{ "/assets/images/" | relative_url }}';
 
-  /*
-    ldx,ldy = label offset from pin
-    a = 's'(left-align) 'e'(right-align)
-    video = filename for popup (optional)
-  */
   var locations=[
-    /* ── 北海道（東側は左にラベル） ── */
     {name:'知床',lat:44.08,lng:145.10,         ldx:-50,ldy:-18,a:'e'},
     {name:'野付半島',lat:43.53,lng:145.32,      ldx:-50,ldy:0,a:'e'},
     {name:'弟子屈',lat:43.48,lng:144.46,        ldx:-50,ldy:18,a:'e'},
@@ -48,39 +41,32 @@
     {name:'神威岬',lat:43.33,lng:140.35,        ldx:-65,ldy:15,a:'e'},
     {name:'函館山',lat:41.76,lng:140.70,        ldx:-65,ldy:12,a:'e'},
 
-    /* ── 東北 ── */
     {name:'大高森',lat:38.37,lng:141.14,        ldx:55,ldy:-12,a:'s'},
     {name:'船岡城址',lat:38.05,lng:140.78,      ldx:55,ldy:5,a:'s'},
     {name:'蔵王',lat:38.17,lng:140.40,          ldx:55,ldy:20,a:'s'},
 
-    /* ── 関東・甲信越 ── */
     {name:'草津',lat:36.62,lng:138.60,          ldx:60,ldy:-8,a:'s'},
     {name:'高田城址',lat:37.10,lng:138.25,      ldx:-75,ldy:0,a:'e'},
 
-    /* ── 中部・長野 ── */
     {name:'岡谷',lat:36.05,lng:138.05,          ldx:-80,ldy:-8,a:'e'},
     {name:'奥蓼科',lat:36.05,lng:138.35,        ldx:60,ldy:-15,a:'s'},
     {name:'鳴沢',lat:35.43,lng:138.68,          ldx:60,ldy:0,a:'s'},
     {name:'新穂高',lat:36.28,lng:137.60,        ldx:-80,ldy:10,a:'e'},
 
-    /* ── 東海 ── */
     {name:'金城ふ頭',lat:35.04,lng:136.84,      ldx:-80,ldy:8,a:'e'},
     {name:'香嵐渓',lat:35.12,lng:137.32,        ldx:-80,ldy:-8,a:'e'},
     {name:'三保松原',lat:35.01,lng:138.52,      ldx:60,ldy:15,a:'s'},
     {name:'御前崎',lat:34.60,lng:138.23,        ldx:60,ldy:30,a:'s'},
     {name:'西伊豆',lat:34.78,lng:138.78,        ldx:55,ldy:45,a:'s'},
 
-    /* ── 近畿 ── */
     {name:'天橋立',lat:35.57,lng:135.18,        ldx:-80,ldy:-8,a:'e'},
     {name:'摩耶山',lat:34.73,lng:135.21,        ldx:-80,ldy:12,a:'e'},
 
-    /* ── 中国・四国 ── */
     {name:'倉敷',lat:34.60,lng:133.77,          ldx:-60,ldy:-18,a:'e'},
     {name:'亀老山',lat:34.12,lng:133.00,        ldx:55,ldy:20,a:'s'},
     {name:'錦帯橋',lat:34.17,lng:132.18,        ldx:-55,ldy:15,a:'e'},
     {name:'丸山千枚田',lat:33.96,lng:135.94,    ldx:55,ldy:15,a:'s'},
 
-    /* ── 九州 ── */
     {name:'稲佐山',lat:32.76,lng:129.85,        ldx:-65,ldy:-8,a:'e'},
     {name:'桜島',lat:31.58,lng:130.66,          ldx:55,ldy:10,a:'s',video:'hero-mobile.mp4'}
   ];
@@ -105,9 +91,20 @@
 
   var path=d3.geoPath().projection(projection);
 
-  /* 動画ポップアップ要素 */
   var popup=document.getElementById('map-video-popup');
   var popupVideo=document.getElementById('map-popup-video');
+
+  /* SVG座標をコンテナピクセルに変換する関数 */
+  function svgToContainer(svgX,svgY){
+    var svgEl=container.querySelector('svg');
+    if(!svgEl) return {x:0,y:0};
+    var cw=svgEl.clientWidth;
+    var ch=svgEl.clientHeight;
+    return {
+      x:(svgX/w)*cw,
+      y:(svgY/h)*ch
+    };
+  }
 
   d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/data/administrative_area/prefecture/ja_prefecture_area.topojson')
     .then(function(data){
@@ -135,34 +132,33 @@
         var x=p[0],y=p[1];
         var lx=x+d.ldx,ly=y+d.ldy;
 
-        /* 実線の引き出し線 */
         gLines.append('line')
           .attr('x1',x).attr('y1',y)
           .attr('x2',lx).attr('y2',ly)
           .attr('stroke',LINE_COLOR)
           .attr('stroke-width',0.7);
 
-        /* テキスト幅推定 */
         var tw=0;
         for(var i=0;i<d.name.length;i++){
           tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
         }
         var bw=tw+padX*2;
         var bh=fs+padY*2+2;
-
         var bx=d.a==='s'?lx+3:lx-bw-3;
         var by=ly-bh/2;
+
+        /* ラベル中心座標を記録（ポップアップ位置に使う） */
+        d._labelCx=bx+bw/2;
+        d._labelCy=by;
 
         var labelG=gLabels.append('g')
           .attr('class','map-label')
           .attr('data-name',d.name)
-          .style('cursor','pointer');
+          .style('cursor',d.video?'pointer':'default');
 
         labelG.append('rect')
-          .attr('x',bx)
-          .attr('y',by)
-          .attr('width',bw)
-          .attr('height',bh)
+          .attr('x',bx).attr('y',by)
+          .attr('width',bw).attr('height',bh)
           .attr('rx',3).attr('ry',3)
           .attr('fill',LABEL_BG)
           .attr('stroke',LABEL_BORDER)
@@ -178,8 +174,7 @@
           .attr('font-weight','500')
           .text(d.name);
 
-        /* ホバー色変化 */
-        labelG.on('mouseenter',function(event){
+        labelG.on('mouseenter',function(){
           d3.select(this).select('rect')
             .transition().duration(150)
             .attr('fill','#136b5e').attr('stroke','#136b5e');
@@ -187,22 +182,26 @@
             .transition().duration(150)
             .attr('fill','#fff');
 
-          /* 動画ポップアップ */
           if(d.video){
             popupVideo.src=base+d.video;
             popupVideo.play();
             popup.style.display='block';
 
-            var rect=container.getBoundingClientRect();
-            var px=event.clientX-rect.left;
-            var py=event.clientY-rect.top;
-            var popW=240;
-            var left=px+20;
-            if(left+popW>w) left=px-popW-20;
-            var top=py-70;
-            if(top<0) top=py+20;
-            popup.style.left=(rect.left+left)+'px';
-            popup.style.top=(rect.top+top+window.scrollY)+'px';
+            /* ラベル位置からコンテナ内ピクセルを算出 */
+            var pos=svgToContainer(d._labelCx,d._labelCy);
+            var popW=200;
+            var popH=113; /* 16:9 */
+            var left=pos.x-popW/2;
+            var top=pos.y-popH-10;
+
+            /* はみ出し補正 */
+            var cw=container.querySelector('svg').clientWidth;
+            if(left<4) left=4;
+            if(left+popW>cw-4) left=cw-popW-4;
+            if(top<4) top=pos.y+20;
+
+            popup.style.left=left+'px';
+            popup.style.top=top+'px';
           }
         })
         .on('mouseleave',function(){
@@ -220,7 +219,6 @@
           }
         });
 
-        /* ピン */
         gPins.append('circle')
           .attr('cx',x).attr('cy',y)
           .attr('r',3)
