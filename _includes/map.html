@@ -106,6 +106,47 @@
     };
   }
 
+  function showPopup(d){
+    popupVideo.src=base+d.video;
+    popupVideo.play();
+    popup.style.display='block';
+    popup._currentName=d.name;
+
+    var pos=svgToContainer(d._labelCx,d._labelCy);
+    var popW=200;
+    var popH=113;
+    var left=pos.x-popW/2;
+    var top=pos.y-popH-10;
+
+    var cw=container.querySelector('svg').clientWidth;
+    if(left<4) left=4;
+    if(left+popW>cw-4) left=cw-popW-4;
+    if(top<4) top=pos.y+20;
+
+    popup.style.left=left+'px';
+    popup.style.top=top+'px';
+  }
+
+  function hidePopup(){
+    popup.style.display='none';
+    popup._currentName=null;
+    popupVideo.pause();
+    popupVideo.removeAttribute('src');
+  }
+
+  function resetLabel(el){
+    el.select('rect').attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
+    el.select('text').attr('fill',LABEL_TEXT);
+  }
+
+  /* 地図外タップで動画を閉じる */
+  document.addEventListener('touchstart',function(e){
+    if(!e.target.closest('.map-label') && popup.style.display==='block'){
+      hidePopup();
+      d3.selectAll('.map-label').each(function(){resetLabel(d3.select(this))});
+    }
+  });
+
   d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/data/administrative_area/prefecture/ja_prefecture_area.topojson')
     .then(function(data){
       d3.select('.map-loading').remove();
@@ -182,27 +223,7 @@
             .transition().duration(150)
             .attr('fill','#fff');
 
-          if(d.video){
-            popupVideo.src=base+d.video;
-            popupVideo.play();
-            popup.style.display='block';
-
-            /* ラベル位置からコンテナ内ピクセルを算出 */
-            var pos=svgToContainer(d._labelCx,d._labelCy);
-            var popW=200;
-            var popH=113; /* 16:9 */
-            var left=pos.x-popW/2;
-            var top=pos.y-popH-10;
-
-            /* はみ出し補正 */
-            var cw=container.querySelector('svg').clientWidth;
-            if(left<4) left=4;
-            if(left+popW>cw-4) left=cw-popW-4;
-            if(top<4) top=pos.y+20;
-
-            popup.style.left=left+'px';
-            popup.style.top=top+'px';
-          }
+          if(d.video) showPopup(d);
         })
         .on('mouseleave',function(){
           d3.select(this).select('rect')
@@ -212,10 +233,26 @@
             .transition().duration(200)
             .attr('fill',LABEL_TEXT);
 
+          if(d.video) hidePopup();
+        })
+        .on('touchstart',function(event){
+          event.preventDefault();
+          event.stopPropagation();
           if(d.video){
-            popup.style.display='none';
-            popupVideo.pause();
-            popupVideo.removeAttribute('src');
+            /* トグル：表示中なら閉じる、非表示なら開く */
+            if(popup.style.display==='block' && popup._currentName===d.name){
+              hidePopup();
+              resetLabel(d3.select(this));
+            }else{
+              /* 他のラベルをリセット */
+              d3.selectAll('.map-label').each(function(){
+                d3.select(this).select('rect').attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
+                d3.select(this).select('text').attr('fill',LABEL_TEXT);
+              });
+              d3.select(this).select('rect').attr('fill','#136b5e').attr('stroke','#136b5e');
+              d3.select(this).select('text').attr('fill','#fff');
+              showPopup(d);
+            }
           }
         });
 
