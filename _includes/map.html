@@ -19,56 +19,70 @@
 <script>
 (function(){
   var PIN='#136b5e';
-  var LABEL_COLOR='#444';
-  var LINE_COLOR='#aaa';
+  var LABEL_BG='#fff';
+  var LABEL_BORDER='#c0c8cc';
+  var LABEL_TEXT='#333';
+  var LINE_COLOR='#aab4b8';
 
-  /* 各ピンのラベルオフセット [dx, dy, anchor]
-     anchor: 's'=start(左寄せ), 'e'=end(右寄せ) */
+  /*
+    ldx,ldy = label offset from pin (large values → into ocean)
+    a = 's'(start/left-align) 'e'(end/right-align)
+    Future: add 'video' key for popup
+  */
   var locations=[
-    {name:'知床',en:'Shiretoko',lat:44.08,lng:145.10,  ldx:20,ldy:-8,a:'s'},
-    {name:'野付半島',en:'Notsuke',lat:43.53,lng:145.32, ldx:22,ldy:12,a:'s'},
-    {name:'弟子屈',en:'Teshikaga',lat:43.48,lng:144.46, ldx:-25,ldy:15,a:'e'},
-    {name:'美瑛',en:'Biei',lat:43.50,lng:142.45,        ldx:-30,ldy:-5,a:'e'},
-    {name:'青い池',en:'Blue Pond',lat:43.46,lng:142.60,  ldx:-28,ldy:15,a:'e'},
-    {name:'美田',en:'Biei Mita',lat:43.57,lng:142.47,    ldx:-30,ldy:-18,a:'e'},
-    {name:'札幌',en:'Sapporo',lat:43.06,lng:141.35,      ldx:-28,ldy:5,a:'e'},
-    {name:'神威岬',en:'Cape Kamui',lat:43.33,lng:140.35, ldx:-25,ldy:-10,a:'e'},
-    {name:'函館山',en:'Mt. Hakodate',lat:41.76,lng:140.70, ldx:-30,ldy:10,a:'e'},
+    /* ── 北海道 ── */
+    {name:'知床',lat:44.08,lng:145.10,         ldx:55,ldy:-20,a:'s'},
+    {name:'野付半島',lat:43.53,lng:145.32,      ldx:55,ldy:0,a:'s'},
+    {name:'弟子屈',lat:43.48,lng:144.46,        ldx:55,ldy:20,a:'s'},
+    {name:'美瑛',lat:43.50,lng:142.45,          ldx:-65,ldy:-25,a:'e'},
+    {name:'青い池',lat:43.46,lng:142.60,        ldx:-65,ldy:-5,a:'e'},
+    {name:'美田',lat:43.57,lng:142.47,          ldx:-65,ldy:-45,a:'e'},
+    {name:'札幌',lat:43.06,lng:141.35,          ldx:-70,ldy:0,a:'e'},
+    {name:'神威岬',lat:43.33,lng:140.35,        ldx:-60,ldy:15,a:'e'},
+    {name:'函館山',lat:41.76,lng:140.70,        ldx:-70,ldy:10,a:'e'},
 
-    {name:'船岡城址',en:'Funaoka',lat:38.05,lng:140.78,  ldx:22,ldy:-5,a:'s'},
-    {name:'大高森',en:'Otakamori',lat:38.37,lng:141.14,   ldx:20,ldy:5,a:'s'},
-    {name:'蔵王',en:'Zao',lat:38.17,lng:140.40,           ldx:-25,ldy:0,a:'e'},
+    /* ── 東北 ── */
+    {name:'船岡城址',lat:38.05,lng:140.78,      ldx:60,ldy:8,a:'s'},
+    {name:'大高森',lat:38.37,lng:141.14,        ldx:55,ldy:-8,a:'s'},
+    {name:'蔵王',lat:38.17,lng:140.40,          ldx:60,ldy:22,a:'s'},
 
-    {name:'草津',en:'Kusatsu',lat:36.62,lng:138.60,       ldx:22,ldy:-5,a:'s'},
-    {name:'高田城址',en:'Takada',lat:37.10,lng:138.25,     ldx:-28,ldy:0,a:'e'},
+    /* ── 関東・甲信越 ── */
+    {name:'草津',lat:36.62,lng:138.60,          ldx:60,ldy:-10,a:'s'},
+    {name:'高田城址',lat:37.10,lng:138.25,      ldx:-70,ldy:0,a:'e'},
 
-    {name:'岡谷',en:'Okaya',lat:36.05,lng:138.05,         ldx:-26,ldy:-10,a:'e'},
-    {name:'奥蓼科',en:'Oku-Tateshina',lat:36.05,lng:138.35, ldx:22,ldy:-12,a:'s'},
-    {name:'鳴沢',en:'Narusawa',lat:35.43,lng:138.68,      ldx:22,ldy:5,a:'s'},
-    {name:'新穂高',en:'Shinhotaka',lat:36.28,lng:137.60,   ldx:-28,ldy:5,a:'e'},
+    /* ── 中部 ── */
+    {name:'岡谷',lat:36.05,lng:138.05,          ldx:-75,ldy:-10,a:'e'},
+    {name:'奥蓼科',lat:36.05,lng:138.35,        ldx:60,ldy:0,a:'s'},
+    {name:'鳴沢',lat:35.43,lng:138.68,          ldx:60,ldy:10,a:'s'},
+    {name:'新穂高',lat:36.28,lng:137.60,        ldx:-75,ldy:10,a:'e'},
 
-    {name:'金城ふ頭',en:'Kinjo',lat:35.04,lng:136.84,     ldx:-28,ldy:12,a:'e'},
-    {name:'香嵐渓',en:'Korankei',lat:35.12,lng:137.32,    ldx:22,ldy:-8,a:'s'},
+    /* ── 東海 ── */
+    {name:'金城ふ頭',lat:35.04,lng:136.84,      ldx:-75,ldy:5,a:'e'},
+    {name:'香嵐渓',lat:35.12,lng:137.32,        ldx:-75,ldy:-10,a:'e'},
+    {name:'御前崎',lat:34.60,lng:138.23,        ldx:60,ldy:15,a:'s'},
+    {name:'西伊豆',lat:34.78,lng:138.78,        ldx:55,ldy:-5,a:'s'},
+    {name:'三保松原',lat:35.01,lng:138.52,      ldx:60,ldy:0,a:'s'},
 
-    {name:'御前崎',en:'Omaezaki',lat:34.60,lng:138.23,    ldx:22,ldy:8,a:'s'},
-    {name:'西伊豆',en:'Nishi-Izu',lat:34.78,lng:138.78,   ldx:22,ldy:-5,a:'s'},
-    {name:'三保松原',en:'Miho',lat:35.01,lng:138.52,       ldx:22,ldy:5,a:'s'},
+    /* ── 近畿 ── */
+    {name:'天橋立',lat:35.57,lng:135.18,        ldx:-75,ldy:-8,a:'e'},
+    {name:'摩耶山',lat:34.73,lng:135.21,        ldx:-75,ldy:10,a:'e'},
 
-    {name:'天橋立',en:'Amanohashidate',lat:35.57,lng:135.18, ldx:-28,ldy:-8,a:'e'},
-    {name:'摩耶山',en:'Mt. Maya',lat:34.73,lng:135.21,    ldx:-28,ldy:8,a:'e'},
+    /* ── 中国・四国 ── */
+    {name:'倉敷',lat:34.60,lng:133.77,          ldx:-55,ldy:-15,a:'e'},
+    {name:'亀老山',lat:34.12,lng:133.00,        ldx:55,ldy:15,a:'s'},
+    {name:'錦帯橋',lat:34.17,lng:132.18,        ldx:-55,ldy:10,a:'e'},
+    {name:'丸山千枚田',lat:33.96,lng:135.94,    ldx:55,ldy:10,a:'s'},
 
-    {name:'倉敷',en:'Kurashiki',lat:34.60,lng:133.77,     ldx:-25,ldy:-8,a:'e'},
-    {name:'亀老山',en:'Kirosan',lat:34.12,lng:133.00,      ldx:22,ldy:10,a:'s'},
-    {name:'錦帯橋',en:'Kintaikyo',lat:34.17,lng:132.18,   ldx:-25,ldy:-8,a:'e'},
-    {name:'丸山千枚田',en:'Senmaida',lat:33.96,lng:135.94, ldx:22,ldy:12,a:'s'},
-
-    {name:'稲佐山',en:'Mt. Inasa',lat:32.76,lng:129.85,   ldx:-28,ldy:-5,a:'e'},
-    {name:'桜島',en:'Sakurajima',lat:31.58,lng:130.66,     ldx:22,ldy:5,a:'s'}
+    /* ── 九州 ── */
+    {name:'稲佐山',lat:32.76,lng:129.85,        ldx:-60,ldy:-10,a:'e'},
+    {name:'桜島',lat:31.58,lng:130.66,          ldx:55,ldy:10,a:'s'}
   ];
 
   var container=document.getElementById('map-container');
   var w=container.offsetWidth;
   var h=Math.min(w*1.4,750);
+  var fs=w>500?9:7.5;
+  var padX=6,padY=3;
 
   var svg=d3.select('#map-container')
     .append('svg')
@@ -91,61 +105,106 @@
       var objName=Object.keys(data.objects)[0];
       var japan=topojson.feature(data,data.objects[objName]);
 
-      /* 地図描画 — コントラスト強化 */
+      /* 地図本体 */
       svg.append('g')
         .selectAll('path')
         .data(japan.features)
         .enter()
         .append('path')
         .attr('d',path)
-        .attr('fill','#e8edee')
-        .attr('stroke','#b0bec5')
+        .attr('fill','#e0e7e9')
+        .attr('stroke','#a8b5ba')
         .attr('stroke-width',0.6);
 
-      /* ラベルの線 */
-      var labels=svg.append('g').attr('class','map-labels');
+      var gLines=svg.append('g');
+      var gLabels=svg.append('g');
+      var gPins=svg.append('g');
 
       locations.forEach(function(d){
         var p=projection([d.lng,d.lat]);
-        var x=p[0], y=p[1];
-        var lx=x+d.ldx, ly=y+d.ldy;
+        var x=p[0],y=p[1];
+        var lx=x+d.ldx,ly=y+d.ldy;
 
-        /* 線 */
-        labels.append('line')
+        /* 引き出し線 */
+        gLines.append('line')
           .attr('x1',x).attr('y1',y)
           .attr('x2',lx).attr('y2',ly)
           .attr('stroke',LINE_COLOR)
-          .attr('stroke-width',0.7);
+          .attr('stroke-width',0.6)
+          .attr('stroke-dasharray','2,2');
 
-        /* ラベルテキスト */
-        labels.append('text')
-          .attr('x',d.a==='s'?lx+4:lx-4)
-          .attr('y',ly)
-          .attr('text-anchor',d.a==='s'?'start':'end')
+        /* テキスト幅を推定（日本語1文字≈fs, 半角≈fs*0.55） */
+        var tw=0;
+        for(var i=0;i<d.name.length;i++){
+          tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
+        }
+        var bw=tw+padX*2;
+        var bh=fs+padY*2+2;
+
+        var bx=d.a==='s'?lx+2:lx-bw-2;
+        var by=ly-bh/2;
+
+        /* ラベルグループ（将来の動画ポップアップ用にclass付与） */
+        var labelG=gLabels.append('g')
+          .attr('class','map-label')
+          .attr('data-name',d.name)
+          .style('cursor','pointer');
+
+        /* 枠 */
+        labelG.append('rect')
+          .attr('x',bx)
+          .attr('y',by)
+          .attr('width',bw)
+          .attr('height',bh)
+          .attr('rx',3)
+          .attr('ry',3)
+          .attr('fill',LABEL_BG)
+          .attr('stroke',LABEL_BORDER)
+          .attr('stroke-width',0.8);
+
+        /* テキスト */
+        labelG.append('text')
+          .attr('x',bx+padX)
+          .attr('y',by+bh/2+1)
           .attr('dominant-baseline','middle')
-          .attr('fill',LABEL_COLOR)
-          .attr('font-size', w>500?'8.5px':'7px')
+          .attr('fill',LABEL_TEXT)
+          .attr('font-size',fs+'px')
           .attr('font-family','var(--sans)')
+          .attr('font-weight','500')
           .text(d.name);
-      });
 
-      /* ピン */
-      var pins=svg.append('g');
+        /* ホバーエフェクト */
+        labelG.on('mouseenter',function(){
+          d3.select(this).select('rect')
+            .transition().duration(150)
+            .attr('fill','#136b5e')
+            .attr('stroke','#136b5e');
+          d3.select(this).select('text')
+            .transition().duration(150)
+            .attr('fill','#fff');
+        })
+        .on('mouseleave',function(){
+          d3.select(this).select('rect')
+            .transition().duration(200)
+            .attr('fill',LABEL_BG)
+            .attr('stroke',LABEL_BORDER);
+          d3.select(this).select('text')
+            .transition().duration(200)
+            .attr('fill',LABEL_TEXT);
+        });
 
-      locations.forEach(function(d){
-        var p=projection([d.lng,d.lat]);
-
-        pins.append('circle')
-          .attr('cx',p[0]).attr('cy',p[1])
-          .attr('r',3.5)
+        /* ピン（ラベルの上に描画） */
+        gPins.append('circle')
+          .attr('cx',x).attr('cy',y)
+          .attr('r',3)
           .attr('fill',PIN)
           .attr('fill-opacity',0.2)
           .attr('stroke',PIN)
-          .attr('stroke-width',1);
+          .attr('stroke-width',0.8);
 
-        pins.append('circle')
-          .attr('cx',p[0]).attr('cy',p[1])
-          .attr('r',2)
+        gPins.append('circle')
+          .attr('cx',x).attr('cy',y)
+          .attr('r',1.5)
           .attr('fill',PIN);
       });
 

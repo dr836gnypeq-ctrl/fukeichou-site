@@ -148,9 +148,9 @@ nav{display:none}
 }
 
 /* Map */
-.map-wrapper{max-width:520px;margin:0 auto;position:relative}
+.map-wrapper{max-width:600px;margin:0 auto;position:relative}
 .map-loading{text-align:center;padding:80px 0;color:var(--ink-faint);font-size:.9rem}
-.map-labels text{pointer-events:none}
+.map-label{transition:opacity .2s}
 .map-legend{display:none}
 .legend-item{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-light)}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
