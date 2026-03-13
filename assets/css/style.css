@@ -151,6 +151,8 @@ nav{display:none}
 .map-wrapper{max-width:600px;margin:0 auto;position:relative}
 .map-loading{text-align:center;padding:80px 0;color:var(--ink-faint);font-size:.9rem}
 .map-label{transition:opacity .2s}
+.map-video-popup{display:none;position:absolute;z-index:100;width:240px;border-radius:8px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.25);pointer-events:none}
+.map-video-popup video{width:100%;height:auto;display:block}
 .map-legend{display:none}
 .legend-item{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-light)}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
