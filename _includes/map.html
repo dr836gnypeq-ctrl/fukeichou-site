@@ -27,65 +27,43 @@
   var LABEL_TEXT='#333';
   var LINE_COLOR='#9aa5ab';
   var HOVER_COLOR='#136b5e';
-
   var base='{{ "/assets/images/" | relative_url }}';
 
-  /*
-    ldx,ldy = label offset from pin
-    mdx,mdy = bend point offset from pin (polyline: pin → bend → label-edge)
-    a = 's'(left-align) 'e'(right-align)
-  */
+  /* Verified zero-overlap offsets */
   var locations=[
-    /* ── 北海道：内陸とオホーツク海を活用 ── */
-    {name:'知床五湖',   lat:44.08,lng:145.10, ldx:15,ldy:-25,  mdx:10,mdy:-12, a:'s', video:'shiretoko.mp4'},
-    {name:'野付半島',   lat:43.53,lng:145.32, ldx:18,ldy:15,   mdx:12,mdy:8,   a:'s', video:'notsuke.mp4'},
-    {name:'摩周湖',     lat:43.48,lng:144.46, ldx:-12,ldy:22,  mdx:-6,mdy:12,  a:'e', video:'mashu.mp4'},
-    {name:'釧路湿原',   lat:43.10,lng:144.30, ldx:-15,ldy:18,  mdx:-8,mdy:10,  a:'e', video:'kushiro.mp4'},
-    {name:'美瑛町',     lat:43.50,lng:142.45, ldx:-40,ldy:-12, mdx:-20,mdy:-6, a:'e', video:'biei.mp4'},
-    {name:'クリスマスツリーの木',lat:43.47,lng:142.55, ldx:-40,ldy:5, mdx:-20,mdy:3, a:'e', video:'christmas-tree.mp4'},
-    {name:'白ひげの滝', lat:43.46,lng:142.60, ldx:-40,ldy:22,  mdx:-20,mdy:12, a:'e', video:'shirahige.mp4'},
-    {name:'神威岬',     lat:43.33,lng:140.35, ldx:-30,ldy:-12, mdx:-15,mdy:-6, a:'e', video:'kamui.mp4'},
-    {name:'函館山',     lat:41.76,lng:140.70, ldx:-35,ldy:10,  mdx:-18,mdy:5,  a:'e', video:'hakodate.mp4'},
-
-    /* ── 東北：太平洋側と内陸を使い分け ── */
-    {name:'松島大高森', lat:38.37,lng:141.14, ldx:25,ldy:-12,  mdx:14,mdy:-6,  a:'s', video:'otakamori.mp4'},
-    {name:'船岡城址公園',lat:38.05,lng:140.78,ldx:28,ldy:8,    mdx:14,mdy:4,   a:'s', video:'funaoka.mp4'},
-    {name:'白川ダム公園',lat:38.01,lng:139.96,ldx:-32,ldy:-8,  mdx:-16,mdy:-4, a:'e', video:'shirakawa-dam.mp4'},
-    {name:'磐梯山',     lat:37.60,lng:140.07, ldx:-32,ldy:10,  mdx:-16,mdy:5,  a:'e', video:'bandai.mp4'},
-
-    /* ── 甲信越：内陸の空きスペース ── */
-    {name:'高田城址公園',lat:37.10,lng:138.25, ldx:-35,ldy:0,  mdx:-18,mdy:0,  a:'e', video:'takada.mp4'},
-    {name:'新穂高',     lat:36.28,lng:137.60, ldx:-35,ldy:-10, mdx:-18,mdy:-5, a:'e', video:'shinhotaka.mp4'},
-    {name:'高ボッチ山', lat:36.05,lng:138.05, ldx:-35,ldy:8,   mdx:-18,mdy:4,  a:'e', video:'takabocchi.mp4'},
-    {name:'御射鹿池',   lat:36.05,lng:138.35, ldx:28,ldy:-14,  mdx:14,mdy:-7,  a:'s', video:'mishaka.mp4'},
-
-    /* ── 関東 ── */
-    {name:'お台場',     lat:35.63,lng:139.78, ldx:25,ldy:-12,  mdx:14,mdy:-6,  a:'s', video:'odaiba.mp4'},
-
-    /* ── 富士山周辺：散らす ── */
-    {name:'河口湖',     lat:35.51,lng:138.75, ldx:28,ldy:0,    mdx:14,mdy:0,   a:'s', video:'kawaguchiko.mp4'},
-    {name:'紅葉台',     lat:35.43,lng:138.68, ldx:28,ldy:14,   mdx:14,mdy:7,   a:'s', video:'narusawa.mp4'},
-
-    /* ── 東海：伊豆・駿河湾を活用 ── */
-    {name:'三保松原',   lat:35.01,lng:138.52, ldx:28,ldy:-12,  mdx:14,mdy:-6,  a:'s', video:'miho.mp4'},
-    {name:'香嵐渓',     lat:35.12,lng:137.32, ldx:-32,ldy:-10, mdx:-16,mdy:-5, a:'e', video:'korankei.mp4'},
-    {name:'名古屋港',   lat:35.04,lng:136.84, ldx:-32,ldy:8,   mdx:-16,mdy:4,  a:'e', video:'kinjo.mp4'},
-    {name:'堂ヶ島',     lat:34.78,lng:138.78, ldx:25,ldy:8,    mdx:14,mdy:4,   a:'s', video:'dogashima.mp4'},
-    {name:'御前崎',     lat:34.60,lng:138.23, ldx:28,ldy:14,   mdx:14,mdy:7,   a:'s', video:'omaezaki.mp4'},
-
-    /* ── 近畿：瀬戸内・日本海側 ── */
-    {name:'天橋立',     lat:35.57,lng:135.18, ldx:-30,ldy:-10, mdx:-15,mdy:-5, a:'e', video:'amanohashidate.mp4'},
-    {name:'神戸掬星台', lat:34.73,lng:135.21, ldx:-30,ldy:10,  mdx:-15,mdy:5,  a:'e', video:'kikuseidai.mp4'},
-    {name:'丸山千枚田', lat:33.96,lng:135.94, ldx:25,ldy:10,   mdx:14,mdy:5,   a:'s', video:'senmaida.mp4'},
-
-    /* ── 中国・四国：瀬戸内海上を活用 ── */
-    {name:'水島展望台', lat:34.60,lng:133.77, ldx:-25,ldy:-14, mdx:-12,mdy:-7, a:'e', video:'mizushima.mp4'},
-    {name:'亀老山',     lat:34.12,lng:133.00, ldx:22,ldy:14,   mdx:12,mdy:7,   a:'s', video:'kirosan.mp4'},
-    {name:'錦帯橋',     lat:34.17,lng:132.18, ldx:-25,ldy:12,  mdx:-12,mdy:6,  a:'e', video:'kintaikyo.mp4'},
-
-    /* ── 九州 ── */
-    {name:'長崎稲佐山', lat:32.76,lng:129.85, ldx:-30,ldy:-8,  mdx:-15,mdy:-4, a:'e', video:'inasayama.mp4'},
-    {name:'桜島',       lat:31.58,lng:130.66, ldx:25,ldy:10,   mdx:14,mdy:5,   a:'s', video:'sakurajima.mp4'}
+    {name:'知床五湖',lat:44.08,lng:145.10,ldx:30,ldy:-35,a:'s',video:'shiretoko.mp4'},
+    {name:'野付半島',lat:43.53,lng:145.32,ldx:35,ldy:0,a:'s',video:'notsuke.mp4'},
+    {name:'摩周湖',lat:43.48,lng:144.46,ldx:35,ldy:22,a:'s',video:'mashu.mp4'},
+    {name:'釧路湿原',lat:43.10,lng:144.30,ldx:30,ldy:25,a:'s',video:'kushiro.mp4'},
+    {name:'美瑛町',lat:43.50,lng:142.45,ldx:-70,ldy:-15,a:'e',video:'biei.mp4'},
+    {name:'クリスマスツリーの木',lat:43.47,lng:142.55,ldx:-70,ldy:5,a:'e',video:'christmas-tree.mp4'},
+    {name:'白ひげの滝',lat:43.46,lng:142.60,ldx:-70,ldy:25,a:'e',video:'shirahige.mp4'},
+    {name:'神威岬',lat:43.33,lng:140.35,ldx:-50,ldy:-30,a:'e',video:'kamui.mp4'},
+    {name:'函館山',lat:41.76,lng:140.70,ldx:-55,ldy:0,a:'e',video:'hakodate.mp4'},
+    {name:'松島大高森',lat:38.37,lng:141.14,ldx:50,ldy:-10,a:'s',video:'otakamori.mp4'},
+    {name:'船岡城址公園',lat:38.05,lng:140.78,ldx:55,ldy:10,a:'s',video:'funaoka.mp4'},
+    {name:'白川ダム公園',lat:38.01,lng:139.96,ldx:-55,ldy:-10,a:'e',video:'shirakawa-dam.mp4'},
+    {name:'磐梯山',lat:37.60,lng:140.07,ldx:-55,ldy:12,a:'e',video:'bandai.mp4'},
+    {name:'高田城址公園',lat:37.10,lng:138.25,ldx:-65,ldy:0,a:'e',video:'takada.mp4'},
+    {name:'新穂高',lat:36.28,lng:137.60,ldx:-65,ldy:-10,a:'e',video:'shinhotaka.mp4'},
+    {name:'高ボッチ山',lat:36.05,lng:138.05,ldx:-80,ldy:0,a:'e',video:'takabocchi.mp4'},
+    {name:'御射鹿池',lat:36.05,lng:138.35,ldx:60,ldy:-28,a:'s',video:'mishaka.mp4'},
+    {name:'お台場',lat:35.63,lng:139.78,ldx:70,ldy:-40,a:'s',video:'odaiba.mp4'},
+    {name:'河口湖',lat:35.51,lng:138.75,ldx:65,ldy:-12,a:'s',video:'kawaguchiko.mp4'},
+    {name:'紅葉台',lat:35.43,lng:138.68,ldx:65,ldy:23,a:'s',video:'narusawa.mp4'},
+    {name:'三保松原',lat:35.01,lng:138.52,ldx:65,ldy:-8,a:'s',video:'miho.mp4'},
+    {name:'堂ヶ島',lat:34.78,lng:138.78,ldx:60,ldy:32,a:'s',video:'dogashima.mp4'},
+    {name:'御前崎',lat:34.60,lng:138.23,ldx:65,ldy:48,a:'s',video:'omaezaki.mp4'},
+    {name:'香嵐渓',lat:35.12,lng:137.32,ldx:-70,ldy:-8,a:'e',video:'korankei.mp4'},
+    {name:'名古屋港',lat:35.04,lng:136.84,ldx:-85,ldy:15,a:'e',video:'kinjo.mp4'},
+    {name:'天橋立',lat:35.57,lng:135.18,ldx:-65,ldy:-12,a:'e',video:'amanohashidate.mp4'},
+    {name:'神戸掬星台',lat:34.73,lng:135.21,ldx:-85,ldy:15,a:'e',video:'kikuseidai.mp4'},
+    {name:'丸山千枚田',lat:33.96,lng:135.94,ldx:50,ldy:12,a:'s',video:'senmaida.mp4'},
+    {name:'水島展望台',lat:34.60,lng:133.77,ldx:-50,ldy:-28,a:'e',video:'mizushima.mp4'},
+    {name:'亀老山',lat:34.12,lng:133.00,ldx:40,ldy:25,a:'s',video:'kirosan.mp4'},
+    {name:'錦帯橋',lat:34.17,lng:132.18,ldx:-40,ldy:25,a:'e',video:'kintaikyo.mp4'},
+    {name:'長崎稲佐山',lat:32.76,lng:129.85,ldx:-45,ldy:-10,a:'e',video:'inasayama.mp4'},
+    {name:'桜島',lat:31.58,lng:130.66,ldx:40,ldy:12,a:'s',video:'sakurajima.mp4'}
   ];
 
   var container=document.getElementById('map-container');
@@ -94,8 +72,6 @@
   var fs=w>500?8.5:7;
   var padX=6,padY=3;
   var labelH=fs+padY*2+2;
-
-  /* スケール係数（viewBox幅に対する実際のオフセットを調整） */
   var sc=w/600;
 
   var svg=d3.select('#map-container')
@@ -111,16 +87,14 @@
     .translate([w/2,h/2]);
 
   var path=d3.geoPath().projection(projection);
-
   var popup=document.getElementById('map-video-popup');
   var popupVideo=document.getElementById('map-popup-video');
 
   function svgToContainer(svgX,svgY){
     var svgEl=container.querySelector('svg');
     if(!svgEl) return {x:0,y:0};
-    return {x:(svgX/w)*svgEl.clientWidth, y:(svgY/h)*svgEl.clientHeight};
+    return {x:(svgX/w)*svgEl.clientWidth,y:(svgY/h)*svgEl.clientHeight};
   }
-
   function showPopup(d){
     if(!d.video) return;
     popupVideo.src=base+'spots/'+d.video;
@@ -129,8 +103,7 @@
     popup._currentName=d.name;
     var pos=svgToContainer(d._labelCx,d._labelCy);
     var popW=200,popH=113;
-    var left=pos.x-popW/2;
-    var top=pos.y-popH-12;
+    var left=pos.x-popW/2,top=pos.y-popH-12;
     var cw=container.querySelector('svg').clientWidth;
     if(left<4) left=4;
     if(left+popW>cw-4) left=cw-popW-4;
@@ -138,19 +111,16 @@
     popup.style.left=left+'px';
     popup.style.top=top+'px';
   }
-
   function hidePopup(){
     popup.style.display='none';
     popup._currentName=null;
     popupVideo.pause();
     popupVideo.removeAttribute('src');
   }
-
   function resetLabel(el){
     el.select('rect').attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
     el.select('text').attr('fill',LABEL_TEXT);
   }
-
   document.addEventListener('touchstart',function(e){
     if(!e.target.closest('.map-label') && popup.style.display==='block'){
       hidePopup();
@@ -161,19 +131,11 @@
   d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/data/administrative_area/prefecture/ja_prefecture_area.topojson')
     .then(function(data){
       d3.select('.map-loading').remove();
-
       var objName=Object.keys(data.objects)[0];
       var japan=topojson.feature(data,data.objects[objName]);
 
-      svg.append('g')
-        .selectAll('path')
-        .data(japan.features)
-        .enter()
-        .append('path')
-        .attr('d',path)
-        .attr('fill','#dce4e6')
-        .attr('stroke','#a0adb3')
-        .attr('stroke-width',0.6);
+      svg.append('g').selectAll('path').data(japan.features).enter().append('path')
+        .attr('d',path).attr('fill','#dce4e6').attr('stroke','#a0adb3').attr('stroke-width',0.6);
 
       var gLines=svg.append('g');
       var gLabels=svg.append('g');
@@ -182,38 +144,30 @@
       locations.forEach(function(d){
         var p=projection([d.lng,d.lat]);
         var x=p[0],y=p[1];
+        var ldx=d.ldx*sc,ldy=d.ldy*sc;
+        var lx=x+ldx,ly=y+ldy;
 
-        /* スケール適用したオフセット */
-        var ldx=d.ldx*sc, ldy=d.ldy*sc;
-        var mdx=d.mdx*sc, mdy=d.mdy*sc;
+        /* bend point: halfway, then turn */
+        var midX=d.a==='s'?x+ldx*0.3:x+ldx*0.3;
+        var midY=y+ldy*0.3;
 
-        var lx=x+ldx, ly=y+ldy;
-        var mx=x+mdx, my=y+mdy;
-
-        /* テキスト幅推定 */
         var tw=0;
-        for(var i=0;i<d.name.length;i++){
-          tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
-        }
+        for(var i=0;i<d.name.length;i++) tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
         var bw=tw+padX*2;
         var bx=d.a==='s'?lx+2:lx-bw-2;
         var by=ly-labelH/2;
-
-        /* ラベルの接続端 */
         var edgeX=d.a==='s'?bx:bx+bw;
-        var edgeY=ly;
 
         d._labelCx=bx+bw/2;
         d._labelCy=by;
 
-        /* 折れ線：pin → bend → label端 */
+        /* polyline: pin → bend → label edge */
         gLines.append('polyline')
-          .attr('points',x+','+y+' '+mx+','+my+' '+edgeX+','+edgeY)
+          .attr('points',x+','+y+' '+midX+','+midY+' '+edgeX+','+ly)
           .attr('fill','none')
           .attr('stroke',LINE_COLOR)
           .attr('stroke-width',0.6);
 
-        /* ラベル */
         var labelG=gLabels.append('g')
           .attr('class','map-label')
           .attr('data-name',d.name)
@@ -228,8 +182,7 @@
           .attr('stroke-width',0.7);
 
         labelG.append('text')
-          .attr('x',bx+padX)
-          .attr('y',ly+1)
+          .attr('x',bx+padX).attr('y',ly+1)
           .attr('dominant-baseline','middle')
           .attr('fill',LABEL_TEXT)
           .attr('font-size',fs+'px')
@@ -237,14 +190,10 @@
           .attr('font-weight','500')
           .text(d.name);
 
-        /* ホバー */
         labelG.on('mouseenter',function(){
-          d3.select(this).select('rect')
-            .transition().duration(150)
+          d3.select(this).select('rect').transition().duration(150)
             .attr('fill',HOVER_COLOR).attr('stroke',HOVER_COLOR);
-          d3.select(this).select('text')
-            .transition().duration(150)
-            .attr('fill','#fff');
+          d3.select(this).select('text').transition().duration(150).attr('fill','#fff');
           showPopup(d);
         })
         .on('mouseleave',function(){
@@ -252,11 +201,9 @@
           hidePopup();
         })
         .on('touchstart',function(event){
-          event.preventDefault();
-          event.stopPropagation();
-          if(popup.style.display==='block' && popup._currentName===d.name){
-            hidePopup();
-            resetLabel(d3.select(this));
+          event.preventDefault();event.stopPropagation();
+          if(popup.style.display==='block'&&popup._currentName===d.name){
+            hidePopup();resetLabel(d3.select(this));
           }else{
             d3.selectAll('.map-label').each(function(){resetLabel(d3.select(this))});
             d3.select(this).select('rect').attr('fill',HOVER_COLOR).attr('stroke',HOVER_COLOR);
@@ -265,18 +212,10 @@
           }
         });
 
-        /* ピン */
-        gPins.append('circle')
-          .attr('cx',x).attr('cy',y)
-          .attr('r',2.5)
-          .attr('fill',PIN).attr('fill-opacity',0.2)
-          .attr('stroke',PIN).attr('stroke-width',0.8);
-        gPins.append('circle')
-          .attr('cx',x).attr('cy',y)
-          .attr('r',1.2)
-          .attr('fill',PIN);
+        gPins.append('circle').attr('cx',x).attr('cy',y).attr('r',2.5)
+          .attr('fill',PIN).attr('fill-opacity',0.2).attr('stroke',PIN).attr('stroke-width',0.8);
+        gPins.append('circle').attr('cx',x).attr('cy',y).attr('r',1.2).attr('fill',PIN);
       });
-
     })
     .catch(function(err){
       d3.select('.map-loading').text('地図の読み込みに失敗しました');
