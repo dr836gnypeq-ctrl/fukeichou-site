@@ -1,8 +1,20 @@
 <section class="hero" id="hero">
 <img src="{{ '/assets/images/hero-fallback.jpg' | relative_url }}" alt="" class="hero-fallback">
-<video class="hero-video" autoplay loop muted playsinline poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
-  <source src="{{ '/assets/images/hero.mp4' | relative_url }}" type="video/mp4">
+<video class="hero-video" id="hero-video" autoplay loop muted playsinline poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
 </video>
+<script>
+(function(){
+  var v=document.getElementById('hero-video');
+  var base='{{ "/assets/images/" | relative_url }}';
+  if(window.innerWidth<=768){
+    v.innerHTML='<source src="'+base+'hero-mobile.mp4" type="video/mp4">';
+  }else{
+    v.innerHTML='<source src="'+base+'hero-pc.mp4" type=\'video/mp4; codecs="av01.0.12M.10"\'>'
+              +'<source src="'+base+'hero-pc-fallback.mp4" type="video/mp4">';
+  }
+  v.load();
+})();
+</script>
 <div class="hero-overlay"></div>
 <div class="hero-content">
 <h1 class="hero-title">待合室に、<br>日本の風景を。</h1>
