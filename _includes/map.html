@@ -1,0 +1,194 @@
+<!-- ⑧ 撮影地マップ -->
+<section class="section" id="map">
+<div class="container">
+<h2 class="section-heading">全国の景勝地で撮影</h2>
+<p class="section-lead">北海道から鹿児島まで、日本の四季を記録しています。</p>
+
+<div class="map-wrapper">
+<svg viewBox="0 0 580 780" xmlns="http://www.w3.org/2000/svg" class="japan-map" role="img" aria-label="撮影地マップ">
+
+<!-- 日本列島 簡略アウトライン -->
+<g class="island-outlines" fill="var(--paper-warm)" stroke="var(--border)" stroke-width="1.2">
+<!-- 北海道 -->
+<path d="M420,60 L470,45 L510,50 L545,70 L555,100 L540,130 L510,140 L490,155 L460,160 L440,175 L420,170 L405,155 L400,130 L395,110 L400,85 Z"/>
+<!-- 本州 -->
+<path d="M415,190 L430,195 L440,210 L445,240 L440,270 L430,290 L425,310 L420,340 L410,360 L400,380 L395,400 L390,420 L380,440 L370,455 L360,465 L345,470 L330,475 L315,470 L305,460 L290,455 L275,460 L260,465 L245,458 L230,450 L220,438 L215,425 L225,410 L240,400 L255,395 L265,385 L275,370 L285,360 L295,350 L305,340 L310,325 L315,310 L325,295 L335,280 L340,265 L345,250 L355,235 L365,225 L380,215 L395,200 Z"/>
+<!-- 四国 -->
+<path d="M215,470 L245,465 L270,468 L285,475 L280,490 L260,498 L240,500 L220,495 L210,485 Z"/>
+<!-- 九州 -->
+<path d="M155,460 L175,450 L195,455 L205,465 L200,480 L195,500 L185,520 L170,540 L155,550 L140,540 L130,520 L125,500 L130,480 L140,465 Z"/>
+</g>
+
+<!-- 撮影地ピン -->
+<g class="map-pins">
+<!-- 北海道 -->
+<g class="pin" data-name="知床" data-season="夏" data-en="Shiretoko">
+<circle cx="540" cy="80" r="6"/><circle cx="540" cy="80" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="摩周湖" data-season="夏" data-en="Lake Mashu">
+<circle cx="520" cy="105" r="6"/><circle cx="520" cy="105" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="美瑛の丘" data-season="夏" data-en="Hills of Biei">
+<circle cx="478" cy="108" r="6"/><circle cx="478" cy="108" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="青い池" data-season="冬" data-en="Blue Pond">
+<circle cx="465" cy="120" r="6"/><circle cx="465" cy="120" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="函館山" data-season="冬" data-en="Mt. Hakodate">
+<circle cx="420" cy="170" r="6"/><circle cx="420" cy="170" r="3" class="pin-inner"/>
+</g>
+
+<!-- 東北 -->
+<g class="pin" data-name="蔵王" data-season="冬" data-en="Zao">
+<circle cx="415" cy="310" r="6"/><circle cx="415" cy="310" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="松島" data-season="秋" data-en="Matsushima">
+<circle cx="425" cy="295" r="6"/><circle cx="425" cy="295" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="船岡城址公園" data-season="春" data-en="Funaoka Castle Park">
+<circle cx="410" cy="300" r="6"/><circle cx="410" cy="300" r="3" class="pin-inner"/>
+</g>
+
+<!-- 関東・甲信越 -->
+<g class="pin" data-name="東京 お台場" data-season="夜" data-en="Odaiba, Tokyo">
+<circle cx="390" cy="415" r="6"/><circle cx="390" cy="415" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="河口湖" data-season="冬" data-en="Lake Kawaguchi">
+<circle cx="360" cy="420" r="6"/><circle cx="360" cy="420" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="北八ヶ岳" data-season="春" data-en="Kitayatsugatake">
+<circle cx="345" cy="395" r="6"/><circle cx="345" cy="395" r="3" class="pin-inner"/>
+</g>
+
+<!-- 中部 -->
+<g class="pin" data-name="新穂高" data-season="春" data-en="Shinhotaka">
+<circle cx="325" cy="380" r="6"/><circle cx="325" cy="380" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="弁天島" data-season="冬" data-en="Bentenjima">
+<circle cx="330" cy="445" r="6"/><circle cx="330" cy="445" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="香嵐渓" data-season="秋" data-en="Korankei">
+<circle cx="310" cy="430" r="6"/><circle cx="310" cy="430" r="3" class="pin-inner"/>
+</g>
+
+<!-- 近畿 -->
+<g class="pin" data-name="天橋立" data-season="春" data-en="Amanohashidate">
+<circle cx="255" cy="400" r="6"/><circle cx="255" cy="400" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="神戸" data-season="夜" data-en="Kobe">
+<circle cx="250" cy="440" r="6"/><circle cx="250" cy="440" r="3" class="pin-inner"/>
+</g>
+
+<!-- 中国・四国 -->
+<g class="pin" data-name="宮島" data-season="秋" data-en="Miyajima">
+<circle cx="175" cy="460" r="6"/><circle cx="175" cy="460" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="錦帯橋" data-season="秋" data-en="Kintaikyo Bridge">
+<circle cx="165" cy="470" r="6"/><circle cx="165" cy="470" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="亀老山展望公園" data-season="夏" data-en="Kirosan Observatory">
+<circle cx="210" cy="480" r="6"/><circle cx="210" cy="480" r="3" class="pin-inner"/>
+</g>
+
+<!-- 九州 -->
+<g class="pin" data-name="稲佐山" data-season="夜" data-en="Mt. Inasa, Nagasaki">
+<circle cx="140" cy="500" r="6"/><circle cx="140" cy="500" r="3" class="pin-inner"/>
+</g>
+<g class="pin" data-name="桜島" data-season="秋" data-en="Sakurajima">
+<circle cx="160" cy="545" r="6"/><circle cx="160" cy="545" r="3" class="pin-inner"/>
+</g>
+</g>
+
+<!-- ツールチップ（JSで制御） -->
+<g class="map-tooltip" style="display:none">
+<rect class="tooltip-bg" rx="6" ry="6"/>
+<text class="tooltip-name" dy="-8"></text>
+<text class="tooltip-detail" dy="10"></text>
+</g>
+
+</svg>
+
+<!-- 凡例 -->
+<div class="map-legend">
+<span class="legend-item"><span class="legend-dot season-spring"></span>春</span>
+<span class="legend-item"><span class="legend-dot season-summer"></span>夏</span>
+<span class="legend-item"><span class="legend-dot season-autumn"></span>秋</span>
+<span class="legend-item"><span class="legend-dot season-winter"></span>冬</span>
+<span class="legend-item"><span class="legend-dot season-night"></span>夜景</span>
+</div>
+<p class="map-note">全国100箇所以上の景勝地で撮影。四季・時間帯あわせて150時間超の映像ライブラリ。</p>
+</div>
+</div>
+</section>
+
+<script>
+(function(){
+  /* 季節→色マッピング */
+  var colors={
+    '春':'#d4829c','夏':'#3d8b6e','秋':'#c47a2a','冬':'#5a8ab5','夜':'#7a6aad'
+  };
+
+  /* ピンに季節色を適用 */
+  document.querySelectorAll('.pin').forEach(function(pin){
+    var season=pin.getAttribute('data-season');
+    var c=colors[season]||'#2d4a3e';
+    pin.querySelectorAll('circle')[0].setAttribute('fill',c);
+    pin.querySelectorAll('circle')[0].setAttribute('fill-opacity','0.3');
+    pin.querySelectorAll('circle')[0].setAttribute('stroke',c);
+    pin.querySelectorAll('circle')[0].setAttribute('stroke-width','1.5');
+    pin.querySelectorAll('circle')[1].setAttribute('fill',c);
+  });
+
+  /* ツールチップ制御 */
+  var tooltip=document.querySelector('.map-tooltip');
+  var bg=tooltip.querySelector('.tooltip-bg');
+  var nameEl=tooltip.querySelector('.tooltip-name');
+  var detailEl=tooltip.querySelector('.tooltip-detail');
+
+  document.querySelectorAll('.pin').forEach(function(pin){
+    pin.addEventListener('mouseenter',function(e){
+      var name=pin.getAttribute('data-name');
+      var en=pin.getAttribute('data-en');
+      var season=pin.getAttribute('data-season');
+      var cx=parseFloat(pin.querySelector('circle').getAttribute('cx'));
+      var cy=parseFloat(pin.querySelector('circle').getAttribute('cy'));
+
+      nameEl.textContent=name;
+      detailEl.textContent=en+'  |  '+season;
+
+      /* テキスト幅の推定 */
+      var w=Math.max(name.length*16, en.length*8+40)+24;
+      var h=48;
+
+      /* 画面端の場合は左に表示 */
+      var tx=cx+15;
+      if(tx+w>560) tx=cx-w-15;
+      var ty=cy-h/2;
+      if(ty<10) ty=10;
+
+      bg.setAttribute('x',tx);
+      bg.setAttribute('y',ty);
+      bg.setAttribute('width',w);
+      bg.setAttribute('height',h);
+
+      nameEl.setAttribute('x',tx+12);
+      nameEl.setAttribute('y',ty+h/2);
+      detailEl.setAttribute('x',tx+12);
+      detailEl.setAttribute('y',ty+h/2);
+
+      tooltip.style.display='block';
+    });
+
+    pin.addEventListener('mouseleave',function(){
+      tooltip.style.display='none';
+    });
+
+    /* モバイル対応 */
+    pin.addEventListener('touchstart',function(e){
+      e.preventDefault();
+      pin.dispatchEvent(new Event('mouseenter'));
+      setTimeout(function(){pin.dispatchEvent(new Event('mouseleave'))},2500);
+    });
+  });
+})();
+</script>

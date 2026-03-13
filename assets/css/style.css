@@ -146,3 +146,22 @@ nav{display:none}
 .hero-actions{flex-direction:column;align-items:center}
 .btn-lg{width:100%}
 }
+
+/* Map */
+.map-wrapper{max-width:480px;margin:0 auto}
+.japan-map{width:100%;height:auto}
+.pin{cursor:pointer;transition:transform .2s}
+.pin:hover circle:first-child{fill-opacity:.5!important;r:9}
+.pin:hover circle:last-child{r:4.5}
+.tooltip-bg{fill:var(--ink);fill-opacity:.92;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2))}
+.tooltip-name{fill:var(--white);font-family:var(--serif);font-size:13px;font-weight:600}
+.tooltip-detail{fill:rgba(255,255,255,.7);font-family:var(--sans);font-size:10px}
+.map-legend{display:flex;justify-content:center;gap:20px;margin-top:32px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-light)}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.season-spring{background:#d4829c}
+.season-summer{background:#3d8b6e}
+.season-autumn{background:#c47a2a}
+.season-winter{background:#5a8ab5}
+.season-night{background:#7a6aad}
+.map-note{text-align:center;margin-top:16px;font-size:.9rem;color:var(--ink-faint)}
