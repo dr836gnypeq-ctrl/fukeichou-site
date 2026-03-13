@@ -73,7 +73,7 @@
 
   var path=d3.geoPath().projection(projection);
 
-  d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/ja_prefecture_area.topojson')
+  d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/data/administrative_area/prefecture/ja_prefecture_area.topojson')
     .then(function(data){
       d3.select('.map-loading').remove();
 
