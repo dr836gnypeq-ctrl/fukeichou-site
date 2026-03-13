@@ -17,6 +17,7 @@
 <span class="legend-item"><span class="legend-dot season-night"></span>夜景</span>
 </div>
 <p class="map-note">全国100箇所以上の景勝地で撮影。四季・時間帯あわせて150時間超の映像ライブラリ。</p>
+<p class="map-source">地図データ出典：国土数値情報（国土交通省）</p>
 </div>
 </section>
 
@@ -72,11 +73,12 @@
 
   var path=d3.geoPath().projection(projection);
 
-  d3.json('https://raw.githubusercontent.com/dataofjapan/land/master/japan.topojson')
+  d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/ja_prefecture_area.topojson')
     .then(function(data){
       d3.select('.map-loading').remove();
 
-      var japan=topojson.feature(data, data.objects.japan);
+      var objName=Object.keys(data.objects)[0];
+      var japan=topojson.feature(data, data.objects[objName]);
 
       svg.append('g')
         .selectAll('path')
