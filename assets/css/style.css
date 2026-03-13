@@ -150,12 +150,7 @@ nav{display:none}
 /* Map */
 .map-wrapper{max-width:520px;margin:0 auto;position:relative}
 .map-loading{text-align:center;padding:80px 0;color:var(--ink-faint);font-size:.9rem}
-.map-tip{position:absolute;display:none;background:var(--ink);color:var(--white);padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;pointer-events:none;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,.2);white-space:nowrap}
-.map-tip strong{font-family:var(--serif);font-size:.95rem}
-.tip-en{color:rgba(255,255,255,.6);font-size:.75rem}
-.tip-season{font-size:.75rem}
-.loc-pin{transition:transform .2s}
-.japan-map{width:100%;height:auto}
+.map-labels text{pointer-events:none}
 .map-legend{display:none}
 .legend-item{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-light)}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
