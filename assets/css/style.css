@@ -45,8 +45,8 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .nav-cta{background:var(--moss)!important;color:var(--white)!important}
 
 /* Hamburger toggle */
-.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:1001}
-.nav-toggle span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;border-radius:2px;transition:all .3s var(--ease)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:10px;z-index:1001}
+.nav-toggle span{display:block;width:24px;height:3px;background:var(--ink);margin:4px 0;border-radius:2px;transition:all .3s var(--ease)}
 .site-header.at-top .nav-toggle span{background:var(--white)}
 .site-header.scrolled .nav-toggle span{background:var(--ink)}
 
@@ -59,9 +59,9 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 #mainNav li:last-child a{border-bottom:none}
 #mainNav .nav-cta{display:inline-block;margin-top:8px;padding:12px 24px;border-radius:6px;text-align:center}
 /* Hamburger animation when open */
-.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.nav-toggle.open span:nth-child(1){transform:rotate(45deg) translate(5px,6px)}
 .nav-toggle.open span:nth-child(2){opacity:0}
-.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.nav-toggle.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-6px)}
 }
 
 /* Hero */
@@ -153,7 +153,6 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 /* Responsive */
 @media(max-width:768px){
 .section{padding:64px 0}
-nav{display:none}
 .hero-title{font-size:1.8rem}
 .pain-grid,.evidence-grid{grid-template-columns:1fr}
 .feature-grid{grid-template-columns:1fr}
