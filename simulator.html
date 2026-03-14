@@ -1,0 +1,354 @@
+---
+layout: default
+title: 待合室シミュレーター
+description: あなたの待合室に風景帖の映像を置いてみませんか。写真をアップロードして、導入後のイメージをご確認ください。
+---
+
+<style>
+/* ─── Simulator page scoped styles ─── */
+.sim-hero{padding:120px 0 60px;text-align:center;background:var(--paper-warm)}
+.sim-hero h1{font-family:var(--serif);font-size:2rem;font-weight:600;letter-spacing:.1em;margin-bottom:12px}
+.sim-hero p{color:var(--ink-light);font-size:1rem;line-height:2}
+
+/* Tab for clinic / care */
+.sim-tabs{display:flex;justify-content:center;gap:0;margin:32px 0 24px}
+.sim-tab{padding:12px 32px;font-family:var(--sans);font-size:.9rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--ink-light);cursor:pointer;transition:all .25s var(--ease)}
+.sim-tab:first-child{border-radius:8px 0 0 8px}
+.sim-tab:last-child{border-radius:0 8px 8px 0}
+.sim-tab.active{background:var(--moss);color:var(--white);border-color:var(--moss)}
+
+/* Workspace */
+.sim-workspace{max-width:960px;margin:0 auto;padding:0 24px 40px}
+
+.sim-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sim-toolbar-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--white);font-family:var(--sans);font-size:.8rem;color:var(--ink);cursor:pointer;transition:all .2s}
+.sim-toolbar-btn:hover{border-color:var(--moss);color:var(--moss)}
+.sim-toolbar-sep{flex:1}
+.sim-toolbar-label{font-size:.75rem;color:var(--ink-faint)}
+.sim-size-slider{width:120px;accent-color:var(--moss)}
+
+.sim-canvas-wrap{position:relative;width:100%;background:#e8e5de;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);cursor:default;touch-action:none}
+.sim-canvas-wrap img.sim-bg{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none;pointer-events:none}
+
+/* Monitor overlay */
+.sim-monitor{position:absolute;cursor:grab;user-select:none;filter:drop-shadow(0 4px 16px rgba(0,0,0,.35))}
+.sim-monitor:active{cursor:grabbing}
+.sim-monitor-bezel{position:absolute;inset:0;border:2px solid #1a1a1a;border-radius:2px;pointer-events:none;z-index:2}
+.sim-monitor-screen{position:relative;width:100%;height:100%;overflow:hidden;border-radius:1px;background:#000}
+.sim-monitor-screen canvas{width:100%;height:100%;display:block}
+.sim-resize{position:absolute;bottom:-4px;right:-4px;width:20px;height:20px;cursor:nwse-resize;z-index:10;display:flex;align-items:center;justify-content:center}
+.sim-resize::after{content:'';width:10px;height:10px;border-right:2px solid var(--moss);border-bottom:2px solid var(--moss);opacity:.7}
+
+/* Upload area */
+.sim-upload-area{max-width:720px;margin:0 auto 24px;padding:0 24px}
+.sim-dropzone{border:2px dashed rgba(19,107,94,.3);border-radius:8px;padding:48px 24px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.5);position:relative}
+.sim-dropzone:hover,.sim-dropzone.dragover{border-color:var(--moss);background:rgba(19,107,94,.03)}
+.sim-dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.sim-dropzone h3{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:6px}
+.sim-dropzone p{font-size:.8rem;color:var(--ink-faint)}
+.sim-privacy{font-size:.72rem;color:var(--ink-faint);text-align:center;margin-top:8px;opacity:.8}
+
+/* Scene selector */
+.sim-scenes{display:flex;gap:8px;margin-top:16px;overflow-x:auto;padding-bottom:4px}
+.sim-scene-btn{flex:0 0 auto;padding:8px 16px;border:1px solid var(--border);border-radius:20px;background:var(--white);font-family:var(--sans);font-size:.78rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.sim-scene-btn:hover{border-color:var(--moss)}
+.sim-scene-btn.active{background:var(--moss);color:var(--white);border-color:var(--moss)}
+
+/* Hint */
+.sim-hint{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--black);color:#fff;padding:10px 24px;border-radius:24px;font-size:.8rem;opacity:0;transition:opacity .4s;pointer-events:none;z-index:100;white-space:nowrap}
+.sim-hint.show{opacity:.88}
+
+/* CTA */
+.sim-cta{text-align:center;padding:60px 24px 80px}
+.sim-cta p{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:20px;letter-spacing:.06em}
+
+/* State control */
+.sim-state-upload{display:block}
+.sim-state-workspace{display:none}
+.sim-active .sim-state-upload{display:none}
+.sim-active .sim-state-workspace{display:block}
+
+@media(max-width:600px){
+  .sim-hero h1{font-size:1.5rem}
+  .sim-tab{padding:10px 20px;font-size:.82rem}
+  .sim-toolbar{gap:6px}
+  .sim-toolbar-btn{padding:6px 10px;font-size:.75rem}
+}
+</style>
+
+<div id="simApp">
+
+<!-- Hero -->
+<div class="sim-hero">
+  <div class="container">
+    <h1>待合室シミュレーター</h1>
+    <p>あなたの待合室に、風景帖の映像を置いてみませんか。</p>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Tabs: sample clinic / care / upload own -->
+<div class="sim-tabs">
+  <button class="sim-tab active" data-target="clinic">クリニック</button>
+  <button class="sim-tab" data-target="care">介護施設</button>
+  <button class="sim-tab" data-target="upload">自分の写真で試す</button>
+</div>
+
+</div>
+
+<!-- Upload zone (shown only for "upload" tab) -->
+<div class="sim-state-upload sim-upload-area" id="simUploadZone" style="display:none">
+  <div class="sim-dropzone" id="simDropzone">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin:0 auto 12px;display:block;stroke:var(--moss);opacity:.5">
+      <rect x="6" y="10" width="36" height="28" rx="3" stroke-width="2"/>
+      <circle cx="18" cy="22" r="4" stroke-width="2"/>
+      <path d="M6 34l10-8 6 5 8-10 12 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>待合室の写真をアップロード</h3>
+    <p>ドラッグ＆ドロップ、またはクリックして選択</p>
+    <input type="file" accept="image/*" id="simFileInput">
+  </div>
+  <p class="sim-privacy">※ 写真はブラウザ内でのみ処理されます。サーバーへの送信は一切ありません。</p>
+</div>
+
+<!-- Workspace -->
+<div class="sim-workspace" id="simWorkspace">
+
+  <div class="sim-toolbar">
+    <button class="sim-toolbar-btn" id="simBtnUpload" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      写真を変更
+    </button>
+    <span class="sim-toolbar-sep"></span>
+    <span class="sim-toolbar-label">モニターサイズ</span>
+    <input type="range" class="sim-size-slider" id="simSizeSlider" min="15" max="60" value="30">
+  </div>
+
+  <div class="sim-canvas-wrap" id="simContainer">
+    <img class="sim-bg" id="simBgPhoto" src="{{ '/assets/images/sample-clinic.jpg' | relative_url }}" alt="待合室の写真">
+    <div class="sim-monitor" id="simMonitor">
+      <div class="sim-monitor-bezel"></div>
+      <div class="sim-monitor-screen">
+        <canvas id="simCanvas"></canvas>
+      </div>
+      <div class="sim-resize" id="simResize"></div>
+    </div>
+  </div>
+
+  <div class="sim-scenes" id="simScenes">
+    <button class="sim-scene-btn active" data-scene="mountain">山の朝霧</button>
+    <button class="sim-scene-btn" data-scene="ocean">海岸の夕暮れ</button>
+    <button class="sim-scene-btn" data-scene="forest">渓流の木漏れ日</button>
+    <button class="sim-scene-btn" data-scene="sakura">桜並木</button>
+    <button class="sim-scene-btn" data-scene="autumn">紅葉の渓谷</button>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="sim-cta">
+  <p>この風景を、あなたの待合室に。</p>
+  <a href="{{ '/#contact' | relative_url }}" class="btn btn-primary btn-lg">導入のご相談</a>
+</div>
+
+<!-- Hint toast -->
+<div class="sim-hint" id="simHint">モニターをドラッグして好きな位置に配置できます</div>
+
+</div>
+
+<script>
+(function(){
+  var baseUrl = '{{ site.baseurl }}';
+  var sampleImages = {
+    clinic: baseUrl + '/assets/images/sample-clinic.jpg',
+    care: baseUrl + '/assets/images/sample-care.jpg'
+  };
+
+  // Monitor default positions per sample
+  var defaultPositions = {
+    clinic: { x: 0.52, y: 0.42 },
+    care:   { x: 0.50, y: 0.35 },
+    upload: { x: 0.50, y: 0.40 }
+  };
+
+  var container  = document.getElementById('simContainer');
+  var bgPhoto    = document.getElementById('simBgPhoto');
+  var overlay    = document.getElementById('simMonitor');
+  var vCanvas    = document.getElementById('simCanvas');
+  var sizeSlider = document.getElementById('simSizeSlider');
+  var hint       = document.getElementById('simHint');
+  var uploadZone = document.getElementById('simUploadZone');
+  var dropzone   = document.getElementById('simDropzone');
+  var fileInput  = document.getElementById('simFileInput');
+  var btnUpload  = document.getElementById('simBtnUpload');
+  var workspace  = document.getElementById('simWorkspace');
+  var scenesEl   = document.getElementById('simScenes');
+
+  var ctx = vCanvas.getContext('2d');
+  var animFrame;
+  var currentScene = 'mountain';
+  var monitorWidthPercent = 30;
+  var currentTab = 'clinic';
+  var userImageLoaded = false;
+
+  var mon = { xP: 0.52, yP: 0.42, dragging: false, resizing: false, sx: 0, sy: 0, sxP: 0, syP: 0, swP: 0 };
+
+  // ─── Tabs ───
+  document.querySelectorAll('.sim-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.sim-tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentTab = tab.dataset.target;
+
+      if (currentTab === 'upload') {
+        if (userImageLoaded) {
+          uploadZone.style.display = 'none';
+          workspace.style.display = '';
+          btnUpload.style.display = '';
+        } else {
+          uploadZone.style.display = '';
+          workspace.style.display = 'none';
+        }
+      } else {
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = 'none';
+        bgPhoto.src = sampleImages[currentTab];
+        var pos = defaultPositions[currentTab];
+        mon.xP = pos.x; mon.yP = pos.y;
+        bgPhoto.onload = function(){ positionMonitor(); };
+        if (bgPhoto.complete) positionMonitor();
+      }
+    });
+  });
+
+  // ─── File Upload ───
+  function handleFile(file){
+    if (!file || !file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      bgPhoto.src = e.target.result;
+      bgPhoto.onload = function(){
+        userImageLoaded = true;
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = '';
+        var pos = defaultPositions.upload;
+        mon.xP = pos.x; mon.yP = pos.y;
+        positionMonitor();
+        showHint();
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  fileInput.addEventListener('change', function(e){ handleFile(e.target.files[0]); });
+  dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('dragover'); });
+  dropzone.addEventListener('drop', function(e){ e.preventDefault(); dropzone.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+
+  btnUpload.addEventListener('click', function(){
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = function(e){ handleFile(e.target.files[0]); };
+    inp.click();
+  });
+
+  // ─── Scenes ───
+  var scenes = {
+    mountain: { draw: function(t,w,h){
+      var g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,'#c8d8e4'); g.addColorStop(.5,'#e8ddd0'); g.addColorStop(1,'#d4e2d4'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+      var cols=['#5a7a5f','#6b8b70','#8aab8d','#a8c4ab'];
+      for(var l=0;l<4;l++){var bY=h*(.35+l*.12),dr=Math.sin(t*.0003+l)*8; ctx.beginPath(); ctx.moveTo(0,h);
+        for(var x=0;x<=w;x+=4){var y=bY+Math.sin(x*.008+l*2+dr*.01)*(40-l*6)+Math.sin(x*.02+l)*(15-l*2); ctx.lineTo(x,y);}
+        ctx.lineTo(w,h); ctx.closePath(); ctx.fillStyle=cols[l]; ctx.globalAlpha=.3+l*.18+.3; ctx.fill(); ctx.globalAlpha=1;}
+      for(var i=0;i<3;i++){var fY=h*(.4+i*.15),fa=.12+Math.sin(t*.0005+i*1.5)*.08,fg=ctx.createLinearGradient(0,fY-30,0,fY+30); fg.addColorStop(0,'rgba(240,244,239,0)'); fg.addColorStop(.5,'rgba(240,244,239,'+fa+')'); fg.addColorStop(1,'rgba(240,244,239,0)'); ctx.fillStyle=fg; ctx.fillRect(0,fY-30,w,60);}
+    }},
+    ocean: { draw: function(t,w,h){
+      var g=ctx.createLinearGradient(0,0,0,h*.55); g.addColorStop(0,'#2d2040'); g.addColorStop(.3,'#c45c3a'); g.addColorStop(.6,'#e8a54c'); g.addColorStop(1,'#f0c87a'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h*.55);
+      var sY=h*.38+Math.sin(t*.0002)*3,sg=ctx.createRadialGradient(w*.6,sY,5,w*.6,sY,60); sg.addColorStop(0,'rgba(255,220,160,.9)'); sg.addColorStop(1,'rgba(255,180,100,0)'); ctx.fillStyle=sg; ctx.fillRect(w*.3,sY-60,w*.5,120);
+      var wg=ctx.createLinearGradient(0,h*.55,0,h); wg.addColorStop(0,'#3a5a7a'); wg.addColorStop(1,'#1a2a3a'); ctx.fillStyle=wg; ctx.fillRect(0,h*.55,w,h*.45);
+      for(var i=0;i<6;i++){var wy=h*(.58+i*.065); ctx.beginPath(); ctx.moveTo(0,wy);
+        for(var x=0;x<=w;x+=3){var y=wy+Math.sin(x*.025+t*.002+i)*4+Math.sin(x*.01-t*.001)*2; ctx.lineTo(x,y);}
+        ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fillStyle='rgba(30,50,70,'+(0.15+i*.04)+')'; ctx.fill();}
+      var rg=ctx.createLinearGradient(w*.55,h*.55,w*.55,h); rg.addColorStop(0,'rgba(255,180,100,.3)'); rg.addColorStop(1,'rgba(255,180,100,0)'); ctx.fillStyle=rg; ctx.fillRect(w*.48,h*.55,w*.15,h*.45);
+    }},
+    forest: { draw: function(t,w,h){
+      ctx.fillStyle='#1a3020'; ctx.fillRect(0,0,w,h);
+      for(var l=0;l<5;l++){var sh=30+l*15; ctx.fillStyle='rgb('+(sh-10)+','+(sh+20)+','+(sh-5)+')'; ctx.beginPath();
+        for(var x=0;x<=w;x+=3){var y=h*(.1+l*.08)+Math.sin(x*.03+l+t*.0004)*20+Math.sin(x*.07+l*3)*10; if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+        ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath(); ctx.fill();}
+      var sg=ctx.createLinearGradient(0,h*.7,0,h); sg.addColorStop(0,'rgba(100,160,140,.6)'); sg.addColorStop(1,'rgba(60,100,90,.8)'); ctx.fillStyle=sg; ctx.fillRect(0,h*.72,w,h*.28);
+      for(var i=0;i<15;i++){var sx=(Math.sin(i*3.7+t*.001)*.5+.5)*w,sy=(Math.cos(i*2.3+t*.0008)*.5+.5)*h*.7,sr=3+Math.sin(t*.003+i)*2;
+        var spg=ctx.createRadialGradient(sx,sy,0,sx,sy,sr*4); spg.addColorStop(0,'rgba(255,255,200,'+(0.3+Math.sin(t*.004+i)*.2)+')'); spg.addColorStop(1,'rgba(255,255,200,0)'); ctx.fillStyle=spg; ctx.fillRect(sx-sr*4,sy-sr*4,sr*8,sr*8);}
+    }},
+    sakura: { draw: function(t,w,h){
+      var g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,'#d8e8f0'); g.addColorStop(1,'#f0e8e0'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+      for(var i=0;i<4;i++){var tx=w*(.15+i*.22); ctx.fillStyle='#5a4030'; ctx.fillRect(tx-4,h*.35,8,h*.65);
+        for(var b=0;b<3;b++){var by=h*(.35+b*.08),bd=(b%2===0)?1:-1; ctx.beginPath(); ctx.moveTo(tx,by); ctx.quadraticCurveTo(tx+bd*30,by-15,tx+bd*50,by-25); ctx.strokeStyle='#5a4030'; ctx.lineWidth=2; ctx.stroke();}}
+      for(var i=0;i<80;i++){var cx=(Math.sin(i*1.7)*.5+.5)*w,cy=h*(.08+Math.cos(i*2.1)*.15),cr=12+Math.sin(i*.8)*8; var ps=Math.floor(200+Math.sin(i)*30); ctx.fillStyle='rgba('+ps+','+(ps-60)+','+(ps-40)+',.6)'; ctx.beginPath(); ctx.arc(cx,cy,cr,0,Math.PI*2); ctx.fill();}
+      for(var i=0;i<20;i++){var px=((i*47+t*.02)%(w+40))-20,py=((i*31+t*.03)%(h+40))-20,pr=2+Math.sin(t*.003+i)*1,an=t*.002+i; ctx.save(); ctx.translate(px,py); ctx.rotate(an); ctx.fillStyle='rgba(240,180,190,'+(0.5+Math.sin(t*.002+i)*.3)+')'; ctx.beginPath(); ctx.ellipse(0,0,pr,pr*.6,0,0,Math.PI*2); ctx.fill(); ctx.restore();}
+      ctx.fillStyle='#c8b8a0'; ctx.beginPath(); ctx.moveTo(w*.3,h); ctx.quadraticCurveTo(w*.45,h*.6,w*.48,h*.45); ctx.quadraticCurveTo(w*.52,h*.6,w*.7,h); ctx.closePath(); ctx.fill();
+    }},
+    autumn: { draw: function(t,w,h){
+      var g=ctx.createLinearGradient(0,0,0,h*.5); g.addColorStop(0,'#87a5c0'); g.addColorStop(1,'#c8d8e0'); ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+      var ac=[['#8b3a2a','#a84e2e','#c46a30'],['#b85c2a','#cc7a30','#d49040'],['#c47028','#d89038','#e0a848'],['#9a5a2a','#b07030','#c88838']];
+      for(var l=0;l<4;l++){var bY=h*(.2+l*.12),dr=Math.sin(t*.0003+l*2)*5; ctx.beginPath(); ctx.moveTo(0,h);
+        for(var x=0;x<=w;x+=3){var y=bY+Math.sin(x*.01+l*1.5+dr*.01)*(35-l*5)+Math.sin(x*.025+l*3)*(12-l*2); ctx.lineTo(x,y);}
+        ctx.lineTo(w,h); ctx.closePath(); var ci=Math.floor((Math.sin(t*.0005+l)*.5+.5)*3); ctx.fillStyle=ac[l][ci]; ctx.fill();}
+      ctx.fillStyle='rgba(70,120,140,.7)'; ctx.fillRect(0,h*.82,w,h*.18);
+      for(var i=0;i<4;i++){var wy=h*(.84+i*.04); ctx.beginPath(); for(var x=0;x<=w;x+=3){var y=wy+Math.sin(x*.03+t*.002+i)*2; if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);} ctx.strokeStyle='rgba(200,220,230,'+(0.15+i*.05)+')'; ctx.lineWidth=1; ctx.stroke();}
+      for(var i=0;i<12;i++){var lx=((i*53+t*.025)%(w+30))-15,ly=((i*37+t*.018)%(h+30))-15,an=t*.002+i*2; ctx.save(); ctx.translate(lx,ly); ctx.rotate(an); var lc=['#cc4420','#dd7720','#eeaa30','#bb3322']; ctx.fillStyle=lc[i%4]; ctx.beginPath(); ctx.ellipse(0,0,4,2.5,0,0,Math.PI*2); ctx.fill(); ctx.restore();}
+    }}
+  };
+
+  // ─── Monitor position ───
+  function positionMonitor(){
+    var cw=container.offsetWidth, ch=container.offsetHeight;
+    var mw=cw*(monitorWidthPercent/100), mh=mw*9/16;
+    overlay.style.width=mw+'px'; overlay.style.height=mh+'px';
+    overlay.style.left=(mon.xP*cw-mw/2)+'px'; overlay.style.top=(mon.yP*ch-mh/2)+'px';
+    vCanvas.width=Math.floor(mw*1.5); vCanvas.height=Math.floor(mh*1.5);
+  }
+
+  // ─── Drag & Resize ───
+  function ptr(e){var t=e.touches?e.touches[0]:e,r=container.getBoundingClientRect(); return{x:t.clientX-r.left,y:t.clientY-r.top};}
+  var resizeEl = document.getElementById('simResize');
+
+  function startDrag(e){if(e.target===resizeEl||mon.resizing)return; e.preventDefault(); var p=ptr(e); mon.dragging=true; mon.sx=p.x; mon.sy=p.y; mon.sxP=mon.xP; mon.syP=mon.yP;}
+  function startResize(e){e.preventDefault(); e.stopPropagation(); mon.resizing=true; var p=ptr(e); mon.sx=p.x; mon.swP=monitorWidthPercent;}
+  function onMove(e){if(!mon.dragging&&!mon.resizing)return; e.preventDefault(); var p=ptr(e), cw=container.offsetWidth, ch=container.offsetHeight;
+    if(mon.dragging){var dx=(p.x-mon.sx)/cw, dy=(p.y-mon.sy)/ch; mon.xP=Math.max(.1,Math.min(.9,mon.sxP+dx)); mon.yP=Math.max(.1,Math.min(.9,mon.syP+dy)); positionMonitor();}
+    else if(mon.resizing){var dx=(p.x-mon.sx)/cw*100; monitorWidthPercent=Math.max(15,Math.min(60,mon.swP+dx)); sizeSlider.value=monitorWidthPercent; positionMonitor();}
+  }
+  function endInt(){mon.dragging=false; mon.resizing=false;}
+
+  overlay.addEventListener('mousedown',startDrag); overlay.addEventListener('touchstart',startDrag,{passive:false});
+  resizeEl.addEventListener('mousedown',startResize); resizeEl.addEventListener('touchstart',startResize,{passive:false});
+  document.addEventListener('mousemove',onMove); document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('mouseup',endInt); document.addEventListener('touchend',endInt);
+
+  sizeSlider.addEventListener('input',function(e){monitorWidthPercent=parseInt(e.target.value); positionMonitor();});
+  window.addEventListener('resize',function(){positionMonitor();});
+
+  // ─── Scene selector ───
+  scenesEl.addEventListener('click',function(e){var b=e.target.closest('.sim-scene-btn'); if(!b)return;
+    scenesEl.querySelectorAll('.sim-scene-btn').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); currentScene=b.dataset.scene;});
+
+  // ─── Animation loop ───
+  function startAnim(){
+    function draw(ts){var s=scenes[currentScene]; if(s)s.draw(ts,vCanvas.width,vCanvas.height); animFrame=requestAnimationFrame(draw);}
+    if(animFrame)cancelAnimationFrame(animFrame); animFrame=requestAnimationFrame(draw);
+  }
+
+  // ─── Hint ───
+  function showHint(){hint.classList.add('show'); setTimeout(function(){hint.classList.remove('show');},3500);}
+
+  // ─── Init ───
+  bgPhoto.onload = function(){ positionMonitor(); showHint(); };
+  if(bgPhoto.complete) { positionMonitor(); }
+  startAnim();
+
+})();
+</script>
