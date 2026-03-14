@@ -26,3 +26,20 @@ function switchTab(target){
   check();
   window.addEventListener('scroll',check,{passive:true});
 })();
+
+/* ハンバーガーメニュー */
+(function(){
+  var toggle=document.getElementById('navToggle');
+  var nav=document.getElementById('mainNav');
+  if(!toggle||!nav)return;
+  toggle.addEventListener('click',function(){
+    toggle.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      toggle.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+})();
