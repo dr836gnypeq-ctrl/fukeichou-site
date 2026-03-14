@@ -118,8 +118,8 @@
     popupVideo.removeAttribute('src');
   }
   function resetLabel(el){
-    el.select('rect').attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
-    el.select('text').attr('fill',LABEL_TEXT);
+    el.select('rect').interrupt().attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
+    el.select('text').interrupt().attr('fill',LABEL_TEXT);
   }
   document.addEventListener('touchstart',function(e){
     if(!e.target.closest('.map-label')&&popup.style.display==='block'){
