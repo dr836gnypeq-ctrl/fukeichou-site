@@ -138,7 +138,7 @@ description: あなたの待合室に風景帖の映像を置いてみません�
       </div>
       <div class="sim-monitor-bezel"></div>
       <div class="sim-monitor-screen">
-        <video id="simVideo" src="{{ '/assets/images/hero-pc.mp4' | relative_url }}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
+        <video id="simVideo" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
       </div>
       <div class="sim-resize" id="simResize"></div>
     </div>
@@ -283,6 +283,16 @@ description: あなたの待合室に風景帖の映像を置いてみません�
   function showHint(){hint.classList.add('show'); setTimeout(function(){hint.classList.remove('show');},3500);}
 
   // ─── Init ───
+  // Set video sources with codec fallback (same as hero)
+  var vidBase = baseUrl + '/assets/images/';
+  if(window.innerWidth<=768){
+    video.innerHTML='<source src="'+vidBase+'hero-mobile.mp4" type="video/mp4">';
+  }else{
+    video.innerHTML='<source src="'+vidBase+'hero-pc.mp4" type=\'video/mp4; codecs="av01.0.12M.10"\'>'
+                   +'<source src="'+vidBase+'hero-pc-fallback.mp4" type="video/mp4">';
+  }
+  video.load();
+
   bgPhoto.onload = function(){ positionMonitor(); showHint(); triggerWobble(); };
   if(bgPhoto.complete) { positionMonitor(); }
   video.play().catch(function(){});
