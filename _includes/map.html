@@ -25,7 +25,7 @@
   var LABEL_BG='#fff';
   var LABEL_BORDER='#b8c2c7';
   var LABEL_TEXT='#333';
-  var LINE_COLOR='#9aa5ab';
+  var LINE_COLOR='#136b5e';
   var HOVER_COLOR='#136b5e';
   var base='{{ "/assets/images/" | relative_url }}';
 
@@ -165,7 +165,7 @@
           .attr('points',x+','+y+' '+bendX+','+bendY+' '+edgeX+','+ly)
           .attr('fill','none')
           .attr('stroke',LINE_COLOR)
-          .attr('stroke-width',0.6);
+          .attr('stroke-width',0.8);
 
         var labelG=gLabels.append('g')
           .attr('class','map-label')
