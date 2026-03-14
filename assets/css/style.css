@@ -98,9 +98,9 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .faq-item p{padding:0 0 20px;font-size:.9rem;color:var(--ink-light);line-height:1.9}
 
 /* Contact */
-.section-contact{background:var(--moss);color:var(--white)}
-.section-contact .section-heading{color:var(--white)}
-.section-contact .section-lead{color:rgba(255,255,255,.75)}
+.section.section-contact{background:var(--moss);color:var(--white)}
+.section.section-contact .section-heading{color:var(--white)}
+.section.section-contact .section-lead{color:rgba(255,255,255,.75)}
 
 /* Flow */
 .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
