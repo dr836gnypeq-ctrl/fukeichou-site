@@ -47,6 +47,18 @@ description: あなたの待合室に風景帖の映像を置いてみません�
 .sim-dropzone p{font-size:.8rem;color:var(--ink-faint)}
 .sim-privacy{font-size:.72rem;color:var(--ink-faint);text-align:center;margin-top:8px;opacity:.8}
 
+/* Drag hint icon */
+.sim-drag-hint{position:absolute;top:-28px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;transition:opacity .4s}
+.sim-drag-hint svg{opacity:.55;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))}
+.sim-drag-hint.hidden{opacity:0}
+
+/* Wobble animation */
+@keyframes sim-wobble{
+  0%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} 100%{transform:translateX(0)}
+}
+.sim-monitor.wobble{animation:sim-wobble .6s ease-in-out}
+
 /* Hint */
 .sim-hint{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--black);color:#fff;padding:10px 24px;border-radius:24px;font-size:.8rem;opacity:0;transition:opacity .4s;pointer-events:none;z-index:100;white-space:nowrap}
 .sim-hint.show{opacity:.88}
@@ -121,6 +133,9 @@ description: あなたの待合室に風景帖の映像を置いてみません�
   <div class="sim-canvas-wrap" id="simContainer">
     <img class="sim-bg" id="simBgPhoto" src="{{ '/assets/images/sample-clinic.jpg' | relative_url }}" alt="待合室の写真">
     <div class="sim-monitor" id="simMonitor">
+      <div class="sim-drag-hint" id="simDragHint">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+      </div>
       <div class="sim-monitor-bezel"></div>
       <div class="sim-monitor-screen">
         <video id="simVideo" src="{{ '/assets/images/hero-pc.mp4' | relative_url }}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
@@ -167,6 +182,7 @@ description: あなたの待合室に風景帖の映像を置いてみません�
   var btnUpload  = document.getElementById('simBtnUpload');
   var workspace  = document.getElementById('simWorkspace');
   var video      = document.getElementById('simVideo');
+  var dragHint   = document.getElementById('simDragHint');
 
   var monitorWidthPercent = 30;
   var currentTab = 'clinic';
@@ -247,7 +263,7 @@ description: あなたの待合室に風景帖の映像を置いてみません�
   function ptr(e){var t=e.touches?e.touches[0]:e,r=container.getBoundingClientRect(); return{x:t.clientX-r.left,y:t.clientY-r.top};}
   var resizeEl = document.getElementById('simResize');
 
-  function startDrag(e){if(e.target===resizeEl||mon.resizing)return; e.preventDefault(); var p=ptr(e); mon.dragging=true; mon.sx=p.x; mon.sy=p.y; mon.sxP=mon.xP; mon.syP=mon.yP;}
+  function startDrag(e){if(e.target===resizeEl||mon.resizing)return; e.preventDefault(); var p=ptr(e); mon.dragging=true; mon.sx=p.x; mon.sy=p.y; mon.sxP=mon.xP; mon.syP=mon.yP; dragHint.classList.add('hidden');}
   function startResize(e){e.preventDefault(); e.stopPropagation(); mon.resizing=true; var p=ptr(e); mon.sx=p.x; mon.swP=monitorWidthPercent;}
   function onMove(e){if(!mon.dragging&&!mon.resizing)return; e.preventDefault(); var p=ptr(e), cw=container.offsetWidth, ch=container.offsetHeight;
     if(mon.dragging){var dx=(p.x-mon.sx)/cw, dy=(p.y-mon.sy)/ch; mon.xP=Math.max(.1,Math.min(.9,mon.sxP+dx)); mon.yP=Math.max(.1,Math.min(.9,mon.syP+dy)); positionMonitor();}
@@ -267,9 +283,16 @@ description: あなたの待合室に風景帖の映像を置いてみません�
   function showHint(){hint.classList.add('show'); setTimeout(function(){hint.classList.remove('show');},3500);}
 
   // ─── Init ───
-  bgPhoto.onload = function(){ positionMonitor(); showHint(); };
+  bgPhoto.onload = function(){ positionMonitor(); showHint(); triggerWobble(); };
   if(bgPhoto.complete) { positionMonitor(); }
   video.play().catch(function(){});
+
+  function triggerWobble(){
+    setTimeout(function(){
+      overlay.classList.add('wobble');
+      overlay.addEventListener('animationend',function(){overlay.classList.remove('wobble');},{once:true});
+    },1200);
+  }
 
 })();
 </script>
