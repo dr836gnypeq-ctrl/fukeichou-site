@@ -222,3 +222,14 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   .comp-td-label,.comp-th-label{min-width:84px;padding-right:6px;font-size:.8rem}
   .comp-sub{font-size:.7rem}
 }
+
+/* ---- 本物宣言セクション ---- */
+.authentic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:8px}
+.authentic-card{padding:36px 28px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.authentic-icon{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--moss);margin-bottom:16px;letter-spacing:.1em}
+.authentic-card h3{font-family:var(--serif);font-size:1rem;font-weight:600;margin-bottom:12px;line-height:1.7}
+.authentic-card p{font-size:.88rem;color:var(--ink-light);line-height:1.9}
+@media(max-width:768px){
+  .authentic-grid{grid-template-columns:1fr;gap:16px}
+  .authentic-card{padding:28px 20px}
+}
