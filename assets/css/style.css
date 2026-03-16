@@ -233,3 +233,10 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   .authentic-grid{grid-template-columns:1fr;gap:16px}
   .authentic-card{padding:28px 20px}
 }
+
+/* ---- 料金セクション追加要素 ---- */
+.pricing-daily{font-size:.82rem;color:var(--moss);margin-top:8px;letter-spacing:.03em}
+.pricing-zero{margin:16px 32px;padding:14px 16px;background:#eaf4f1;border-radius:8px;text-align:center}
+.pricing-zero p{font-size:.85rem;color:#0f6e56;line-height:1.8;margin:0}
+.pricing-trial{margin:0 32px 16px;text-align:center}
+.pricing-trial p{font-size:.82rem;color:var(--ink-light);line-height:1.8;margin:0}
