@@ -143,22 +143,30 @@ nav a:hover::after { right: 0; }
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    160deg,
-    #1a3d36 0%,
-    #136b5e 40%,
-    #2a6b52 70%,
-    #1a3d36 100%
-  );
+  background: #1a3d36; /* 動画ロード前のフォールバック色 */
 }
 
-/* Subtle animated shimmer on hero */
+.hero-bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 動画の上に薄いオーバーレイ（文字を読みやすく） */
 .hero-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(184,147,106,0.12) 0%, transparent 70%);
-  animation: shimmer 8s ease-in-out infinite alternate;
+  background: linear-gradient(
+    160deg,
+    rgba(10,30,25,0.55) 0%,
+    rgba(10,40,30,0.35) 50%,
+    rgba(10,30,25,0.50) 100%
+  );
+  z-index: 1;
 }
 
 @keyframes shimmer {
@@ -168,7 +176,7 @@ nav a:hover::after { right: 0; }
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -258,7 +266,7 @@ nav a:hover::after { right: 0; }
 
 .hero-scroll {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   padding: 2rem 3rem;
   display: flex;
   align-items: center;
@@ -737,42 +745,25 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  padding: 0;
   position: relative;
+  overflow: hidden;
 }
 
-.monitor-mockup {
-  width: 300px;
-  aspect-ratio: 16/9;
-  background: var(--ink);
-  border-radius: 6px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+.sim-cta-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.85;
 }
 
-.monitor-mockup::after {
+.sim-cta-right::after {
   content: '';
   position: absolute;
-  bottom: -12px; left: 50%; transform: translateX(-50%);
-  width: 80px; height: 12px;
-  background: linear-gradient(to bottom, #888, #666);
-  border-radius: 0 0 4px 4px;
-}
-
-.monitor-screen {
-  width: 92%; height: 88%;
-  background: linear-gradient(135deg, #136b5e, #0d5048);
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--serif-jp);
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.15em;
+  inset: 0;
+  background: linear-gradient(to right, rgba(237,231,219,0.3) 0%, transparent 40%);
+  pointer-events: none;
 }
 
 /* ── FAQ ── */
@@ -966,7 +957,20 @@ footer {
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+  <video
+    id="hero-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    poster="../assets/images/hero-fallback.jpg"
+  >
+    <!-- PC用: 768px以上 -->
+    <source src="../assets/images/hero-pc.mp4" type="video/mp4; codecs=av01.0.08M.08">
+    <source src="../assets/images/hero-pc-fallback.mp4" type="video/mp4">
+  </video>
+</div>
   <div class="hero-content">
     <span class="hero-label">A subscription for Japanese nature footage</span>
     <h1 class="hero-title">
@@ -1176,9 +1180,7 @@ footer {
     </a>
   </div>
   <div class="sim-cta-right">
-    <div class="monitor-mockup">
-      <div class="monitor-screen">4K HDR 実写映像</div>
-    </div>
+    <img src="../assets/images/sample-clinic.jpg" alt="クリニック待合室イメージ">
   </div>
 </section>
 
@@ -1288,7 +1290,16 @@ document.querySelectorAll('.faq-q').forEach(q => {
   });
 });
 
-// ── Scroll reveal ──
+// ── Hero video: mobile/PC 切替 ──
+(function() {
+  const video = document.getElementById('hero-video');
+  if (!video) return;
+  if (window.innerWidth < 768) {
+    video.innerHTML = '<source src="../assets/images/hero-mobile.mp4" type="video/mp4">';
+    video.load();
+  }
+})();
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
