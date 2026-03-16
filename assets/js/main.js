@@ -53,3 +53,5 @@ function switchTab(target){
   },{threshold:0.12});
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 })();
+
+if(typeof lucide !== 'undefined') lucide.createIcons();
