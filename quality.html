@@ -1,0 +1,366 @@
+---
+layout: default
+title: なぜ映像の質が体験を変えるのか
+description: 同じ自然映像でも、映像規格によって生体反応が変わることが研究で示されています。8bit SDRとBT.2100 HLGの違い、風景帖が高品質規格にこだわる理由を解説します。
+---
+
+{% include evidence-styles.html %}
+
+<style>
+/* ── Quality page specific styles ── */
+.ql-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
+.ql-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
+.ql-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0;max-width:640px;margin-left:auto;margin-right:auto}
+
+/* Banding demo */
+.ql-banding-wrap{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:48px}
+.ql-banding-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.ql-banding-label{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+.ql-banding-canvas-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--border);position:relative}
+canvas.ql-canvas{display:block;width:100%;height:160px}
+.ql-banding-tag{position:absolute;bottom:10px;right:10px;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:.06em}
+.ql-tag-bad{background:#fce8e8;color:#8a2222}
+.ql-tag-good{background:#e8f5f1;color:#136b5e}
+.ql-banding-note{font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px}
+
+/* Scene selector */
+.ql-scene-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.ql-scene-btn{padding:6px 14px;font-size:.8rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--white);color:var(--ink-light);transition:all .2s}
+.ql-scene-btn.active{border-color:var(--moss);color:var(--moss);background:#e8f5f1}
+.ql-scene-btn:hover:not(.active){border-color:var(--ink-light)}
+
+/* Study card */
+.ql-study{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:24px}
+.ql-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px;background:#e8f5f1;color:#136b5e}
+.ql-study h3{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:8px;line-height:1.6}
+.ql-study-meta{font-size:.8rem;color:var(--ink-faint);margin-bottom:16px;line-height:1.6}
+.ql-study-body{font-size:.9rem;color:var(--ink-light);line-height:1.9;margin-bottom:16px}
+.ql-result{background:var(--paper-warm);border-radius:8px;padding:20px 24px;margin-bottom:16px}
+.ql-result p{font-size:.9rem;line-height:1.8;margin:0}
+.ql-result strong{color:var(--ink)}
+.ql-study-link{font-size:.8rem;color:var(--moss)}
+.ql-study-link:hover{color:var(--gold)}
+
+/* Spec table */
+.ql-spec-table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:24px}
+.ql-spec-table th{padding:10px 16px;text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);border-bottom:2px solid var(--border);background:var(--paper-warm)}
+.ql-spec-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--ink-light);vertical-align:top;line-height:1.7}
+.ql-spec-table tr:last-child td{border-bottom:none}
+.ql-spec-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.ql-spec-table td.ql-highlight{color:var(--moss);font-weight:600}
+.ql-spec-icon{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.ql-dot-moss{background:var(--moss)}
+.ql-dot-gray{background:#ccc}
+
+/* Reason cards */
+.ql-reason-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+.ql-reason-card{padding:24px 20px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
+.ql-reason-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
+.ql-reason-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+
+/* CTA */
+.ql-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
+.ql-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
+.ql-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
+.ql-cta .btn:hover{background:rgba(255,255,255,.9);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
+.ql-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
+
+@media(max-width:768px){
+.ql-hero{padding:120px 0 60px}
+.ql-hero .section-heading{font-size:1.6rem}
+.ql-banding-grid{grid-template-columns:1fr}
+.ql-reason-grid{grid-template-columns:1fr}
+}
+</style>
+
+<!-- Hero -->
+<div class="ql-hero">
+  <div class="container">
+    <a href="{{ '/' | relative_url }}" class="ev-back">← トップページに戻る</a>
+    <h1 class="section-heading">なぜ、映像の質が体験を変えるのか</h1>
+    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。<br>では、なぜ映像の品質規格が重要なのか。<br>生体信号を用いた実験が、その問いに答えています。</p>
+  </div>
+</div>
+
+<!-- Banding visualization -->
+<section class="section" id="banding">
+  <div class="container">
+    <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
+    <p class="ev-section-desc">空のグラデーション、夕焼け、森の緑——色が緩やかに変わる場面で、8bitと10bitの差は明確に現れます。</p>
+
+    <div class="ql-banding-wrap">
+      <div class="ql-scene-btns">
+        <button class="ql-scene-btn active" data-scene="sky" onclick="setScene('sky',this)">夕空</button>
+        <button class="ql-scene-btn" data-scene="forest" onclick="setScene('forest',this)">森の緑</button>
+        <button class="ql-scene-btn" data-scene="sea" onclick="setScene('sea',this)">海の青</button>
+        <button class="ql-scene-btn" data-scene="dawn" onclick="setScene('dawn',this)">夜明け</button>
+      </div>
+
+      <div class="ql-banding-grid">
+        <div>
+          <div class="ql-banding-label">8bit SDR（地上波・YouTube相当）</div>
+          <div class="ql-banding-canvas-wrap">
+            <canvas class="ql-canvas" id="canvas8" width="600" height="320"></canvas>
+            <span class="ql-banding-tag ql-tag-bad">バンディングあり</span>
+          </div>
+        </div>
+        <div>
+          <div class="ql-banding-label">10bit HDR（BT.2100 HLG 相当）</div>
+          <div class="ql-banding-canvas-wrap">
+            <canvas class="ql-canvas" id="canvas10" width="600" height="320"></canvas>
+            <span class="ql-banding-tag ql-tag-good">滑らかなグラデーション</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="ql-banding-note">
+        ※ このシミュレーションは8bitの量子化ステップを視覚化したものです。実際の8bit映像は画面処理やディザリングにより若干マスクされる場合がありますが、緩やかなグラデーション領域では同様の縞状アーチファクト（バンディングノイズ）が発生します。後日、実写映像による比較画像に差し替え予定です。
+      </p>
+    </div>
+
+    <div class="ql-reason-grid">
+      <div class="ql-reason-card">
+        <h4>なぜバンディングが発生するか</h4>
+        <p>8bitは1チャンネルあたり256段階。緩やかな色変化を256の「段」で近似するため、グラデーション領域が階段状に見えます。脳はこの不自然な段差を「デジタルの映像」として察知します。</p>
+      </div>
+      <div class="ql-reason-card">
+        <h4>10bitで何が変わるか</h4>
+        <p>10bitは1チャンネルあたり1,024段階（約64倍の情報量）。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。脳が「本物の光」に近いと判断する条件が整います。</p>
+      </div>
+      <div class="ql-reason-card">
+        <h4>体験への影響</h4>
+        <p>バンディングのある映像は、見た目の違和感とともに認知的な補正処理を脳に課します。その分のリソースが、リラックスや注意回復に向かいません。品質は「見た目」だけでなく「体験の深さ」に関わります。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Study section -->
+<section class="section" id="study">
+  <div class="container">
+    <h2 class="ev-section-sub">映像規格の違いが生体反応に影響することを示した研究</h2>
+    <p class="ev-section-desc">主観評価ではなく、皮膚温度・脳血流・心拍数という生体信号で測定した実験です。</p>
+
+    <div class="ql-study">
+      <span class="ql-study-badge">査読論文・2021年</span>
+      <h3>広色域・高輝度（HDR）映像の視聴時に、8bit SDRより副交感神経が優位になることを確認</h3>
+      <div class="ql-study-meta">
+        篠原未歩, 石井英里子, 星野祐子, 山田光穗（東海大学・鹿児島県立短期大学）<br>
+        「高品質な映像条件が人にもたらす癒やし効果の検討」<br>
+        パーソナルコンピュータ利用技術学会論文誌, 16巻2号, pp. 40–55（2021年）<br>
+        DOI: <a class="ql-study-link" href="https://doi.org/10.24663/jjpcats.16.2_40" target="_blank" rel="noopener">10.24663/jjpcats.16.2_40</a>
+      </div>
+      <div class="ql-study-body">
+        被験者12名に、映像規格の異なる自然画像（花・動物を含む風景）を各5分間視聴させ、心拍数・呼吸数・脳血流動態（NIRS）・皮膚温度の4種類の生体信号を計測した。比較した映像規格は以下の3種類。
+        <table class="ql-spec-table" style="margin-top:16px;margin-bottom:0">
+          <tr><th>規格</th><th>ビット深度</th><th>色域</th><th>輝度</th></tr>
+          <tr><td>BT.709</td><td>8bit</td><td>Rec.709（従来）</td><td>SDR</td></tr>
+          <tr><td>BT.2020</td><td>10/12bit</td><td>Rec.2020（広色域）</td><td>SDR</td></tr>
+          <tr><td class="ql-highlight">BT.2100 HLG</td><td class="ql-highlight">10/12bit</td><td class="ql-highlight">Rec.2020（広色域）</td><td class="ql-highlight">HDR</td></tr>
+        </table>
+      </div>
+      <div class="ql-result">
+        <p><strong>皮膚温度（副交感神経優位＝リラックスの指標）</strong><br>
+        BT.2100（広色域・HDR）で動物を含む自然画像を視聴した際、被験者12名中10名が安静時より皮膚温度が上昇し、有意差が確認された（p=0.000）。皮膚温度の上昇は副交感神経の活性化を示す。<br><br>
+        <strong>脳血流動態（感性処理の右脳 Hb 変化）</strong><br>
+        映像規格の主効果に有意差あり（F=3.824, p＜0.05）。BT.2100 vs BT.2020 間で有意差が確認された。BT.2100視聴中は感性・映像処理に関わる右脳の活動が穏やかに安定する傾向が見られた。<br><br>
+        <strong>主観評価（フラストレーション）</strong><br>
+        被験者12名中7名が、BT.709（8bit SDR）視聴後にフラストレーションのスコアが最も高くなった。広色域・HDRの映像規格ほどストレスなく視聴できることが示唆された。</p>
+      </div>
+      <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-bottom:0">
+        <strong>著者らの結論：</strong>「高品質な映像条件で視聴することによって、実際に見る景色に近づき、自然の中にいる時と同等の癒やし効果を得られる可能性が高いことを示した。」<br>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者12名・単施設研究であり、結果はすべての環境・対象者に同一の効果を保証するものではありません。</span>
+      </p>
+    </div>
+
+    <div class="ql-study">
+      <span class="ql-study-badge">査読論文・2022年</span>
+      <h3>HDR映像は、SDR映像より自然映像の没入感を有意に高める</h3>
+      <div class="ql-study-meta">
+        Abreu, A. et al.「On the Immersive Properties of High Dynamic Range Video」<br>
+        ACM Transactions on Applied Perception, Vol. 19, No. 2, Article 7（2022年）<br>
+        DOI: <a class="ql-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">10.1145/3524692</a>
+      </div>
+      <div class="ql-study-body">
+        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、HD-SDRとUHD-HDRの視聴中の没入感を二次課題反応時間法（客観的指標）で測定。50分間の長尺視聴を2つの独立した実験で検証した。
+      </div>
+      <div class="ql-result">
+        <p><strong>実験1：</strong>HD-SDR vs UHD-HDRで、UHD-HDR群が有意に没入感が高い（F=295, p＜.001）。<br><br>
+        <strong>実験2（解像度とダイナミックレンジを独立変数に分離）：</strong><br>
+        HDRの主効果：有意（p=.038）<strong>——没入感を高めたのはHDRの効果</strong><br>
+        解像度（UHD vs HD）の主効果：<strong>有意差なし（p=.83）</strong><br><br>
+        解像度（4K vs HD）ではなく、<strong>ダイナミックレンジ（HDR）の有無が没入感を左右した</strong>という重要な知見。</p>
+      </div>
+      <a class="ql-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">ACM Digital Library で論文を確認 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Fukeichou spec section -->
+<section class="section" id="spec">
+  <div class="container">
+    <h2 class="ev-section-sub">風景帖の映像規格</h2>
+    <p class="ev-section-desc">上記の研究が効果を確認した映像規格と同等の仕様で、すべての映像を制作・収録しています。</p>
+
+    <div class="ql-study" style="padding:28px 36px">
+      <table class="ql-spec-table">
+        <tr>
+          <th>仕様</th>
+          <th>風景帖の規格</th>
+          <th>意味</th>
+        </tr>
+        <tr>
+          <td>映像規格</td>
+          <td class="ql-highlight">BT.2100 HLG 相当</td>
+          <td>篠原ら（2021）が最も高い生体効果を確認した規格と同等</td>
+        </tr>
+        <tr>
+          <td>ビット深度</td>
+          <td class="ql-highlight">10bit</td>
+          <td>約10億7,000万色。バンディングノイズが識別閾値以下に</td>
+        </tr>
+        <tr>
+          <td>色域</td>
+          <td class="ql-highlight">BT.2020（Rec.2020）</td>
+          <td>可視光の約76%をカバー。従来のRec.709（約36%）の約2倍</td>
+        </tr>
+        <tr>
+          <td>輝度</td>
+          <td class="ql-highlight">HLG（Hybrid Log-Gamma）</td>
+          <td>NHKとBBCが共同開発。照明のある室内での視聴に適した方式</td>
+        </tr>
+        <tr>
+          <td>解像度</td>
+          <td class="ql-highlight">4K（3840×2160）</td>
+          <td>フルHDの4倍。遠景の木の葉一枚まで記録</td>
+        </tr>
+        <tr>
+          <td>再生方式</td>
+          <td class="ql-highlight">完全オフライン・ローカル再生</td>
+          <td>YouTubeのような圧縮・帯域制限なし。収録品質のまま届く</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="ql-cta">
+      <p>映像の品質を、実際の待合室でお試しください。</p>
+      <a href="{{ '/' | relative_url }}#contact" class="btn btn-lg">導入のご相談（初月無料）</a>
+    </div>
+
+    <p class="ql-disclaimer">本ページで引用した研究結果は、それぞれの実験条件下で得られたものであり、すべての環境・対象者に同一の効果を保証するものではありません。篠原ら（2021）は被験者12名・単施設の研究であり、今後のさらなる検証が必要です。風景帖は医療機器・医薬品ではなく、疾病の治療を目的としたものではありません。</p>
+
+    <div class="ev-bottom-nav">
+      <a href="{{ '/' | relative_url }}">← トップページに戻る</a>
+      <a href="{{ '/evidence' | relative_url }}">自然映像の効果（エビデンス）を見る →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+const scenes = {
+  sky: {
+    label: '夕空',
+    stops8:  [{p:0,r:255,g:120,b:60},{p:0.35,r:220,g:80,b:120},{p:0.7,r:100,g:60,b:160},{p:1,r:30,g:20,b:80}],
+    stops10: [{p:0,r:255,g:120,b:60},{p:0.35,r:220,g:80,b:120},{p:0.7,r:100,g:60,b:160},{p:1,r:30,g:20,b:80}]
+  },
+  forest: {
+    label: '森の緑',
+    stops8:  [{p:0,r:20,g:80,b:20},{p:0.4,r:50,g:130,b:40},{p:0.75,r:100,g:180,b:60},{p:1,r:200,g:230,b:120}],
+    stops10: [{p:0,r:20,g:80,b:20},{p:0.4,r:50,g:130,b:40},{p:0.75,r:100,g:180,b:60},{p:1,r:200,g:230,b:120}]
+  },
+  sea: {
+    label: '海の青',
+    stops8:  [{p:0,r:5,g:20,b:80},{p:0.3,r:10,g:60,b:150},{p:0.65,r:30,g:120,b:200},{p:1,r:100,g:180,b:230}],
+    stops10: [{p:0,r:5,g:20,b:80},{p:0.3,r:10,g:60,b:150},{p:0.65,r:30,g:120,b:200},{p:1,r:100,g:180,b:230}]
+  },
+  dawn: {
+    label: '夜明け',
+    stops8:  [{p:0,r:5,g:5,b:20},{p:0.3,r:40,g:20,b:60},{p:0.6,r:180,g:80,b:60},{p:1,r:255,g:200,b:100}],
+    stops10: [{p:0,r:5,g:5,b:20},{p:0.3,r:40,g:20,b:60},{p:0.6,r:180,g:80,b:60},{p:1,r:255,g:200,b:100}]
+  }
+};
+
+function lerp(a, b, t){ return Math.round(a + (b - a) * t); }
+
+function getColor(stops, t){
+  for(let i = 0; i < stops.length - 1; i++){
+    const s = stops[i], e = stops[i+1];
+    if(t >= s.p && t <= e.p){
+      const lt = (t - s.p) / (e.p - s.p);
+      return [lerp(s.r,e.r,lt), lerp(s.g,e.g,lt), lerp(s.b,e.b,lt)];
+    }
+  }
+  const l = stops[stops.length-1];
+  return [l.r, l.g, l.b];
+}
+
+function quantize8(v){ return Math.round(v / 256 * 255) / 255 * 256; }
+
+function draw(canvasId, stops, is8bit){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const imageData = ctx.createImageData(w, h);
+  const data = imageData.data;
+
+  for(let x = 0; x < w; x++){
+    const t = x / (w - 1);
+    let [r, g, b] = getColor(stops, t);
+    if(is8bit){
+      // posterize to simulate 8-bit banding
+      const steps = 32; // simulate visible banding (exaggerated for clarity)
+      r = Math.round(r / steps) * steps;
+      g = Math.round(g / steps) * steps;
+      b = Math.round(b / steps) * steps;
+    }
+    for(let y = 0; y < h; y++){
+      const i = (y * w + x) * 4;
+      data[i]   = r;
+      data[i+1] = g;
+      data[i+2] = b;
+      data[i+3] = 255;
+    }
+  }
+  ctx.putImageData(imageData, 0, 0);
+
+  // Draw banding markers on 8bit version
+  if(is8bit){
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1;
+    const steps = 32;
+    for(let x = 0; x < w; x++){
+      const t = x / (w - 1);
+      let [r, g, b] = getColor(stops, t);
+      const rq = Math.round(r / steps) * steps;
+      const rn = Math.round((r+1) / steps) * steps;
+      if(rq !== rn){
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function setScene(name, btn){
+  document.querySelectorAll('.ql-scene-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const sc = scenes[name];
+  draw('canvas8',  sc.stops8,  true);
+  draw('canvas10', sc.stops10, false);
+}
+
+// Initial draw
+window.addEventListener('load', function(){
+  draw('canvas8',  scenes.sky.stops8,  true);
+  draw('canvas10', scenes.sky.stops10, false);
+});
+</script>
