@@ -872,7 +872,7 @@ section {
   font-size: 0.9rem;
   color: var(--ink-light);
   margin-top: 0.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .map-embed {
@@ -880,32 +880,44 @@ section {
   border-radius: 4px;
   overflow: hidden;
   background: #fff;
+  padding: 1.5rem;
 }
 
-.map-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3rem 2rem;
-}
-
-.map-japan {
-  width: 280px;
-  height: 350px;
+.map-wrapper {
   position: relative;
+  width: 100%;
+  min-height: 200px;
 }
 
-.japan-svg {
+.map-loading {
+  text-align: center;
+  padding: 4rem;
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  letter-spacing: 0.1em;
+}
+
+.map-video-popup {
+  display: none;
+  position: absolute;
+  width: 200px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.map-video-popup video {
   width: 100%;
-  height: 100%;
+  display: block;
 }
 
 .map-note {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   font-size: 0.78rem;
   color: var(--ink-light);
   letter-spacing: 0.08em;
-  text-align: center;
   line-height: 1.8;
 }
 
@@ -1077,6 +1089,7 @@ footer {
   <nav>
     <a href="#service">サービス</a>
     <a href="#evidence">エビデンス</a>
+    <a href="../simulator">シミュレーター</a>
     <a href="#faq">FAQ</a>
     <a href="#contact" class="nav-cta">お問い合わせ</a>
   </nav>
@@ -1235,44 +1248,221 @@ footer {
       <p class="map-lead">北海道から鹿児島まで、日本の四季を記録しています。</p>
     </div>
     <div class="map-embed reveal reveal-delay-1">
-      <div class="map-placeholder">
-        <div class="map-japan">
-          <!-- 簡略日本地図 SVG -->
-          <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" class="japan-svg">
-            <text x="200" y="240" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="13" fill="rgba(19,107,94,0.25)" letter-spacing="4">全国100箇所以上</text>
-            <!-- 点群で撮影地をイメージ -->
-            <g fill="var(--green)" opacity="0.7">
-              <!-- 北海道エリア -->
-              <circle cx="310" cy="60"  r="4"/><circle cx="330" cy="75"  r="3"/><circle cx="295" cy="80"  r="3.5"/><circle cx="345" cy="55"  r="3"/>
-              <!-- 東北 -->
-              <circle cx="300" cy="130" r="3.5"/><circle cx="315" cy="145" r="3"/><circle cx="285" cy="155" r="3"/>
-              <!-- 関東 -->
-              <circle cx="295" cy="195" r="4"/><circle cx="310" cy="185" r="3"/>
-              <!-- 中部 -->
-              <circle cx="255" cy="200" r="3.5"/><circle cx="270" cy="215" r="3"/><circle cx="240" cy="210" r="3"/>
-              <!-- 近畿 -->
-              <circle cx="230" cy="240" r="4"/><circle cx="215" cy="255" r="3.5"/><circle cx="245" cy="250" r="3"/>
-              <!-- 中国 -->
-              <circle cx="175" cy="255" r="3.5"/><circle cx="190" cy="265" r="3"/>
-              <!-- 四国 -->
-              <circle cx="205" cy="290" r="3.5"/><circle cx="220" cy="300" r="3"/>
-              <!-- 九州 -->
-              <circle cx="150" cy="300" r="4"/><circle cx="165" cy="320" r="3.5"/><circle cx="140" cy="315" r="3"/><circle cx="155" cy="340" r="3"/>
-            </g>
-            <!-- ゴールドの強調点（代表地） -->
-            <g fill="var(--gold)">
-              <circle cx="310" cy="60"  r="5.5"/> <!-- 北海道 -->
-              <circle cx="295" cy="195" r="5.5"/> <!-- 関東 -->
-              <circle cx="230" cy="240" r="5.5"/> <!-- 近畿 -->
-              <circle cx="150" cy="300" r="5.5"/> <!-- 九州 -->
-            </g>
-          </svg>
+      <div class="map-wrapper" id="map-container">
+        <div class="map-loading">地図を読み込んでいます...</div>
+        <div class="map-video-popup" id="map-video-popup">
+          <video id="map-popup-video" muted playsinline loop></video>
         </div>
-        <p class="map-note">全国100箇所以上の景勝地で撮影。四季・時間帯あわせて150時間超の映像ライブラリ。</p>
       </div>
+      <p class="map-note">全国100箇所以上の景勝地で撮影。四季・時間帯あわせて150時間超の映像ライブラリ。</p>
+      <p class="map-note" style="font-size:0.7rem;margin-top:0.3rem;">地図データ出典：国土数値情報（国土交通省）</p>
     </div>
   </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script>
+(function(){
+  var PIN='#136b5e';
+  var LABEL_BG='#fff';
+  var LABEL_BORDER='#b8c2c7';
+  var LABEL_TEXT='#333';
+  var LINE_COLOR='#136b5e';
+  var HOVER_COLOR='#136b5e';
+  var base='../assets/images/';
+
+  var locations=[
+    {name:'知床五湖',lat:44.08,lng:145.1,ldx:65,ldy:-32,a:'s',video:'shiretoko.mp4'},
+    {name:'野付半島',lat:43.53,lng:145.32,ldx:61,ldy:-26,a:'s',video:'notsuke.mp4'},
+    {name:'摩周湖',lat:43.48,lng:144.46,ldx:86,ldy:0,a:'s',video:'mashu.mp4'},
+    {name:'釧路湿原',lat:43.1,lng:144.3,ldx:88,ldy:13,a:'s',video:'kushiro.mp4'},
+    {name:'美瑛町',lat:43.5,lng:142.45,ldx:-102,ldy:-40,a:'e',video:'biei.mp4'},
+    {name:'クリスマスツリーの木',lat:43.47,lng:142.55,ldx:-120,ldy:-13,a:'e',video:'christmas-tree.mp4'},
+    {name:'白ひげの滝',lat:43.46,lng:142.6,ldx:-29,ldy:30,a:'s',video:'shirahige.mp4'},
+    {name:'神威岬',lat:43.33,lng:140.35,ldx:-82,ldy:37,a:'e',video:'kamui.mp4'},
+    {name:'函館山',lat:41.76,lng:140.7,ldx:-82,ldy:18,a:'e',video:'hakodate.mp4'},
+    {name:'松島大高森',lat:38.37,lng:141.14,ldx:60,ldy:-59,a:'s',video:'otakamori.mp4'},
+    {name:'船岡城址公園',lat:38.05,lng:140.78,ldx:121,ldy:-40,a:'s',video:'funaoka.mp4'},
+    {name:'白川ダム公園',lat:38.01,lng:139.96,ldx:-60,ldy:-67,a:'e',video:'shirakawa-dam.mp4'},
+    {name:'磐梯山',lat:37.6,lng:140.07,ldx:-139,ldy:-51,a:'e',video:'bandai.mp4'},
+    {name:'高田城址公園',lat:37.1,lng:138.25,ldx:-127,ldy:-39,a:'e',video:'takada.mp4'},
+    {name:'新穂高',lat:36.28,lng:137.6,ldx:-134,ldy:-38,a:'e',video:'shinhotaka.mp4'},
+    {name:'高ボッチ山',lat:36.05,lng:138.05,ldx:189,ldy:-82,a:'s',video:'takabocchi.mp4'},
+    {name:'御射鹿池',lat:36.05,lng:138.35,ldx:185,ldy:-52,a:'s',video:'mishaka.mp4'},
+    {name:'お台場',lat:35.63,lng:139.78,ldx:149,ldy:-36,a:'s',video:'odaiba.mp4'},
+    {name:'河口湖',lat:35.51,lng:138.75,ldx:174,ldy:-11,a:'s',video:'kawaguchiko.mp4'},
+    {name:'紅葉台',lat:35.43,lng:138.68,ldx:176,ldy:17,a:'s',video:'narusawa.mp4'},
+    {name:'天橋立',lat:35.57,lng:135.18,ldx:-120,ldy:-33,a:'e',video:'amanohashidate.mp4'},
+    {name:'香嵐渓',lat:35.12,lng:137.32,ldx:-131,ldy:-19,a:'e',video:'korankei.mp4'},
+    {name:'名古屋港',lat:35.04,lng:136.84,ldx:137,ldy:96,a:'s',video:'kinjo.mp4'},
+    {name:'三保松原',lat:35.01,lng:138.52,ldx:175,ldy:32,a:'s',video:'miho.mp4'},
+    {name:'堂ヶ島',lat:34.78,lng:138.78,ldx:163,ldy:54,a:'s',video:'dogashima.mp4'},
+    {name:'御前崎',lat:34.6,lng:138.23,ldx:148,ldy:68,a:'s',video:'omaezaki.mp4'},
+    {name:'錦帯橋',lat:34.17,lng:132.18,ldx:-96,ldy:-22,a:'e',video:'kintaikyo.mp4'},
+    {name:'神戸掬星台',lat:34.73,lng:135.21,ldx:-17,ldy:111,a:'s',video:'kikuseidai.mp4'},
+    {name:'水島展望台',lat:34.6,lng:133.77,ldx:-3,ldy:83,a:'e',video:'mizushima.mp4'},
+    {name:'亀老山',lat:34.12,lng:133.0,ldx:-32,ldy:28,a:'e',video:'kirosan.mp4'},
+    {name:'丸山千枚田',lat:33.96,lng:135.94,ldx:103,ldy:72,a:'s',video:'senmaida.mp4'},
+    {name:'長崎稲佐山',lat:32.76,lng:129.85,ldx:-30,ldy:-23,a:'e',video:'inasayama.mp4'},
+    {name:'桜島',lat:31.58,lng:130.66,ldx:44,ldy:45,a:'s',video:'sakurajima.mp4'}
+  ];
+
+  var container=document.getElementById('map-container');
+  var w=container.offsetWidth;
+  var h=Math.min(w*1.45,800);
+  var fs=w>500?8.5:7;
+  var padX=6,padY=3;
+  var labelH=fs+padY*2+2;
+  var sc=w/640;
+
+  var svg=d3.select('#map-container')
+    .append('svg')
+    .attr('viewBox','0 0 '+w+' '+h)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .style('width','100%')
+    .style('height','auto');
+
+  var projection=d3.geoMercator()
+    .center([138,37.5])
+    .scale(w*2.55)
+    .translate([w/2,h/2]);
+
+  var path=d3.geoPath().projection(projection);
+  var popup=document.getElementById('map-video-popup');
+  var popupVideo=document.getElementById('map-popup-video');
+
+  function svgToContainer(sx,sy){
+    var el=container.querySelector('svg');
+    if(!el) return {x:0,y:0};
+    return {x:(sx/w)*el.clientWidth,y:(sy/h)*el.clientHeight};
+  }
+  function showPopup(d){
+    if(!d.video) return;
+    popupVideo.src=base+'spots/'+d.video;
+    popupVideo.play();
+    popup.style.display='block';
+    popup._currentName=d.name;
+    var pos=svgToContainer(d._labelCx,d._labelCy);
+    var popW=200,popH=113;
+    var left=pos.x-popW/2,top=pos.y-popH-12;
+    var cw=container.querySelector('svg').clientWidth;
+    if(left<4) left=4;
+    if(left+popW>cw-4) left=cw-popW-4;
+    if(top<4) top=pos.y+labelH+8;
+    popup.style.left=left+'px';
+    popup.style.top=top+'px';
+  }
+  function hidePopup(){
+    popup.style.display='none';
+    popup._currentName=null;
+    popupVideo.pause();
+    popupVideo.removeAttribute('src');
+  }
+  function resetLabel(el){
+    el.select('rect').interrupt().attr('fill',LABEL_BG).attr('stroke',LABEL_BORDER);
+    el.select('text').interrupt().attr('fill',LABEL_TEXT);
+  }
+  document.addEventListener('touchstart',function(e){
+    if(!e.target.closest('.map-label')&&popup.style.display==='block'){
+      hidePopup();
+      d3.selectAll('.map-label').each(function(){resetLabel(d3.select(this));});
+    }
+  });
+
+  d3.json('https://raw.githubusercontent.com/K-Oxon/Japan-map-for-BI/main/data/administrative_area/prefecture/ja_prefecture_area.topojson')
+    .then(function(data){
+      d3.select('.map-loading').remove();
+      var objName=Object.keys(data.objects)[0];
+      var japan=topojson.feature(data,data.objects[objName]);
+
+      svg.append('g').selectAll('path').data(japan.features).enter().append('path')
+        .attr('d',path).attr('fill','#dce4e6').attr('stroke','#a0adb3').attr('stroke-width',0.6);
+
+      var gLines=svg.append('g');
+      var gLabels=svg.append('g');
+      var gPins=svg.append('g');
+
+      locations.forEach(function(d){
+        var p=projection([d.lng,d.lat]);
+        var x=p[0],y=p[1];
+        var ldx=d.ldx*sc,ldy=d.ldy*sc;
+        var lx=x+ldx,ly=y+ldy;
+
+        var tw=0;
+        for(var i=0;i<d.name.length;i++) tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
+        var bw=tw+padX*2;
+        var bx=d.a==='s'?lx+2:lx-bw-2;
+        var by=ly-labelH/2;
+        var edgeX=d.a==='s'?bx:bx+bw;
+
+        d._labelCx=bx+bw/2;
+        d._labelCy=by;
+
+        var bendX=x+(edgeX-x)*0.35;
+        var bendY=y+(ly-y)*0.35;
+
+        gLines.append('polyline')
+          .attr('points',x+','+y+' '+bendX+','+bendY+' '+edgeX+','+ly)
+          .attr('fill','none')
+          .attr('stroke',LINE_COLOR)
+          .attr('stroke-width',0.8);
+
+        var labelG=gLabels.append('g')
+          .attr('class','map-label')
+          .attr('data-name',d.name)
+          .style('cursor','pointer');
+
+        labelG.append('rect')
+          .attr('x',bx).attr('y',by)
+          .attr('width',bw).attr('height',labelH)
+          .attr('rx',3).attr('ry',3)
+          .attr('fill',LABEL_BG)
+          .attr('stroke',LABEL_BORDER)
+          .attr('stroke-width',0.7);
+
+        labelG.append('text')
+          .attr('x',bx+padX).attr('y',ly+1)
+          .attr('dominant-baseline','middle')
+          .attr('fill',LABEL_TEXT)
+          .attr('font-size',fs+'px')
+          .attr('font-family','var(--serif-jp)')
+          .attr('font-weight','500')
+          .text(d.name);
+
+        labelG.on('mouseenter',function(){
+          d3.select(this).select('rect').transition().duration(150)
+            .attr('fill',HOVER_COLOR).attr('stroke',HOVER_COLOR);
+          d3.select(this).select('text').transition().duration(150).attr('fill','#fff');
+          showPopup(d);
+        })
+        .on('mouseleave',function(){
+          resetLabel(d3.select(this));
+          hidePopup();
+        })
+        .on('touchstart',function(event){
+          event.preventDefault();event.stopPropagation();
+          if(popup.style.display==='block'&&popup._currentName===d.name){
+            hidePopup();resetLabel(d3.select(this));
+          }else{
+            d3.selectAll('.map-label').each(function(){resetLabel(d3.select(this));});
+            d3.select(this).select('rect').attr('fill',HOVER_COLOR).attr('stroke',HOVER_COLOR);
+            d3.select(this).select('text').attr('fill','#fff');
+            showPopup(d);
+          }
+        });
+
+        gPins.append('circle').attr('cx',x).attr('cy',y).attr('r',2.5)
+          .attr('fill',PIN).attr('fill-opacity',0.2).attr('stroke',PIN).attr('stroke-width',0.8);
+        gPins.append('circle').attr('cx',x).attr('cy',y).attr('r',1.2).attr('fill',PIN);
+      });
+    })
+    .catch(function(err){
+      d3.select('.map-loading').text('地図の読み込みに失敗しました');
+      console.error('Map load error:',err);
+    });
+})();
+</script>
 
 <!-- ── Steps ── -->
 <section class="steps" id="steps">
@@ -1340,6 +1530,9 @@ footer {
           <strong>2台目以降 15%引き</strong>（同一住所・同一請求書に限ります）<br>
           ※モニタ（4K HDR対応推奨）はお客様にてご用意ください
         </p>
+        <div style="text-align:center;margin-top:2rem;">
+          <a href="#contact" class="btn-primary">導入のご相談</a>
+        </div>
       </div>
     </div>
   </div>
@@ -1356,23 +1549,23 @@ footer {
 
     <div class="evidence-grid reveal reveal-delay-1">
       <div class="evidence-card">
-        <p class="ev-num">clinic — 01</p>
+        <p class="ev-num">待合室で実証</p>
         <h3>TVニュースより<br>自然映像</h3>
         <p>がん外来117名を対象としたRCTで、テレビニュースでは気分に変化がなく、自然映像を流した群でのみ有意な改善が確認されています。</p>
       </div>
       <div class="evidence-card">
-        <p class="ev-num">clinic — 02</p>
+        <p class="ev-num">音なし可</p>
         <h3>映像だけでも<br>効果あり</h3>
         <p>視覚刺激のみでもリラックス反応（アルファ波の増強）が確認されています。音量ゼロの運用でも、待合室の空気を変える力があります。</p>
       </div>
       <div class="evidence-card">
-        <p class="ev-num">care — 01</p>
+        <p class="ev-num">回想</p>
         <h3>高齢者の記憶を<br>呼び起こす</h3>
         <p>季節の風景は、介護現場で活用される回想法のきっかけになります。桜を見て故郷を語り、映像が会話を生みます。</p>
       </div>
     </div>
 
-    <a href="#" class="evidence-link reveal reveal-delay-2">
+    <a href="../evidence" class="evidence-link reveal reveal-delay-2">
       研究の全容と論文リストはこちら →
     </a>
   </div>
@@ -1388,7 +1581,7 @@ footer {
       写真をアップロードするだけで、<br>
       モニターを置いた姿をシミュレーションできます。
     </p>
-    <a href="#" class="btn-primary reveal reveal-delay-3" style="align-self: flex-start;">
+    <a href="../simulator" class="btn-primary reveal reveal-delay-3" style="align-self: flex-start;">
       待合室シミュレーターを開く
     </a>
   </div>
