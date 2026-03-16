@@ -90,7 +90,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 /* Pain */
 .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
 .pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
-.pain-icon{font-size:2.4rem;margin-bottom:16px;color:var(--green)}.pain-icon svg{width:40px;height:40px}
+.pain-icon{font-size:2.4rem;margin-bottom:16px;color:#136b5e}.pain-icon svg{width:40px;height:40px;stroke:#136b5e}
 .pain-card h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:12px;line-height:1.6}
 .pain-card p{font-size:.9rem;color:var(--ink-light);line-height:1.8}
 
