@@ -201,9 +201,8 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .comp-th-label{padding:12px 0;font-family:var(--serif);font-size:.8rem;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border);min-width:110px}
 .comp-th-ours{font-family:var(--serif);font-size:.85rem;font-weight:700;color:var(--moss);background:#eaf4f1;border-bottom:1px solid rgba(19,107,94,.2);position:relative;padding-top:26px}
 .comp-ours-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--moss);color:#fff;font-size:.65rem;font-weight:500;letter-spacing:.06em;padding:3px 12px;border-radius:0 0 5px 5px;white-space:nowrap;font-family:var(--sans)}
-.comp-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+.comp-table tbody tr{border-bottom:1px solid var(--border)}
 .comp-table tbody tr:last-child{border-bottom:none}
-.comp-table tbody tr:hover{background:var(--paper-warm)}
 .comp-td{padding:14px 16px;font-size:.82rem;color:var(--ink-light);text-align:center;vertical-align:top;line-height:1.5}
 .comp-td-label{padding:14px 0;font-family:var(--serif);font-size:.85rem;font-weight:600;color:var(--ink);text-align:left;vertical-align:middle}
 .comp-td-ours{background:#eaf4f1;color:var(--ink)}
