@@ -416,3 +416,32 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   border-color:var(--moss);
   color:var(--moss);
 }
+
+/* ---- 比較表 モバイル修正 (sticky廃止・はみ出し封鎖) ---- */
+@media(max-width:768px){
+  .comp-table-outer{
+    margin-left:-24px;margin-right:-24px; /* container padding を突き破って全幅に */
+  }
+  .comp-table-scroll{
+    overflow-x:scroll;
+    -webkit-overflow-scrolling:touch;
+    border-radius:0;
+    border-left:none;border-right:none;
+    /* はみ出し封鎖 */
+    max-width:100vw;
+  }
+  /* sticky廃止: Safariでoverflow-x:auto内のstickyは動作保証外 */
+  .comp-th-label{position:static!important}
+  .comp-td-label{position:static!important}
+  /* 列幅を小さくして横スクロール量を減らす */
+  .comp-th-label{min-width:72px!important;font-size:.75rem}
+  .comp-td-label{min-width:72px!important;font-size:.75rem}
+  .comp-th{min-width:90px;font-size:.72rem;padding:8px 8px}
+  .comp-td{padding:10px 8px;font-size:.75rem}
+  .comp-sub{font-size:.68rem}
+  /* スクロールヒント: 右端に薄いグラデーション */
+  .comp-table-scroll{
+    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
+    mask-image:linear-gradient(to right,black 85%,transparent 100%);
+  }
+}
