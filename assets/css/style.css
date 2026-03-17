@@ -385,7 +385,8 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 @media(max-width:768px){.pill-nav{display:block}}
 
 /* ヒーロー表示中は非表示 */
-.pill-nav.hero-visible{opacity:0;pointer-events:none}
+.pill-nav{transition:opacity .3s ease}
+.pill-nav.pill-hidden{opacity:0;pointer-events:none}
 
 .pill-nav-inner{display:inline-flex;gap:7px;align-items:center}
 
