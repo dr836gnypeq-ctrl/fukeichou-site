@@ -1,17 +1,17 @@
-/* 風景帖 Service Worker
- * スコープ: /fukeichou-site/
- * 戦略:
- *   HTML       → stale-while-revalidate（即座に表示→バックグラウンド更新）
- *   CSS/JS/画像 → cache-first（長期キャッシュ、?v= で無効化）
- *   動画(mp4)   → network-first（大容量のためSWキャッシュ対象外）
- *   Google Fonts / CDN → cache-first（外部リソース）
+/* 風景帖 Service Worker v2
+ * Safari対応強化版
+ *
+ * Safari固有の対応:
+ *   - cache:'reload' でプリキャッシュ → SafariのHTTPキャッシュをバイパス
+ *   - URLクエリ正規化 → ?v=付きCSSも style.css キャッシュにヒット
+ *   - HTML fetch に cache:'no-store' → SafariのSW内fetchがHTTPキャッシュを見ない
+ *   - mp4はpassthrough（Rangeリクエスト問題を回避）
  */
 
-var CACHE_STATIC = 'fk-static-v1';
-var CACHE_PAGES  = 'fk-pages-v1';
+var CACHE_STATIC = 'fk-static-v2';
+var CACHE_PAGES  = 'fk-pages-v2';
 var BASE = '/fukeichou-site';
 
-/* インストール時にプリキャッシュ */
 var PRECACHE_STATIC = [
   BASE + '/assets/css/style.css',
   BASE + '/assets/js/main.js',
@@ -32,18 +32,29 @@ var PRECACHE_PAGES = [
 self.addEventListener('install', function(e){
   e.waitUntil(
     Promise.all([
-      caches.open(CACHE_STATIC).then(function(c){ return c.addAll(PRECACHE_STATIC); }),
-      caches.open(CACHE_PAGES).then(function(c){ return c.addAll(PRECACHE_PAGES); }),
+      caches.open(CACHE_STATIC).then(function(c){
+        return Promise.all(PRECACHE_STATIC.map(function(url){
+          return fetch(new Request(url, {cache:'reload'})).then(function(res){
+            if(res.ok) return c.put(url, res);
+          }).catch(function(){});
+        }));
+      }),
+      caches.open(CACHE_PAGES).then(function(c){
+        return Promise.all(PRECACHE_PAGES.map(function(url){
+          return fetch(new Request(url, {cache:'reload'})).then(function(res){
+            if(res.ok) return c.put(url, res);
+          }).catch(function(){});
+        }));
+      }),
     ]).then(function(){ return self.skipWaiting(); })
   );
 });
 
 self.addEventListener('activate', function(e){
-  /* 古いキャッシュを削除 */
   e.waitUntil(
     caches.keys().then(function(keys){
       return Promise.all(
-        keys.filter(function(k){ return k !== CACHE_STATIC && k !== CACHE_PAGES; })
+        keys.filter(function(k){ return k!==CACHE_STATIC && k!==CACHE_PAGES; })
             .map(function(k){ return caches.delete(k); })
       );
     }).then(function(){ return self.clients.claim(); })
@@ -51,66 +62,56 @@ self.addEventListener('activate', function(e){
 });
 
 self.addEventListener('fetch', function(e){
-  var url = new URL(e.request.url);
+  var url;
+  try{ url=new URL(e.request.url); }catch(err){ return; }
 
-  /* chrome-extension などは無視 */
   if(!url.protocol.startsWith('http')) return;
+  if(e.request.method!=='GET') return;
 
-  /* 動画(mp4)はSWキャッシュしない — Rangeリクエストの複雑性を避ける */
-  if(url.pathname.endsWith('.mp4')){
-    e.respondWith(fetch(e.request));
+  /* 動画はpassthrough — RangeリクエストをSWで処理しない */
+  if(url.pathname.endsWith('.mp4')) return;
+
+  /* 外部ドメイン（Fonts, CDN）*/
+  if(url.hostname!==self.location.hostname){
+    e.respondWith(cacheFirst(url.origin+url.pathname, e.request, CACHE_STATIC));
     return;
   }
 
-  /* 外部ドメイン（Fonts, CDN）→ cache-first */
-  if(url.hostname !== self.location.hostname){
-    e.respondWith(cacheFirst(e.request, CACHE_STATIC));
+  var accept = e.request.headers.get('Accept')||'';
+
+  /* HTMLナビゲーション */
+  if(accept.includes('text/html')){
+    e.respondWith(staleWhileRevalidate(url.pathname, e.request, CACHE_PAGES));
     return;
   }
 
-  var path = url.pathname;
-
-  /* HTML → stale-while-revalidate */
-  if(e.request.headers.get('Accept') && e.request.headers.get('Accept').includes('text/html')){
-    e.respondWith(staleWhileRevalidate(e.request, CACHE_PAGES));
+  /* CSS/JS/画像（?v=クエリを除いたpathをキーに） */
+  if(/\.(css|js|jpg|jpeg|png|webp|svg|ico|woff2?)/.test(url.pathname)){
+    e.respondWith(cacheFirst(url.pathname, e.request, CACHE_STATIC));
     return;
   }
-
-  /* CSS / JS / 画像 → cache-first（?v=パラメータで自動バージョン管理） */
-  if(/\.(css|js|jpg|jpeg|png|webp|svg|ico|woff2?)(\?|$)/.test(path)){
-    e.respondWith(cacheFirst(e.request, CACHE_STATIC));
-    return;
-  }
-
-  /* それ以外 → network-first */
-  e.respondWith(fetch(e.request).catch(function(){
-    return caches.match(e.request);
-  }));
 });
 
-/* ── 戦略関数 ── */
-
-function cacheFirst(request, cacheName){
+function cacheFirst(key, request, cacheName){
   return caches.open(cacheName).then(function(cache){
-    return cache.match(request).then(function(cached){
+    return cache.match(key).then(function(cached){
       if(cached) return cached;
-      return fetch(request).then(function(response){
-        if(response.ok) cache.put(request, response.clone());
-        return response;
-      });
+      return fetch(request).then(function(res){
+        if(res&&res.ok) cache.put(key, res.clone());
+        return res;
+      }).catch(function(){ return cached; });
     });
   });
 }
 
-function staleWhileRevalidate(request, cacheName){
+function staleWhileRevalidate(key, request, cacheName){
   return caches.open(cacheName).then(function(cache){
-    return cache.match(request).then(function(cached){
-      var fetchPromise = fetch(request).then(function(response){
-        if(response.ok) cache.put(request, response.clone());
-        return response;
-      });
-      /* キャッシュがあれば即座に返し、裏でネットワーク更新 */
-      return cached || fetchPromise;
+    return cache.match(key).then(function(cached){
+      var fetchPromise = fetch(new Request(request,{cache:'no-store'})).then(function(res){
+        if(res&&res.ok) cache.put(key, res.clone());
+        return res;
+      }).catch(function(){ return null; });
+      return cached||fetchPromise;
     });
   });
 }

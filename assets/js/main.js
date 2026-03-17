@@ -1,8 +1,11 @@
 /* Service Worker 登録 */
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/fukeichou-site/sw.js')
-      .catch(function(e){ console.warn('SW registration failed:', e); });
+    navigator.serviceWorker.register('/fukeichou-site/sw.js', {
+      /* updateViaCache:'none' → SafariがHTTPキャッシュを無視してSWスクリプトを常に最新確認する
+         Chromeはデフォルトでこの挙動。Safariはオプション指定が必要。 */
+      updateViaCache: 'none'
+    }).catch(function(e){ console.warn('SW registration failed:', e); });
   });
 }
 
