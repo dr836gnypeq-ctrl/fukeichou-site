@@ -1,14 +1,19 @@
 <section class="hero" id="hero">
 <img src="{{ '/assets/images/hero-fallback.jpg' | relative_url }}" alt="" class="hero-fallback">
-<video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto" poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
+<video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="none" poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
 </video>
 <script>
 (function(){
   var v=document.getElementById('hero-video');
   var base='{{ "/assets/images/" | relative_url }}';
-  if(window.innerWidth<=768){
+  /* iPadOS 13+はnavigator.userAgentが"Macintosh"になるため maxTouchPoints で判定 */
+  var ua=navigator.userAgent;
+  var isIpad=/iPad/.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua));
+  if(window.innerWidth<=768||isIpad){
+    /* iPhone・Android・iPad → 22MB H.264 1080p (AV1非対応デバイスに確実に届く) */
     v.innerHTML='<source src="'+base+'hero-mobile.mp4" type="video/mp4">';
   }else{
+    /* デスクトップ → AV1優先 + H.264フォールバック */
     v.innerHTML='<source src="'+base+'hero-pc.mp4" type=\'video/mp4; codecs="av01.0.12M.10"\'>'
               +'<source src="'+base+'hero-pc-fallback.mp4" type="video/mp4">';
   }

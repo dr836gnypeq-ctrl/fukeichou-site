@@ -16,10 +16,28 @@
 </div>
 </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-
 <script>
+/* D3 + TopoJSON を地図セクションが近づいたときだけ遅延ロードする */
+(function(){
+  var mapTriggered=false;
+  var mapObs=new IntersectionObserver(function(entries){
+    if(!entries[0].isIntersecting||mapTriggered)return;
+    mapTriggered=true; mapObs.disconnect();
+    /* D3 → TopoJSON の順で動的ロード（TopoJSONはD3に依存するため直列） */
+    var s1=document.createElement('script');
+    s1.src='https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js';
+    s1.onload=function(){
+      var s2=document.createElement('script');
+      s2.src='https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js';
+      s2.onload=initMap;
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(s1);
+  },{rootMargin:'300px'}); /* 300px手前でロード開始 */
+  mapObs.observe(document.getElementById('map-container'));
+})();
+
+function initMap(){
 (function(){
   var PIN='#136b5e';
   var LABEL_BG='#fff';
@@ -221,4 +239,5 @@
       console.error('Map load error:',err);
     });
 })();
+} /* end initMap */
 </script>
