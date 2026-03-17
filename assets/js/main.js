@@ -73,4 +73,13 @@ function switchTab(target){
   document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 })();
 
-if(typeof lucide !== 'undefined') lucide.createIcons();
+if(typeof lucide !== 'undefined'){
+  lucide.createIcons();
+}else{
+  document.addEventListener('DOMContentLoaded', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+  window.addEventListener('load', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+}
