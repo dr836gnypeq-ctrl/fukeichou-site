@@ -88,7 +88,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .tab-content.active{display:block}
 
 /* Pain */
-.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px}
 .pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
 .pain-icon{font-size:2.4rem;margin-bottom:16px;color:#136b5e}.pain-icon svg{width:40px;height:40px;stroke:#136b5e}
 .pain-card h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:12px;line-height:1.6}
@@ -102,7 +102,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .feature-a{font-size:.9rem;color:var(--ink-light);line-height:1.9}
 
 /* Evidence */
-.evidence-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-bottom:32px}
+.evidence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px;margin-bottom:32px}
 .evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
 .evidence-stat{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--moss);margin-bottom:16px}
 .evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
@@ -185,6 +185,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .reveal-d2{transition-delay:.2s}
 .reveal-d3{transition-delay:.3s}
 .reveal-d4{transition-delay:.4s}
+.reveal-d5{transition-delay:.5s}
 
 /* Hero stagger */
 @keyframes heroFadeUp{to{opacity:1;transform:translateY(0)}}

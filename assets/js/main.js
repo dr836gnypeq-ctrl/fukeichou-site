@@ -1,12 +1,17 @@
 /* タブ切り替え */
 function switchTab(target){
-  document.querySelectorAll('.tab-btn').forEach(function(btn){btn.classList.remove('active')});
-  document.querySelectorAll('.tab-content').forEach(function(tc){tc.classList.remove('active')});
+  var btns = document.querySelectorAll('#pain .tab-btn');
+  var contents = document.querySelectorAll('#pain .tab-content');
+  btns.forEach(function(btn){btn.classList.remove('active');});
+  contents.forEach(function(tc){tc.classList.remove('active');});
   if(target==='clinic'){
-    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    btns[0].classList.add('active');
     document.getElementById('tab-clinic').classList.add('active');
+  }else if(target==='dialysis'){
+    btns[1].classList.add('active');
+    document.getElementById('tab-dialysis').classList.add('active');
   }else{
-    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    btns[2].classList.add('active');
     document.getElementById('tab-care').classList.add('active');
   }
 }
