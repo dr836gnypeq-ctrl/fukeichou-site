@@ -94,3 +94,73 @@ if(typeof lucide !== 'undefined'){
     if(typeof lucide !== 'undefined') lucide.createIcons();
   });
 }
+
+/* ===== MOBILE SCROLL REDUCTION ===== */
+(function(){
+  var isMobile = window.innerWidth <= 768;
+
+  /* 1. Feature cards アコーディオン (mobile only) */
+  if(isMobile){
+    document.querySelectorAll('.feature-card').forEach(function(card){
+      var q = card.querySelector('.feature-q');
+      if(q) q.classList.add('feature-q-toggle');
+      card.addEventListener('click', function(){
+        card.classList.toggle('fc-open');
+      });
+    });
+  }
+
+  /* 2. 本物宣言カード: 本文fold + 「続きを読む」ボタン */
+  document.querySelectorAll('.authentic-card').forEach(function(card){
+    var p = card.querySelector('p');
+    if(!p) return;
+    p.classList.add('auth-text');
+    var btn = document.createElement('button');
+    btn.className = 'btn-auth-expand';
+    btn.textContent = '続きを読む →';
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      card.classList.add('auth-expanded');
+      btn.style.display = 'none';
+    });
+    card.appendChild(btn);
+  });
+
+  /* 3. クリニックペインカード: 4枚目を「もっと見る」 */
+  if(isMobile){
+    var clinicGrid = document.querySelector('#tab-clinic .pain-grid');
+    if(clinicGrid){
+      var pcards = clinicGrid.querySelectorAll('.pain-card');
+      if(pcards.length > 3){
+        for(var i=3;i<pcards.length;i++) pcards[i].classList.add('pain-card-extra');
+        var pbtn = document.createElement('button');
+        pbtn.className = 'btn-show-more';
+        pbtn.textContent = '他のお悩みも見る';
+        pbtn.onclick = function(){
+          clinicGrid.querySelectorAll('.pain-card-extra').forEach(function(c){c.classList.add('shown');});
+          pbtn.style.display='none';
+        };
+        clinicGrid.after(pbtn);
+      }
+    }
+  }
+
+  /* 4. エビデンスカード: 4枚目以降を「もっと見る」 */
+  if(isMobile){
+    var evGrid = document.querySelector('.evidence-grid');
+    if(evGrid){
+      var evcards = evGrid.querySelectorAll('.evidence-card');
+      if(evcards.length > 3){
+        for(var j=3;j<evcards.length;j++) evcards[j].classList.add('evidence-card-extra');
+        var evbtn = document.createElement('button');
+        evbtn.className = 'btn-show-more';
+        evbtn.textContent = 'さらに見る（歯科・精神科の研究）';
+        evbtn.onclick = function(){
+          evGrid.querySelectorAll('.evidence-card-extra').forEach(function(c){c.classList.add('shown');});
+          evbtn.style.display='none';
+        };
+        evGrid.after(evbtn);
+      }
+    }
+  }
+})();

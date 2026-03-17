@@ -256,3 +256,46 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   .intro-image-caption{font-size:.82rem;margin-top:14px}
 }
 .intro-image-note{margin-top:10px;font-size:.72rem;color:var(--ink-light);opacity:.45;text-align:center;line-height:1.7}
+
+/* ===== MOBILE SCROLL REDUCTION ===== */
+
+/* 比較表: モバイルで左列sticky */
+@media(max-width:768px){
+  .comp-th-label{position:sticky;left:0;z-index:3;background:var(--paper-warm)}
+  .comp-td-label{position:sticky;left:0;z-index:2;background:var(--paper-warm)}
+  .comp-table-scroll{border:1px solid var(--border);border-radius:8px}
+}
+
+/* Feature cards アコーディオン (mobile) */
+@media(max-width:768px){
+  .feature-card{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .feature-card .feature-a{max-height:0;overflow:hidden;transition:max-height .38s ease,margin-top .38s ease;margin-top:0}
+  .feature-card.fc-open .feature-a{max-height:800px;margin-top:10px}
+  .feature-q-toggle::after{content:" ＋";font-size:1rem;font-weight:300;color:var(--moss);float:right}
+  .feature-card.fc-open .feature-q-toggle::after{content:" －"}
+}
+
+/* 本物宣言カード: 本文3行clamp (mobile) */
+@media(max-width:768px){
+  .authentic-card .auth-text{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .authentic-card.auth-expanded .auth-text{display:block;overflow:visible;-webkit-line-clamp:unset}
+  .btn-auth-expand{display:inline-block;margin-top:10px;font-size:.8rem;color:var(--moss);background:none;border:none;padding:0;cursor:pointer;font-family:var(--sans)}
+}
+@media(min-width:769px){.btn-auth-expand{display:none}}
+
+/* 「もっと見る」ボタン */
+.btn-show-more{display:block;margin:20px auto 0;padding:10px 32px;font-size:.88rem;font-family:var(--sans);color:var(--moss);background:transparent;border:1px solid var(--moss);border-radius:6px;cursor:pointer;transition:all .25s var(--ease);letter-spacing:.04em}
+.btn-show-more:hover{background:var(--moss);color:#fff}
+@media(min-width:769px){.btn-show-more{display:none!important}}
+
+/* ペインカード: 4枚目以降hidden (mobile) */
+@media(max-width:768px){
+  .pain-card-extra{display:none}
+  .pain-card-extra.shown{display:block}
+}
+
+/* エビデンスカード: 4枚目以降hidden (mobile) */
+@media(max-width:768px){
+  .evidence-card-extra{display:none}
+  .evidence-card-extra.shown{display:block}
+}
