@@ -477,3 +477,12 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   .comp-th-label{ position:static!important }
   .comp-td-label{ position:static!important }
 }
+
+/* ---- 地図 モバイル: container padding を突き破って全幅に ---- */
+@media(max-width:768px){
+  #map .container{padding-left:0;padding-right:0}
+  #map .section-heading,#map .section-lead,#map .map-note,#map .map-source{
+    padding-left:24px;padding-right:24px
+  }
+  .map-wrapper{max-width:100%;border-radius:0}
+}
