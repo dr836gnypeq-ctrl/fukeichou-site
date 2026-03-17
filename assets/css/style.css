@@ -306,7 +306,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 
 /* ── セクションナビ ピルバー (PC・Mobile 共通) ── */
 .pill-nav{
-  display:none;
+  display:block;
   position:fixed;
   top:72px; /* --header-h のフォールバック: CSS変数はfixed+Safari初期レンダで遅延するため固定値 */
   left:0;right:0;
@@ -323,7 +323,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   visibility:visible;
 }
 .pill-nav::-webkit-scrollbar{display:none}
-@media(min-width:769px){.pill-nav{display:block}}
+
 
 /* 非表示: opacity+visibility のみ（transformなし） */
 .pill-nav.pill-hidden{opacity:0;visibility:hidden;pointer-events:none}
