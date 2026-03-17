@@ -1,3 +1,11 @@
+/* Service Worker 登録 */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('/fukeichou-site/sw.js')
+      .catch(function(e){ console.warn('SW registration failed:', e); });
+  });
+}
+
 /* タブ切り替え */
 function switchTab(target){
   var btns = document.querySelectorAll('#pain .tab-btn');
