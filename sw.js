@@ -1,15 +1,15 @@
-/* 風景帖 Service Worker v3
- * Safari安定版: cache:'reload'/'no-store' を削除
- * （Safari 14以前でこれらのオプションがTypeErrorになりSW installが失敗する問題を解消）
+/* 風景帖 Service Worker v4
+ * v4変更点: キャッシュキーを pathname → pathname+search に変更
+ * → ?v=xxxx によるバージョンバストが正しく機能するように修正
  */
 
-var CACHE_STATIC = 'fk-static-v3';
-var CACHE_PAGES  = 'fk-pages-v3';
+var CACHE_STATIC = 'fk-static-v4';
+var CACHE_PAGES  = 'fk-pages-v4';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
-  BASE + '/assets/css/style.css',
-  BASE + '/assets/js/main.js',
+  BASE + '/assets/css/style.css?v=20260317n',
+  BASE + '/assets/js/main.js?v=20260317n',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',
@@ -66,6 +66,9 @@ self.addEventListener('fetch', function(e){
   /* 動画はpassthrough */
   if(url.pathname.endsWith('.mp4')) return;
 
+  /* キャッシュキー = pathname + search（?v=xxxx を含める） */
+  var cacheKey = url.pathname + url.search;
+
   /* 外部ドメイン（Fonts, CDN）→ cache-first */
   if(url.hostname !== self.location.hostname){
     e.respondWith(cacheFirst(url.origin + url.pathname, e.request, CACHE_STATIC));
@@ -80,9 +83,9 @@ self.addEventListener('fetch', function(e){
     return;
   }
 
-  /* CSS / JS / 画像（?v=パラメータをキーから除外） */
+  /* CSS / JS / 画像 → ?v= 込みのキーでcache-first */
   if(/\.(css|js|jpg|jpeg|png|webp|svg|ico|woff2?)/.test(url.pathname)){
-    e.respondWith(cacheFirst(url.pathname, e.request, CACHE_STATIC));
+    e.respondWith(cacheFirst(cacheKey, e.request, CACHE_STATIC));
     return;
   }
 });
