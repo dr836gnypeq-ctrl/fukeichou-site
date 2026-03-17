@@ -159,27 +159,16 @@ function initMap(){
       var gLabels=svg.append('g');
       var gPins=svg.append('g');
 
-      /* モバイル時のラベル重なり防止: 東海エリア4箇所を左右に振り分け */
-      var isMob=w<=500;
-      var mobOv={
-        '名古屋港':{ldx:-90,ldy:50,a:'e'},
-        '堂ヶ島':{ldx:75,ldy:15,a:'s'},
-        '御前崎':{ldx:75,ldy:55,a:'s'},
-        '丸山千枚田':{ldx:-85,ldy:80,a:'e'}
-      };
-
       locations.forEach(function(d){
         var p=projection([d.lng,d.lat]);
         var x=p[0],y=p[1];
-        var ov=isMob&&mobOv[d.name];
-        var ldx=(ov?ov.ldx:d.ldx)*sc,ldy=(ov?ov.ldy:d.ldy)*sc;
-        var a=ov?ov.a:d.a;
+        var ldx=d.ldx*sc,ldy=d.ldy*sc;
         var lx=x+ldx,ly=y+ldy;
 
         var tw=0;
         for(var i=0;i<d.name.length;i++) tw+=(d.name.charCodeAt(i)>255)?fs:fs*0.55;
         var bw=tw+padX*2;
-        var bx=a==='s'?lx+2:lx-bw-2;
+        var bx=d.a==='s'?lx+2:lx-bw-2;
         var by=ly-labelH/2;
 
         /* SVG境界内にクランプ（モバイルではみ出し防止） */
@@ -191,7 +180,7 @@ function initMap(){
         if(by+labelH > h-margin) by = h-labelH-margin;
         ly = by+labelH/2; /* lyもbxに合わせて補正 */
 
-        var edgeX=a==='s'?bx:bx+bw;
+        var edgeX=d.a==='s'?bx:bx+bw;
 
         d._labelCx=bx+bw/2;
         d._labelCy=by;
