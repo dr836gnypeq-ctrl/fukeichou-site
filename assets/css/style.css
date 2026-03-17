@@ -445,3 +445,35 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
     mask-image:linear-gradient(to right,black 85%,transparent 100%);
   }
 }
+
+/* ---- 比較表 モバイル v2: table-layout固定で確実に幅制御 ---- */
+@media(max-width:768px){
+  .comp-table-outer{
+    margin-left:-24px;
+    margin-right:-24px;
+  }
+  .comp-table-scroll{
+    overflow-x:scroll;
+    -webkit-overflow-scrolling:touch;
+    border-left:none;
+    border-right:none;
+    border-radius:0;
+    /* マスクで右端が切れることを示す */
+    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+  }
+  /* table-layout:fixedにして幅を完全コントロール */
+  .comp-table{
+    table-layout:fixed;
+    width:560px; /* 5列分の合計: 76+110+118+118+118=540 + 余白 */
+    min-width:unset;
+  }
+  .comp-th-label,.comp-td-label{ width:76px; font-size:.72rem; padding:10px 4px 10px 8px }
+  .comp-th-ours,.comp-td-ours  { width:110px }
+  .comp-th,.comp-td            { width:118px; font-size:.72rem; padding:10px 6px }
+  .comp-sub{ font-size:.66rem; line-height:1.45 }
+  .comp-good,.comp-ok,.comp-bad,.comp-ng,.comp-neutral{ font-size:.82rem }
+  /* stickyは完全廃止（Safari overflow内で動作保証なし） */
+  .comp-th-label{ position:static!important }
+  .comp-td-label{ position:static!important }
+}
