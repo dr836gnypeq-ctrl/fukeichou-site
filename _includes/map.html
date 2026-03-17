@@ -170,6 +170,16 @@ function initMap(){
         var bw=tw+padX*2;
         var bx=d.a==='s'?lx+2:lx-bw-2;
         var by=ly-labelH/2;
+
+        /* SVG境界内にクランプ（モバイルではみ出し防止） */
+        var margin=4;
+        if(bx < margin) bx = margin;
+        if(bx+bw > w-margin) bx = w-bw-margin;
+        /* by も上下クランプ */
+        if(by < margin) by = margin;
+        if(by+labelH > h-margin) by = h-labelH-margin;
+        ly = by+labelH/2; /* lyもbxに合わせて補正 */
+
         var edgeX=d.a==='s'?bx:bx+bw;
 
         d._labelCx=bx+bw/2;
