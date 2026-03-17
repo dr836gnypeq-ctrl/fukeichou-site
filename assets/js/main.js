@@ -219,11 +219,8 @@ if(typeof lucide !== 'undefined'){
     if(!pillNav || !hero) return;
     var heroBottom = hero.getBoundingClientRect().bottom;
     /* ヒーローが画面上端を抜けたら表示 */
-    if(heroBottom <= 80){
-      pillNav.classList.remove('pill-hidden');
-    } else {
-      pillNav.classList.add('pill-hidden');
-    }
+    var show = heroBottom <= 80;
+    pillNav.classList.toggle('pill-hidden', !show);
   }
 
   window.addEventListener('scroll', updatePillVisibility, {passive:true});
