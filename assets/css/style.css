@@ -253,3 +253,4 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   .intro-image-img{border-radius:8px}
   .intro-image-caption{font-size:.82rem;margin-top:14px}
 }
+.intro-image-note{margin-top:12px;font-size:.75rem;color:var(--ink-light);opacity:.7;text-align:center;line-height:1.7}
