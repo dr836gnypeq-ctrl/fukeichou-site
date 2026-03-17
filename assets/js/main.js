@@ -7,8 +7,11 @@ function switchTab(target){
   if(target==='clinic'){
     btns[0].classList.add('active');
     document.getElementById('tab-clinic').classList.add('active');
-  }else{
+  }else if(target==='mental'){
     btns[1].classList.add('active');
+    document.getElementById('tab-mental').classList.add('active');
+  }else{
+    btns[2].classList.add('active');
     document.getElementById('tab-care').classList.add('active');
   }
 }

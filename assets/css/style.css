@@ -186,6 +186,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .reveal-d3{transition-delay:.3s}
 .reveal-d4{transition-delay:.4s}
 .reveal-d5{transition-delay:.5s}
+.reveal-d6{transition-delay:.6s}
 
 /* Hero stagger */
 @keyframes heroFadeUp{to{opacity:1;transform:translateY(0)}}
