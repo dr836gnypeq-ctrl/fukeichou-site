@@ -304,70 +304,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 /* 共通: セクション定義 */
 :root{--nav-sections:7}
 
-/* ── A. サイドドットナビ (PC ≥769px) ── */
-.side-dots{
-  display:none;
-  position:fixed;
-  right:20px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:900;
-  flex-direction:column;
-  gap:12px;
-  align-items:center;
-}
-@media(min-width:769px){.side-dots{display:flex}}
-
-.side-dot-item{
-  position:relative;
-  display:flex;
-  align-items:center;
-  cursor:pointer;
-}
-.side-dot{
-  width:9px;height:9px;
-  border-radius:50%;
-  background:var(--border);
-  border:1.5px solid var(--border);
-  transition:background .25s,transform .25s,border-color .25s;
-  flex-shrink:0;
-}
-.side-dot-item.active .side-dot{
-  background:var(--moss);
-  border-color:var(--moss);
-  transform:scale(1.35);
-}
-.side-dot-item:hover .side-dot{
-  background:var(--moss-light);
-  border-color:var(--moss-light);
-}
-.side-dot-label{
-  position:absolute;
-  right:18px;
-  white-space:nowrap;
-  background:var(--white);
-  color:var(--moss);
-  border:1px solid var(--moss);
-  font-size:.7rem;
-  padding:3px 9px;
-  border-radius:4px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s;
-  letter-spacing:.04em;
-}
-.side-dot-label::after{
-  content:'';
-  position:absolute;
-  right:-5px;top:50%;
-  transform:translateY(-50%);
-  border:4px solid transparent;
-  border-left-color:var(--moss);
-}
-.side-dot-item:hover .side-dot-label{opacity:1}
-@media(min-width:1200px){.side-dot-label{opacity:1;pointer-events:auto}}
-
-/* ── B. スティッキーピルバー (Mobile ≤768px) ── */
+/* ── セクションナビ ピルバー (PC・Mobile 共通) ── */
 .pill-nav{
   display:none;
   position:fixed;
@@ -386,7 +323,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   visibility:visible;
 }
 .pill-nav::-webkit-scrollbar{display:none}
-@media(max-width:768px){.pill-nav{display:block}}
+@media(min-width:769px){.pill-nav{display:block}}
 
 /* 非表示: opacity+visibility のみ（transformなし） */
 .pill-nav.pill-hidden{opacity:0;visibility:hidden;pointer-events:none}

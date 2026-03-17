@@ -183,20 +183,12 @@ if(typeof lucide !== 'undefined'){
 
   var pillNav      = document.getElementById('pillNav');
   var pillNavInner = document.getElementById('pillNavInner');
-  var sideDots     = document.getElementById('sideDots');
+  var sideDots     = null;
   var hero         = document.querySelector('.hero');
   var currentIdx   = -1;
 
   /* ── 要素生成 ── */
   SECTIONS.forEach(function(s, i){
-    /* サイドドット */
-    var di = document.createElement('div');
-    di.className = 'side-dot-item';
-    di.dataset.idx = i;
-    di.innerHTML = '<span class="side-dot-label">'+s.label+'</span><div class="side-dot"></div>';
-    di.addEventListener('click', function(){ scrollTo(s.id); });
-    sideDots.appendChild(di);
-
     /* ピル */
     var pi = document.createElement('button');
     pi.className = 'pill-item';
@@ -211,7 +203,6 @@ if(typeof lucide !== 'undefined'){
     if(el) el.scrollIntoView({behavior:'smooth'});
   }
 
-  var dotItems  = sideDots.querySelectorAll('.side-dot-item');
   var pillItems = pillNavInner.querySelectorAll('.pill-item');
 
   /* ── ピルバー表示制御: ヒーロー高さを過ぎたら表示 ── */
@@ -230,7 +221,6 @@ if(typeof lucide !== 'undefined'){
   function setActive(idx){
     if(idx === currentIdx) return;
     currentIdx = idx;
-    dotItems.forEach(function(el,i){ el.classList.toggle('active', i===idx); });
     pillItems.forEach(function(el,i){ el.classList.toggle('active', i===idx); });
     /* アクティブピルを中央にスクロール */
     if(pillNav && pillItems[idx]){
