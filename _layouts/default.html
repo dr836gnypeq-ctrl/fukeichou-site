@@ -35,18 +35,26 @@
 <link rel="prefetch" href="{{ '/' | relative_url }}">
 <link rel="prefetch" href="{{ '/evidence/' | relative_url }}">
 {% endif %}
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=20260317j">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=20260317k">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
 </head>
 <body>
 
 {% include header.html %}
 
+<!-- B. スティッキーピルバー (mobile) -->
+<nav class="pill-nav" id="pillNav" aria-label="セクションナビ">
+  <div class="pill-nav-inner" id="pillNavInner"></div>
+</nav>
+
+<!-- A. サイドドットナビ (PC) -->
+<nav class="side-dots" id="sideDots" aria-label="セクションナビ"></nav>
+
 {{ content }}
 
 {% include footer.html %}
 
-<script src="{{ '/assets/js/main.js' | relative_url }}?v=20260317j"></script>
+<script src="{{ '/assets/js/main.js' | relative_url }}?v=20260317k"></script>
 
 </body>
 </html>

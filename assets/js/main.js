@@ -164,3 +164,93 @@ if(typeof lucide !== 'undefined'){
     }
   }
 })();
+
+/* ===== SECTION NAVIGATION (A+B デバイス切り替え) ===== */
+(function(){
+  var sections = [
+    {id:'pain',      label:'課題'},
+    {id:'service',   label:'サービス'},
+    {id:'map',       label:'地図'},
+    {id:'authentic', label:'本物宣言'},
+    {id:'flow',      label:'導入の流れ'},
+    {id:'pricing',   label:'料金'},
+    {id:'faq',       label:'FAQ'},
+    {id:'contact',   label:'お問い合わせ'},
+  ].filter(function(s){ return document.getElementById(s.id); });
+
+  if(!sections.length) return;
+
+  var pillNavInner = document.getElementById('pillNavInner');
+  var pillNav      = document.getElementById('pillNav');
+  var sideDots     = document.getElementById('sideDots');
+  var hero         = document.querySelector('.hero');
+  var currentIdx   = -1;
+
+  /* --- A. サイドドット生成 --- */
+  sections.forEach(function(s, i){
+    var item = document.createElement('div');
+    item.className = 'side-dot-item';
+    item.innerHTML = '<span class="side-dot-label">'+s.label+'</span><div class="side-dot"></div>';
+    item.addEventListener('click', function(){
+      var el = document.getElementById(s.id);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    });
+    item.dataset.idx = i;
+    sideDots.appendChild(item);
+  });
+
+  /* --- B. ピルバー生成 --- */
+  sections.forEach(function(s, i){
+    var pill = document.createElement('button');
+    pill.className = 'pill-item';
+    pill.textContent = s.label;
+    pill.dataset.idx = i;
+    pill.addEventListener('click', function(){
+      var el = document.getElementById(s.id);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    });
+    pillNavInner.appendChild(pill);
+  });
+
+  var dotItems  = sideDots.querySelectorAll('.side-dot-item');
+  var pillItems = pillNavInner.querySelectorAll('.pill-item');
+
+  /* --- ヒーロー可視判定 (ピルバー表示制御) --- */
+  if(hero && pillNav){
+    var heroObs = new IntersectionObserver(function(entries){
+      pillNav.classList.toggle('hero-visible', entries[0].isIntersecting);
+    },{threshold:0.1});
+    heroObs.observe(hero);
+  }
+
+  /* --- 現在地ハイライト --- */
+  function setActive(idx){
+    if(idx === currentIdx) return;
+    currentIdx = idx;
+    dotItems.forEach(function(el,i){el.classList.toggle('active', i===idx);});
+    pillItems.forEach(function(el,i){el.classList.toggle('active', i===idx);});
+    /* アクティブピルを中央にスクロール */
+    if(idx>=0 && pillNavInner && pillItems[idx]){
+      var pill = pillItems[idx];
+      var barW = pillNav.offsetWidth;
+      var pillL = pill.offsetLeft;
+      var pillW = pill.offsetWidth;
+      pillNav.scrollTo({left: pillL - barW/2 + pillW/2, behavior:'smooth'});
+    }
+  }
+
+  /* IntersectionObserver で各セクション検出 */
+  var secObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var idx = sections.findIndex(function(s){ return s.id === entry.target.id; });
+        if(idx >= 0) setActive(idx);
+      }
+    });
+  },{rootMargin:'-30% 0px -60% 0px'});
+
+  sections.forEach(function(s){
+    var el = document.getElementById(s.id);
+    if(el) secObs.observe(el);
+  });
+})();
