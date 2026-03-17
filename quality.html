@@ -24,10 +24,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-banding-note{font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px}
 
 /* Scene selector */
-.ql-scene-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.ql-scene-btn{padding:6px 14px;font-size:.8rem;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:var(--white);color:var(--ink-light);transition:all .2s}
-.ql-scene-btn.active{border-color:var(--moss);color:var(--moss);background:#e8f5f1}
-.ql-scene-btn:hover:not(.active){border-color:var(--ink-light)}
+
 
 /* Study card */
 .ql-study{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:24px}
@@ -87,35 +84,29 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
-    <p class="ev-section-desc">空のグラデーション、夕焼け、森の緑——色が緩やかに変わる場面で、8bitと10bitの差は明確に現れます。</p>
+    <p class="ev-section-desc">北海道・美瑛で撮影した実写映像。青空のグラデーションに、8bitと10bitの差が如実に現れます。</p>
 
     <div class="ql-banding-wrap">
-      <div class="ql-scene-btns">
-        <button class="ql-scene-btn active" data-scene="sky" onclick="setScene('sky',this)">夕空</button>
-        <button class="ql-scene-btn" data-scene="forest" onclick="setScene('forest',this)">森の緑</button>
-        <button class="ql-scene-btn" data-scene="sea" onclick="setScene('sea',this)">海の青</button>
-        <button class="ql-scene-btn" data-scene="dawn" onclick="setScene('dawn',this)">夜明け</button>
-      </div>
-
-      <div class="ql-banding-grid">
+      <div class="ql-banding-grid"
+           data-banding-src="{{ '/assets/images/tree_banding.jpg' | relative_url }}">
         <div>
           <div class="ql-banding-label">8bit SDR（地上波・YouTube相当）</div>
           <div class="ql-banding-canvas-wrap">
-            <canvas class="ql-canvas" id="canvas8" width="600" height="320"></canvas>
+            <canvas class="ql-canvas" id="canvas8" width="600" height="338"></canvas>
             <span class="ql-banding-tag ql-tag-bad">バンディングあり</span>
           </div>
         </div>
         <div>
-          <div class="ql-banding-label">10bit・広色域・HDR（BT.2100 HLG 相当）※グラデーションの滑らかさを比較</div>
+          <div class="ql-banding-label">10bit・広色域・HDR（BT.2100 HLG 相当）実機映像</div>
           <div class="ql-banding-canvas-wrap">
-            <canvas class="ql-canvas" id="canvas10" width="600" height="320"></canvas>
+            <canvas class="ql-canvas" id="canvas10" width="600" height="338"></canvas>
             <span class="ql-banding-tag ql-tag-good">滑らかなグラデーション</span>
           </div>
         </div>
       </div>
 
       <p class="ql-banding-note">
-        ※ このシミュレーションは8bitの量子化ステップを視覚化したものです。実際の8bit映像は画面処理やディザリングにより若干マスクされる場合がありますが、緩やかなグラデーション領域では同様の縞状アーチファクト（バンディングノイズ）が発生します。後日、実写映像による比較画像に差し替え予定です。
+        ※ 左画像は8bit配信での色階調劣化を再現したシミュレーションです。実際の8bit映像ではディザリング処理により若干マスクされる場合がありますが、緩やかなグラデーション領域では同様の縞状アーチファクト（バンディングノイズ）が発生します。右は風景帖の実機映像（10bit HDR）からのキャプチャです。
       </p>
     </div>
 
@@ -240,8 +231,14 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
           <td class="ql-highlight">完全オフライン・ローカル再生</td>
           <td>YouTubeのような圧縮・帯域制限なし。収録品質のまま届く</td>
         </tr>
+        <tr>
+          <td>収録形式</td>
+          <td class="ql-highlight">12-bit ProRes RAW <sup>※1</sup></td>
+          <td>カメラ収録段階から12bitの階調情報を保持。編集・マスタリングによる画質劣化を最小限に抑える</td>
+        </tr>
       </table>
       <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px">
+        <sup>※1</sup> 一部シーンを除く。<br>
         ※ 映像の最終的な表示品質は、お客様にご用意いただくモニタの性能に依存します。HDR10対応の4Kテレビをご使用の場合に本来の画質でご覧いただけます。<br>
         HDR非対応（従来のSDR）のモニタをご使用の場合、HDRの高輝度表現は再現されませんが、映像が破綻することはありません。地上波放送に近い水準の、自然で見やすい映像としてご覧いただけます。
       </p>
@@ -268,104 +265,35 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 </section>
 
 <script>
-const scenes = {
-  sky: {
-    label: '夕空',
-    stops8:  [{p:0,r:255,g:120,b:60},{p:0.35,r:220,g:80,b:120},{p:0.7,r:100,g:60,b:160},{p:1,r:30,g:20,b:80}],
-    stops10: [{p:0,r:255,g:120,b:60},{p:0.35,r:220,g:80,b:120},{p:0.7,r:100,g:60,b:160},{p:1,r:30,g:20,b:80}]
-  },
-  forest: {
-    label: '森の緑',
-    stops8:  [{p:0,r:20,g:80,b:20},{p:0.4,r:50,g:130,b:40},{p:0.75,r:100,g:180,b:60},{p:1,r:200,g:230,b:120}],
-    stops10: [{p:0,r:20,g:80,b:20},{p:0.4,r:50,g:130,b:40},{p:0.75,r:100,g:180,b:60},{p:1,r:200,g:230,b:120}]
-  },
-  sea: {
-    label: '海の青',
-    stops8:  [{p:0,r:5,g:20,b:80},{p:0.3,r:10,g:60,b:150},{p:0.65,r:30,g:120,b:200},{p:1,r:100,g:180,b:230}],
-    stops10: [{p:0,r:5,g:20,b:80},{p:0.3,r:10,g:60,b:150},{p:0.65,r:30,g:120,b:200},{p:1,r:100,g:180,b:230}]
-  },
-  dawn: {
-    label: '夜明け',
-    stops8:  [{p:0,r:5,g:5,b:20},{p:0.3,r:40,g:20,b:60},{p:0.6,r:180,g:80,b:60},{p:1,r:255,g:200,b:100}],
-    stops10: [{p:0,r:5,g:5,b:20},{p:0.3,r:40,g:20,b:60},{p:0.6,r:180,g:80,b:60},{p:1,r:255,g:200,b:100}]
-  }
-};
+(function(){
+  var grid = document.querySelector('.ql-banding-grid[data-banding-src]');
+  if(!grid) return;
+  var src = grid.getAttribute('data-banding-src');
 
-function lerp(a, b, t){ return Math.round(a + (b - a) * t); }
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    var c8  = document.getElementById('canvas8');
+    var c10 = document.getElementById('canvas10');
+    if(!c8 || !c10) return;
 
-function getColor(stops, t){
-  for(let i = 0; i < stops.length - 1; i++){
-    const s = stops[i], e = stops[i+1];
-    if(t >= s.p && t <= e.p){
-      const lt = (t - s.p) / (e.p - s.p);
-      return [lerp(s.r,e.r,lt), lerp(s.g,e.g,lt), lerp(s.b,e.b,lt)];
+    // 右（10bit側）：そのまま描画
+    var ctx10 = c10.getContext('2d');
+    ctx10.drawImage(img, 0, 0, c10.width, c10.height);
+
+    // 左（8bit側）：ポスタライズで階調劣化を再現
+    var ctx8 = c8.getContext('2d');
+    ctx8.drawImage(img, 0, 0, c8.width, c8.height);
+    var id = ctx8.getImageData(0, 0, c8.width, c8.height);
+    var d  = id.data;
+    var steps = 16; // 8bitの量子化ステップを誇張して視認しやすく
+    for(var i = 0; i < d.length; i += 4){
+      d[i]   = Math.round(d[i]   / steps) * steps;
+      d[i+1] = Math.round(d[i+1] / steps) * steps;
+      d[i+2] = Math.round(d[i+2] / steps) * steps;
     }
-  }
-  const l = stops[stops.length-1];
-  return [l.r, l.g, l.b];
-}
-
-function quantize8(v){ return Math.round(v / 256 * 255) / 255 * 256; }
-
-function draw(canvasId, stops, is8bit){
-  const canvas = document.getElementById(canvasId);
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width, h = canvas.height;
-  const imageData = ctx.createImageData(w, h);
-  const data = imageData.data;
-
-  for(let x = 0; x < w; x++){
-    const t = x / (w - 1);
-    let [r, g, b] = getColor(stops, t);
-    if(is8bit){
-      // posterize to simulate 8-bit banding
-      const steps = 32; // simulate visible banding (exaggerated for clarity)
-      r = Math.round(r / steps) * steps;
-      g = Math.round(g / steps) * steps;
-      b = Math.round(b / steps) * steps;
-    }
-    for(let y = 0; y < h; y++){
-      const i = (y * w + x) * 4;
-      data[i]   = r;
-      data[i+1] = g;
-      data[i+2] = b;
-      data[i+3] = 255;
-    }
-  }
-  ctx.putImageData(imageData, 0, 0);
-
-  // Draw banding markers on 8bit version
-  if(is8bit){
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-    ctx.lineWidth = 1;
-    const steps = 32;
-    for(let x = 0; x < w; x++){
-      const t = x / (w - 1);
-      let [r, g, b] = getColor(stops, t);
-      const rq = Math.round(r / steps) * steps;
-      const rn = Math.round((r+1) / steps) * steps;
-      if(rq !== rn){
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-      }
-    }
-  }
-}
-
-function setScene(name, btn){
-  document.querySelectorAll('.ql-scene-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const sc = scenes[name];
-  draw('canvas8',  sc.stops8,  true);
-  draw('canvas10', sc.stops10, false);
-}
-
-// Initial draw
-window.addEventListener('load', function(){
-  draw('canvas8',  scenes.sky.stops8,  true);
-  draw('canvas10', scenes.sky.stops10, false);
-});
+    ctx8.putImageData(id, 0, 0);
+  };
+  img.src = src;
+})();
 </script>
