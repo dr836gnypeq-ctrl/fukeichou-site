@@ -1,6 +1,6 @@
 <section class="hero" id="hero">
 <img src="{{ '/assets/images/hero-fallback.jpg' | relative_url }}" alt="" class="hero-fallback">
-<video class="hero-video" id="hero-video" autoplay loop muted playsinline poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
+<video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto" poster="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
 </video>
 <script>
 (function(){
@@ -13,6 +13,7 @@
               +'<source src="'+base+'hero-pc-fallback.mp4" type="video/mp4">';
   }
   v.load();
+  v.play().catch(function(){});
 })();
 </script>
 <div class="hero-overlay"></div>
