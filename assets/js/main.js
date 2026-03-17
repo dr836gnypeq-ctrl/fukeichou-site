@@ -11,6 +11,20 @@ function switchTab(target){
   }
 }
 
+/* 導入想像図タブ切り替え */
+(function(){
+  var introButtons = document.querySelectorAll('#intro-tab-buttons .tab-btn');
+  introButtons.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var target = btn.getAttribute('data-tab');
+      introButtons.forEach(function(b){b.classList.remove('active');});
+      document.querySelectorAll('.intro-tab-content').forEach(function(tc){tc.classList.remove('active');});
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+})();
+
 /* ヘッダー透明→不透明 切り替え */
 (function(){
   var header=document.querySelector('.site-header');

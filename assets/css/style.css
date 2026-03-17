@@ -240,3 +240,16 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 .pricing-zero p{font-size:.85rem;color:#0f6e56;line-height:1.8;margin:0}
 .pricing-trial{margin:0 32px 16px;text-align:center}
 .pricing-trial p{font-size:.82rem;color:var(--ink-light);line-height:1.8;margin:0}
+
+/* ---- 導入想像図セクション ---- */
+.intro-image-tabs{max-width:860px;margin:0 auto}
+.intro-image-tabs .tab-buttons{display:flex;justify-content:center;margin-bottom:32px}
+.intro-tab-content{display:none}
+.intro-tab-content.active{display:block}
+.intro-image-figure{margin:0;text-align:center}
+.intro-image-img{width:100%;max-width:860px;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.12);display:block;margin:0 auto}
+.intro-image-caption{display:block;margin-top:20px;font-size:.88rem;color:var(--ink-light);line-height:1.9;letter-spacing:.04em}
+@media(max-width:768px){
+  .intro-image-img{border-radius:8px}
+  .intro-image-caption{font-size:.82rem;margin-top:14px}
+}
