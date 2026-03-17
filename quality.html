@@ -84,29 +84,30 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
-    <p class="ev-section-desc">北海道・美瑛で撮影した実写映像。青空のグラデーションに、8bitと10bitの差が如実に現れます。</p>
+    <p class="ev-section-desc">北海道・美瑛で撮影した実写素材。左は8bit配信での階調劣化をシミュレーション。右は劣化処理なしの参考表示です。</p>
 
     <div class="ql-banding-wrap">
       <div class="ql-banding-grid"
            data-banding-src="{{ '/assets/images/tree_banding.jpg' | relative_url }}">
         <div>
-          <div class="ql-banding-label">8bit SDR（地上波・YouTube相当）</div>
+          <div class="ql-banding-label">8bit配信での劣化シミュレーション（地上波・YouTube相当）</div>
           <div class="ql-banding-canvas-wrap">
             <canvas class="ql-canvas" id="canvas8" width="600" height="338"></canvas>
             <span class="ql-banding-tag ql-tag-bad">バンディングあり</span>
           </div>
         </div>
         <div>
-          <div class="ql-banding-label">10bit・広色域・HDR（BT.2100 HLG 相当）実機映像</div>
+          <div class="ql-banding-label">劣化なし（参考表示）</div>
           <div class="ql-banding-canvas-wrap">
             <canvas class="ql-canvas" id="canvas10" width="600" height="338"></canvas>
-            <span class="ql-banding-tag ql-tag-good">滑らかなグラデーション</span>
+            <span class="ql-banding-tag ql-tag-good">階調劣化なし</span>
           </div>
         </div>
       </div>
 
       <p class="ql-banding-note">
-        ※ 左画像は8bit配信での色階調劣化を再現したシミュレーションです。実際の8bit映像ではディザリング処理により若干マスクされる場合がありますが、緩やかなグラデーション領域では同様の縞状アーチファクト（バンディングノイズ）が発生します。右は風景帖の実機映像（10bit HDR）からのキャプチャです。
+        ※ 左は8bitの量子化ステップによる階調飛びを意図的に再現したシミュレーションです。右は比較用の参考表示（劣化処理なし）で、ブラウザ上では標準的な8bit表示になります。<br>
+        風景帖の実機映像（10bit HDR）では、右よりもさらに滑らかなグラデーションが実現されます。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
 
