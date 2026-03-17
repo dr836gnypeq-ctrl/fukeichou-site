@@ -16,11 +16,14 @@
 <!-- ページ間の先読み（LP↔Simulator遷移を高速化） -->
 {% if page.url == '/' or page.url == '/index.html' %}
 <link rel="prefetch" href="{{ '/simulator/' | relative_url }}">
+<link rel="prefetch" href="{{ '/quality/' | relative_url }}">
 <link rel="prefetch" href="{{ '/assets/images/sample-clinic.jpg' | relative_url }}">
 <link rel="prefetch" href="{{ '/assets/images/sample-care.jpg' | relative_url }}">
 {% elsif page.url contains 'simulator' %}
 <link rel="prefetch" href="{{ '/' | relative_url }}">
 <link rel="prefetch" href="{{ '/assets/images/hero-fallback.jpg' | relative_url }}">
+{% elsif page.url contains 'quality' %}
+<link rel="prefetch" href="{{ '/' | relative_url }}">
 {% endif %}
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=20260317i">
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
