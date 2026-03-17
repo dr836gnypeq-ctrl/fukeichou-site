@@ -7,11 +7,8 @@ function switchTab(target){
   if(target==='clinic'){
     btns[0].classList.add('active');
     document.getElementById('tab-clinic').classList.add('active');
-  }else if(target==='dialysis'){
-    btns[1].classList.add('active');
-    document.getElementById('tab-dialysis').classList.add('active');
   }else{
-    btns[2].classList.add('active');
+    btns[1].classList.add('active');
     document.getElementById('tab-care').classList.add('active');
   }
 }
