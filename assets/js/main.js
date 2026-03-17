@@ -207,7 +207,8 @@ if(typeof lucide !== 'undefined'){
 
   /* ── ピルバー表示制御: ヒーロー高さを過ぎたら表示 ── */
   function updatePillVisibility(){
-    if(!pillNav || !hero) return;
+    if(!pillNav) return;
+    if(!hero){ pillNav.classList.remove('pill-hidden'); return; }
     var heroBottom = hero.getBoundingClientRect().bottom;
     /* ヒーローが画面上端を抜けたら表示 */
     var show = heroBottom <= 80;
