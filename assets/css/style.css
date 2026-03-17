@@ -486,3 +486,7 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   }
   .map-wrapper{max-width:100%;border-radius:0}
 }
+
+/* ---- 地図 SVGはみ出し修正 ---- */
+/* SVGデフォルトはoverflow:visibleのためラベルが画面外に出る → hidden でクリップ */
+#map-container svg{overflow:hidden}
