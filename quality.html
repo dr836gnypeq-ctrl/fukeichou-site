@@ -1,7 +1,7 @@
 ---
 layout: default
 title: なぜ映像の質が体験を変えるのか
-description: 同じ自然映像でも、映像規格によって生体反応が変わることが研究で示されています。8bit SDRとBT.2100 HLGの違い、風景帖が高品質規格にこだわる理由を解説します。
+description: 地上波テレビで長く使われてきた「8bit SDR」と上位規格「10bit HDR」では、同じ自然映像でも生体反応が異なることが研究で示されています。バンディングノイズの仕組みから査読論文の結果まで、風景帖が映像品質にこだわる理由を解説します。
 ---
 
 {% include evidence-styles.html %}
@@ -84,7 +84,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
   <div class="container">
     <a href="{{ '/' | relative_url }}" class="ev-back">← トップページに戻る</a>
     <h1 class="section-heading">なぜ、映像の質が体験を変えるのか</h1>
-    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。<br>では、なぜ映像の品質規格が重要なのか。<br>生体信号を用いた実験が、その問いに答えています。</p>
+    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>地上波テレビや動画配信サイトで長く使われてきた「8bit SDR」規格と、それより上位の「10bit HDR」規格では、同じ映像素材でも生体反応が異なることが示されています。<br>生体信号を用いた実験が、その問いに答えています。</p>
   </div>
 </div>
 
@@ -92,7 +92,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">空のグラデーションに、縞が走っている</h2>
-    <p class="ev-section-desc">北海道・美瑛で実際に撮影した写真です。画面下部の空を、よく見てください。</p>
+    <p class="ev-section-desc">北海道・美瑛で実際に撮影した写真です。画面下部の空を、よく見てください。<br>これは「8bit」規格で書き出したフレームです。地上波テレビ・スマホ動画・YouTubeのほとんどが、この規格で配信されています。</p>
 
     <div class="ql-banding-wrap">
 
@@ -134,8 +134,8 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
     <div class="ql-reason-flow">
       <div class="ql-reason-step">
         <div class="ql-step-num">① なぜ縞が出るか</div>
-        <h4>8bitは256段しかない</h4>
-        <p>1チャンネルあたり256段階で色を表現します。空のような緩やかなグラデーションを256の「段」で近似すると、肉眼でも識別できる段差が生じます。</p>
+        <h4>8bit ＝ 30年続く標準規格</h4>
+        <p>1チャンネルあたり256段階で色を表現する方式で、1990年代から地上波・DVDに広く使われてきた規格です。日常のスナップ写真には十分ですが、空のような緩やかなグラデーションを256の「段」で近似すると、肉眼でも識別できる段差が生じます。</p>
       </div>
       <div class="ql-reason-step">
         <div class="ql-step-num">② 10bitで何が変わるか</div>
@@ -145,7 +145,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
       <div class="ql-reason-step">
         <div class="ql-step-num">③ 体験への影響</div>
         <h4>品質は「見た目」だけでなく「体験の深さ」に関わる</h4>
-        <p>不自然な段差は、脳の無意識な補正処理を引き起こします。その認知コストが、リラックスや注意回復に向かうリソースを減らします。</p>
+        <p>不自然な縞は、意識しなくても脳が「補正しようとする」処理を引き起こします。その無意識の負荷が、リラックスや注意の回復に向かうべきリソースを消費します。待合室という「何もしない時間」を質の高い休息にするには、脳に余計な仕事をさせないことが重要です。</p>
       </div>
     </div>
   </div>
@@ -198,7 +198,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         DOI: <a class="ql-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">10.1145/3524692</a>
       </div>
       <div class="ql-study-body">
-        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、HD-SDRとUHD-HDRの視聴中の没入感を二次課題反応時間法（客観的指標）で測定。50分間の長尺視聴を2つの独立した実験で検証した。
+        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、HD-SDRとUHD-HDRの視聴中の没入感を二次課題反応時間法（映像への没入が深いほど外部刺激への反応が遅くなることを利用した客観的指標）で測定。50分間の長尺視聴を2つの独立した実験で検証した。
       </div>
       <div class="ql-result">
         <p><strong>実験1：</strong>HD-SDR vs UHD-HDRで、UHD-HDR群が有意に没入感が高い（F=295, p＜.001）。<br><br>
@@ -228,7 +228,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         <tr>
           <td>映像規格</td>
           <td class="ql-highlight">BT.2100 HLG 相当</td>
-          <td>篠原ら（2021）が最も高い生体効果を確認した規格と同等</td>
+          <td>地上波テレビ（BT.709）の上位規格。NHK・BBC主導で策定されたHDR方式。篠原ら（2021）が最も高い生体効果を確認した規格と同等</td>
         </tr>
         <tr>
           <td>ビット深度</td>
@@ -238,7 +238,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         <tr>
           <td>色域</td>
           <td class="ql-highlight">Rec.2020（広色域）</td>
-          <td>可視光の約76%をカバー。従来のRec.709（約36%）の約2倍。BT.2100はRec.2020の色域をそのまま継承</td>
+          <td>可視光の約76%をカバー。従来のRec.709（現在の地上波テレビ・Blu-rayの色域＝約36%）の約2倍。BT.2100はRec.2020の色域をそのまま継承</td>
         </tr>
         <tr>
           <td>輝度</td>
@@ -258,7 +258,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         <tr>
           <td>収録形式</td>
           <td class="ql-highlight">12-bit ProRes RAW <sup>※1</sup></td>
-          <td>カメラ収録段階から12bitの階調情報を保持。編集・マスタリングによる画質劣化を最小限に抑える</td>
+          <td>映画・テレビCMの制作現場で使われる収録形式。カメラ収録段階から12bitの階調情報を保持。編集・マスタリングによる画質劣化を最小限に抑える</td>
         </tr>
       </table>
       <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px">
