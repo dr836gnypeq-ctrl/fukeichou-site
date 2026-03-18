@@ -1,9 +1,9 @@
-/* 風景帖 Service Worker v5
- * v5変更点: quality.htmlの拡大画像をPNG化したことによるキャッシュ強制クリア
+/* 風景帖 Service Worker v6
+ * v6変更点: tree_zoom_banding_v2.png 差し替えによるキャッシュ強制クリア
  */
 
-var CACHE_STATIC = 'fk-static-v5';
-var CACHE_PAGES  = 'fk-pages-v5';
+var CACHE_STATIC = 'fk-static-v6';
+var CACHE_PAGES  = 'fk-pages-v6';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
