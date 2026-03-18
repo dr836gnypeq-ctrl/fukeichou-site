@@ -49,11 +49,13 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-dot-moss{background:var(--moss)}
 .ql-dot-gray{background:#ccc}
 
-/* Reason cards */
-.ql-reason-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
-.ql-reason-card{padding:24px 20px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
-.ql-reason-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
-.ql-reason-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+/* Reason flow */
+.ql-reason-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px}
+.ql-reason-step{padding:24px 20px 20px;background:var(--white);border-top:3px solid var(--moss);position:relative}
+.ql-reason-step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:28px;font-size:1rem;color:var(--moss);z-index:1;line-height:1}
+.ql-step-num{font-size:1.4rem;font-weight:700;color:var(--moss);font-family:var(--serif);line-height:1;margin-bottom:10px}
+.ql-reason-step h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px;line-height:1.5}
+.ql-reason-step p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
 
 /* CTA */
 .ql-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
@@ -67,7 +69,8 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-hero{padding:120px 0 60px}
 .ql-hero .section-heading{font-size:1.6rem}
 .ql-banding-grid{grid-template-columns:1fr}
-.ql-reason-grid{grid-template-columns:1fr}
+.ql-reason-flow{grid-template-columns:1fr}
+.ql-reason-step:not(:last-child)::after{content:'↓';right:auto;left:20px;top:auto;bottom:-14px}
 }
 </style>
 
@@ -83,8 +86,8 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <!-- Banding visualization -->
 <section class="section" id="banding">
   <div class="container">
-    <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
-    <p class="ev-section-desc">北海道・美瑛で実際に撮影した写真です。空のグラデーションに、8-bitの階調飛び（バンディングノイズ）が発生しています。</p>
+    <h2 class="ev-section-sub">空のグラデーションに、縞が走っている</h2>
+    <p class="ev-section-desc">北海道・美瑛で実際に撮影した写真です。画面下部の空を、よく見てください。</p>
 
     <div class="ql-banding-wrap">
 
@@ -94,10 +97,10 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         <img src="{{ '/assets/images/tree_banding_sky_v2.jpg' | relative_url }}"
              alt="北海道美瑛の冬景色・クリスマスツリーの木"
              style="width:100%;display:block">
-        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">8-bit 実写</span>
-        <!-- 拡大エリアを示すボックス -->
-        <div style="position:absolute;top:0;left:0;width:37%;height:37%;border:2px solid #facc15;box-sizing:border-box;border-radius:2px"></div>
-        <div style="position:absolute;top:1%;left:38%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">↓ 拡大</div>
+        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">実際の撮影データ（8-bit収録）</span>
+        <!-- 拡大エリアを示すボックス：バンディングは画像下部の空グラデーション領域 -->
+        <div style="position:absolute;bottom:0;left:0;width:72%;height:18%;border:2px solid #facc15;box-sizing:border-box;border-radius:2px 0 0 0"></div>
+        <div style="position:absolute;bottom:18%;left:1%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">↓ 拡大</div>
       </div>
 
       <!-- ② 拡大写真 -->
@@ -109,23 +112,26 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
       </div>
 
       <p class="ql-banding-note">
-        上の写真は実際の撮影データです。空の青いグラデーション部分（黄枠内）を下に拡大表示しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では、緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
-        風景帖の実機映像は10-bit（1,024段階）で収録されており、この段差が視覚的識別限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
+        空の青いグラデーション部分（黄枠内）を下に拡大しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
+        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が視覚的識別限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
 
-    <div class="ql-reason-grid">
-      <div class="ql-reason-card">
-        <h4>なぜバンディングが発生するか</h4>
-        <p>8bitは1チャンネルあたり256段階。緩やかな色変化を256の「段」で近似するため、グラデーション領域が階段状に見えます。脳はこの不自然な段差を「デジタルの映像」として察知します。</p>
+    <div class="ql-reason-flow">
+      <div class="ql-reason-step">
+        <div class="ql-step-num">① なぜ縞が出るか</div>
+        <h4>8bitは256段しかない</h4>
+        <p>1チャンネルあたり256段階で色を表現します。空のような緩やかなグラデーションを256の「段」で近似すると、肉眼でも識別できる段差が生じます。</p>
       </div>
-      <div class="ql-reason-card">
-        <h4>10bitで何が変わるか</h4>
-        <p>10bitは1チャンネルあたり1,024段階（約64倍の情報量）。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。脳が「本物の光」に近いと判断する条件が整います。</p>
+      <div class="ql-reason-step">
+        <div class="ql-step-num">② 10bitで何が変わるか</div>
+        <h4>段数が4倍、段差が見えなくなる</h4>
+        <p>10bitは1チャンネルあたり1,024段階。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。脳が「自然な光」として処理できる条件が整います。</p>
       </div>
-      <div class="ql-reason-card">
-        <h4>体験への影響</h4>
-        <p>バンディングのある映像は、見た目の違和感とともに認知的な補正処理を脳に課します。その分のリソースが、リラックスや注意回復に向かいません。品質は「見た目」だけでなく「体験の深さ」に関わります。</p>
+      <div class="ql-reason-step">
+        <div class="ql-step-num">③ 体験への影響</div>
+        <h4>品質は「見た目」だけでなく「体験の深さ」に関わる</h4>
+        <p>不自然な段差は、脳の無意識な補正処理を引き起こします。その認知コストが、リラックスや注意回復に向かうリソースを減らします。</p>
       </div>
     </div>
   </div>
