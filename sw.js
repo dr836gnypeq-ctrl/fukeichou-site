@@ -1,10 +1,9 @@
-/* 風景帖 Service Worker v4
- * v4変更点: キャッシュキーを pathname → pathname+search に変更
- * → ?v=xxxx によるバージョンバストが正しく機能するように修正
+/* 風景帖 Service Worker v5
+ * v5変更点: quality.htmlの拡大画像をPNG化したことによるキャッシュ強制クリア
  */
 
-var CACHE_STATIC = 'fk-static-v4';
-var CACHE_PAGES  = 'fk-pages-v4';
+var CACHE_STATIC = 'fk-static-v5';
+var CACHE_PAGES  = 'fk-pages-v5';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
