@@ -178,12 +178,8 @@ if(typeof lucide !== 'undefined'){
     {id:'faq',       label:'FAQ'},
   ].filter(function(s){ return !!document.getElementById(s.id); });
 
-  var header      = document.querySelector('.site-header');
   var headerPills = document.getElementById('headerPills');
-  var hero        = document.querySelector('.hero');
-
-  /* ヒーローなし（サブページ）→ 変形不要 */
-  if(!header || !headerPills || !hero) return;
+  if(!headerPills) return;
 
   var currentIdx = -1;
   var pillItems  = [];
@@ -216,14 +212,6 @@ if(typeof lucide !== 'undefined'){
     a.innerHTML = item.label + arrowSvg;
     headerPills.appendChild(a);
   });
-
-  /* ── ヒーロー通過判定 → hero-passed クラス付与 ── */
-  function updateHeroPassed(){
-    var heroBottom = hero.getBoundingClientRect().bottom;
-    header.classList.toggle('hero-passed', heroBottom <= 0);
-  }
-  window.addEventListener('scroll', updateHeroPassed, {passive:true});
-  updateHeroPassed();
 
   /* ── 現在地ハイライト ── */
   function setActive(idx){
