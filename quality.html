@@ -60,7 +60,23 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-reason-step h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px;line-height:1.5}
 .ql-reason-step p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
 
-/* CTA */
+/* Bit depth compare diagram */
+.ql-bit-compare{margin-top:36px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px 32px}
+.ql-bit-compare-title{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px}
+.ql-bit-row{margin-bottom:20px}
+.ql-bit-row:last-child{margin-bottom:0}
+.ql-bit-row-label{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.ql-bit-tag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px}
+.ql-bit-tag-bad{background:#fce8e8;color:#8a2222}
+.ql-bit-tag-good{background:#e8f5f1;color:#136b5e}
+.ql-bit-canvas-wrap{position:relative;border-radius:6px;overflow:visible}
+canvas.ql-bit-canvas{display:block;width:100%;height:52px;border-radius:6px}
+.ql-bit-ticks{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+@media(max-width:768px){
+.ql-bit-compare{padding:20px 16px}
+canvas.ql-bit-canvas{height:40px}
+}
 .ql-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
 .ql-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
 .ql-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
@@ -148,6 +164,73 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         <p>不自然な縞は、意識しなくても脳が「補正しようとする」処理を引き起こします。その無意識の負荷が、リラックスや注意の回復に向かうべきリソースを消費します。待合室という「何もしない時間」を質の高い休息にするには、脳に余計な仕事をさせないことが重要です。</p>
       </div>
     </div>
+
+    <!-- 8bit vs 10bit schematic -->
+    <div class="ql-bit-compare">
+      <div class="ql-bit-compare-title">階調数の違い — 模式図（美瑛の空の色域）</div>
+      <div class="ql-bit-row">
+        <div class="ql-bit-row-label">
+          <span class="ql-bit-tag ql-bit-tag-bad">8bit・256段階</span>
+          段差が肉眼で見える
+        </div>
+        <div class="ql-bit-canvas-wrap">
+          <canvas class="ql-bit-canvas" id="qlCanvas8" height="52"></canvas>
+        </div>
+      </div>
+      <div class="ql-bit-row">
+        <div class="ql-bit-row-label">
+          <span class="ql-bit-tag ql-bit-tag-good">10bit・1,024段階</span>
+          段差が識別できない
+        </div>
+        <div class="ql-bit-canvas-wrap">
+          <canvas class="ql-bit-canvas" id="qlCanvas10" height="52"></canvas>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var cA = [238, 175, 90];
+      var cB = [86, 126, 166];
+      function lerp(a,b,t){ return Math.round(a+(b-a)*t); }
+      function rgb(c){ return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+      function drawCanvas(id, steps){
+        var canvas = document.getElementById(id);
+        if(!canvas) return;
+        function render(){
+          canvas.width = canvas.offsetWidth;
+          var ctx = canvas.getContext('2d');
+          var w = canvas.width, h = canvas.height;
+          if(steps){
+            for(var i=0;i<steps;i++){
+              var t = i/(steps-1);
+              var c = [lerp(cA[0],cB[0],t),lerp(cA[1],cB[1],t),lerp(cA[2],cB[2],t)];
+              var x = Math.floor(i*w/steps);
+              var bw = Math.ceil(w/steps)+1;
+              ctx.fillStyle = rgb(c);
+              ctx.fillRect(x,0,bw,h);
+            }
+            ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+            ctx.lineWidth = 1;
+            for(var j=1;j<steps;j++){
+              var tx = Math.floor(j*w/steps);
+              ctx.beginPath(); ctx.moveTo(tx,0); ctx.lineTo(tx,h); ctx.stroke();
+            }
+          } else {
+            var grad = ctx.createLinearGradient(0,0,w,0);
+            grad.addColorStop(0,rgb(cA));
+            grad.addColorStop(1,rgb(cB));
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,w,h);
+          }
+        }
+        render();
+        if(window.ResizeObserver){ new ResizeObserver(render).observe(canvas); }
+      }
+      drawCanvas('qlCanvas8', 14);
+      drawCanvas('qlCanvas10', null);
+    })();
+    </script>
+
   </div>
 </section>
 
