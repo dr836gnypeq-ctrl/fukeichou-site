@@ -170,12 +170,12 @@ if(typeof lucide !== 'undefined'){
 (function(){
   var SECTIONS = [
     {id:'pain',        label:'お悩み'},
+    {id:'evidence',    label:'科学的根拠'},
     {id:'service',     label:'できること'},
     {id:'authentic',   label:'なぜ実写か'},
     {id:'map',         label:'撮影地'},
-    {id:'flow',        label:'導入の流れ'},
-    {id:'evidence',    label:'科学的根拠'},
     {id:'pricing',     label:'料金'},
+    {id:'flow',        label:'導入の流れ'},
     {id:'intro-image', label:'導入イメージ'},
     {id:'faq',         label:'FAQ'},
   ].filter(function(s){ return !!document.getElementById(s.id); });
