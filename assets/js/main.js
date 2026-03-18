@@ -166,7 +166,7 @@ if(typeof lucide !== 'undefined'){
 })();
 
 
-/* ===== SECTION NAVIGATION (A=サイドドット PC / B=ピルバー Mobile) ===== */
+/* ===== HEADER HERO-PASS TRANSFORM + SECTION PILLS ===== */
 (function(){
   var SECTIONS = [
     {id:'pain',      label:'課題'},
@@ -176,57 +176,67 @@ if(typeof lucide !== 'undefined'){
     {id:'flow',      label:'導入の流れ'},
     {id:'pricing',   label:'料金'},
     {id:'faq',       label:'FAQ'},
-    {id:'contact',   label:'お問い合わせ'},
   ].filter(function(s){ return !!document.getElementById(s.id); });
 
-  if(!SECTIONS.length) return;
+  var header      = document.querySelector('.site-header');
+  var headerPills = document.getElementById('headerPills');
+  var hero        = document.querySelector('.hero');
 
-  var pillNav      = document.getElementById('pillNav');
-  var pillNavInner = document.getElementById('pillNavInner');
-  var sideDots     = null;
-  var hero         = document.querySelector('.hero');
-  var currentIdx   = -1;
+  /* ヒーローなし（サブページ）→ 変形不要 */
+  if(!header || !headerPills || !hero) return;
 
-  /* ── 要素生成 ── */
-  SECTIONS.forEach(function(s, i){
-    /* ピル */
+  var currentIdx = -1;
+  var pillItems  = [];
+
+  /* ── ページ内スクロールピルを生成 ── */
+  SECTIONS.forEach(function(s){
     var pi = document.createElement('button');
-    pi.className = 'pill-item';
+    pi.className = 'h-pill';
     pi.textContent = s.label;
-    pi.dataset.idx = i;
-    pi.addEventListener('click', function(){ scrollTo(s.id); });
-    pillNavInner.appendChild(pi);
+    pi.addEventListener('click', function(){
+      var el = document.getElementById(s.id);
+      if(el) el.scrollIntoView({behavior:'smooth'});
+    });
+    headerPills.appendChild(pi);
+    pillItems.push(pi);
   });
 
-  function scrollTo(id){
-    var el = document.getElementById(id);
-    if(el) el.scrollIntoView({behavior:'smooth'});
-  }
+  /* ── 別ページリンクピル: Evidence / Simulator ── */
+  var evidenceUrl  = headerPills.dataset.evidence  || '/evidence/';
+  var simulatorUrl = headerPills.dataset.simulator || '/simulator/';
+  /* 外部矢印SVG */
+  var arrowSvg = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M5 2h5v5"/></svg>';
+  [
+    {label:'Evidence',  href:evidenceUrl},
+    {label:'Simulator', href:simulatorUrl},
+  ].forEach(function(item){
+    var a = document.createElement('a');
+    a.className = 'h-pill h-pill-ext';
+    a.href = item.href;
+    a.innerHTML = item.label + arrowSvg;
+    headerPills.appendChild(a);
+  });
 
-  var pillItems = pillNavInner.querySelectorAll('.pill-item');
-
-  /* ── ピルバー表示制御: ヒーロー高さを過ぎたら表示 ── */
-  function updatePillVisibility(){
-    if(!pillNav) return;
-    if(!hero){ pillNav.classList.remove('pill-hidden'); return; }
+  /* ── ヒーロー通過判定 → hero-passed クラス付与 ── */
+  function updateHeroPassed(){
     var heroBottom = hero.getBoundingClientRect().bottom;
-    /* ヒーローが画面上端を抜けたら表示 */
-    var show = heroBottom <= 80;
-    pillNav.classList.toggle('pill-hidden', !show);
+    header.classList.toggle('hero-passed', heroBottom <= 0);
   }
-
-  window.addEventListener('scroll', updatePillVisibility, {passive:true});
-  updatePillVisibility();
+  window.addEventListener('scroll', updateHeroPassed, {passive:true});
+  updateHeroPassed();
 
   /* ── 現在地ハイライト ── */
   function setActive(idx){
     if(idx === currentIdx) return;
     currentIdx = idx;
-    pillItems.forEach(function(el,i){ el.classList.toggle('active', i===idx); });
+    pillItems.forEach(function(el, i){ el.classList.toggle('active', i===idx); });
     /* アクティブピルを中央にスクロール */
-    if(pillNav && pillItems[idx]){
-      var pill = pillItems[idx];
-      pillNav.scrollTo({left: pill.offsetLeft - pillNav.offsetWidth/2 + pill.offsetWidth/2, behavior:'smooth'});
+    var pill = pillItems[idx];
+    if(pill && headerPills){
+      headerPills.scrollTo({
+        left: pill.offsetLeft - headerPills.offsetWidth/2 + pill.offsetWidth/2,
+        behavior:'smooth'
+      });
     }
   }
 
@@ -234,7 +244,7 @@ if(typeof lucide !== 'undefined'){
   var secObs = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
       if(!entry.isIntersecting) return;
-      for(var i=0;i<SECTIONS.length;i++){
+      for(var i=0; i<SECTIONS.length; i++){
         if(SECTIONS[i].id === entry.target.id){ setActive(i); break; }
       }
     });

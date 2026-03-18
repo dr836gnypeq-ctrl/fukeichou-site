@@ -302,37 +302,34 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
 
 /* ===== SECTION NAVIGATION ===== */
 /* 共通: セクション定義 */
-:root{--nav-sections:7}
+/* ===== HEADER PILLS — ヒーロー通過後の変形ナビ ===== */
 
-/* ── セクションナビ ピルバー (PC・Mobile 共通) ── */
-.pill-nav{
-  display:block;
-  position:fixed;
-  top:72px; /* --header-h のフォールバック: CSS変数はfixed+Safari初期レンダで遅延するため固定値 */
-  left:0;right:0;
-  z-index:900;
-  background:rgba(250,248,245,.97); /* backdrop-filter廃止→solid bg: fixed×backdrop-filterはSafariでGPUバグ */
-  border-bottom:1px solid var(--border);
-  padding:8px 16px;
+/* hero-passed: mainNav/toggle を隠し、pills+CTAを表示 */
+.site-header.hero-passed #mainNav{display:none!important}
+.site-header.hero-passed .nav-toggle{display:none!important}
+.site-header.hero-passed .h-pill-wrap{display:flex}
+.site-header.hero-passed .header-cta-btn{display:inline-flex}
+
+/* ピル群コンテナ (header-inner の flex item) */
+.h-pill-wrap{
+  display:none;
+  flex:1;
+  min-width:0; /* flex item が縮まる際のオーバーフロー制御 */
   overflow-x:auto;
-  -webkit-overflow-scrolling:touch;
-  white-space:nowrap;
+  overflow-y:hidden;
   scrollbar-width:none;
-  /* transformを使わない: fixed要素にtransformはSafariでスタッキング崩れ */
-  transition:opacity .25s ease, visibility .25s ease;
-  visibility:visible;
+  padding:0 10px 0 16px;
+  gap:6px;
+  align-items:center;
+  -webkit-overflow-scrolling:touch;
 }
-.pill-nav::-webkit-scrollbar{display:none}
+.h-pill-wrap::-webkit-scrollbar{display:none}
 
-
-/* 非表示: opacity+visibility のみ（transformなし） */
-.pill-nav.pill-hidden{opacity:0;visibility:hidden;pointer-events:none}
-
-.pill-nav-inner{display:inline-flex;gap:7px;align-items:center}
-
-.pill-item{
-  display:inline-block;
-  padding:5px 14px;
+/* ページ内スクロールピル */
+.h-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 12px;
   border-radius:20px;
   font-size:.78rem;
   font-weight:500;
@@ -343,17 +340,46 @@ nav a:hover{color:var(--ink);background:rgba(0,0,0,.04)}
   cursor:pointer;
   transition:all .2s var(--ease);
   white-space:nowrap;
+  flex-shrink:0;
   -webkit-tap-highlight-color:transparent;
   letter-spacing:.03em;
+  text-decoration:none;
 }
-.pill-item.active{
-  background:var(--moss);
-  color:#fff;
-  border-color:var(--moss);
-}
-.pill-item:hover:not(.active){
-  border-color:var(--moss);
+.h-pill.active{background:var(--moss);color:#fff;border-color:var(--moss)}
+.h-pill:hover:not(.active){border-color:var(--moss);color:var(--moss)}
+
+/* 別ページリンクピル: Evidence / Simulator */
+.h-pill-ext{
   color:var(--moss);
+  border-color:var(--moss);
+  gap:3px;
+  font-style:italic;
+}
+.h-pill-ext:hover{background:var(--moss);color:#fff}
+.h-pill-ext svg{width:10px;height:10px;flex-shrink:0}
+
+/* 右端CTAボタン */
+.header-cta-btn{
+  display:none;
+  flex-shrink:0;
+  align-items:center;
+  padding:7px 14px;
+  border-radius:6px;
+  background:var(--moss);
+  color:#fff!important;
+  font-size:.8rem;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+  letter-spacing:.03em;
+  transition:background .2s;
+}
+.header-cta-btn:hover{background:#0f5a4e}
+.cta-short{display:none}
+@media(max-width:768px){
+  .header-cta-btn{padding:6px 10px;font-size:.75rem}
+  .cta-full{display:none}
+  .cta-short{display:inline}
 }
 
 /* ---- 比較表 モバイル修正 (sticky廃止・はみ出し封鎖) ---- */
