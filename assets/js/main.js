@@ -9,34 +9,57 @@ if('serviceWorker' in navigator){
   });
 }
 
-/* タブ切り替え */
-function switchTab(target){
-  var btns = document.querySelectorAll('#pain .tab-btn');
-  var contents = document.querySelectorAll('#pain .tab-content');
-  btns.forEach(function(btn){btn.classList.remove('active');});
-  contents.forEach(function(tc){tc.classList.remove('active');});
-  if(target==='clinic'){
-    btns[0].classList.add('active');
-    document.getElementById('tab-clinic').classList.add('active');
-  }else if(target==='mental'){
-    btns[1].classList.add('active');
-    document.getElementById('tab-mental').classList.add('active');
-  }else{
-    btns[2].classList.add('active');
-    document.getElementById('tab-care').classList.add('active');
-  }
+/* ===== グローバル受診者選択 ===== */
+window._audience = 'clinic'; // 初期値
+
+function setAudience(target){
+  window._audience = target;
+
+  /* 1. #pain タブ */
+  var painBtns = document.querySelectorAll('#pain .tab-btn');
+  var painMap  = {clinic:0, mental:1, care:2};
+  painBtns.forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('#pain .tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  if(painBtns[painMap[target]]) painBtns[painMap[target]].classList.add('active');
+  var pc = document.getElementById('tab-' + target);
+  if(pc) pc.classList.add('active');
+
+  /* 2. #intro-image タブ (mental → clinic に吸収) */
+  var introTarget = (target === 'care') ? 'intro-care' : 'intro-clinic';
+  document.querySelectorAll('#intro-tab-buttons .tab-btn')
+          .forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.intro-tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  var ib = document.querySelector(
+    '#intro-tab-buttons .tab-btn[data-tab="'+introTarget+'"]');
+  if(ib) ib.classList.add('active');
+  var ic = document.getElementById(introTarget);
+  if(ic) ic.classList.add('active');
+
+  /* 3. #evidence タブボタン */
+  document.querySelectorAll('#evidence .ev-tab-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-audience') === target);
+  });
+
+  /* 4. #evidence カード表示切替 */
+  document.querySelectorAll('#evidence .evidence-card').forEach(function(card){
+    var ev = card.getAttribute('data-ev');
+    card.style.display = (ev === 'all' || ev === target) ? '' : 'none';
+  });
 }
 
-/* 導入想像図タブ切り替え */
+/* 後方互換 */
+function switchTab(target){ setAudience(target); }
+
+/* 導入想像図タブから逆方向連動 */
 (function(){
   var introButtons = document.querySelectorAll('#intro-tab-buttons .tab-btn');
+  var introTabMap  = {'intro-clinic':'clinic', 'intro-care':'care'};
   introButtons.forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var target = btn.getAttribute('data-tab');
-      introButtons.forEach(function(b){b.classList.remove('active');});
-      document.querySelectorAll('.intro-tab-content').forEach(function(tc){tc.classList.remove('active');});
-      btn.classList.add('active');
-      document.getElementById(target).classList.add('active');
+    btn.addEventListener('click', function(){
+      var t = btn.getAttribute('data-tab');
+      setAudience(introTabMap[t] || 'clinic');
     });
   });
 })();
@@ -145,24 +168,7 @@ if(typeof lucide !== 'undefined'){
     }
   }
 
-  /* 4. エビデンスカード: 4枚目以降を「もっと見る」 */
-  if(isMobile){
-    var evGrid = document.querySelector('.evidence-grid');
-    if(evGrid){
-      var evcards = evGrid.querySelectorAll('.evidence-card');
-      if(evcards.length > 3){
-        for(var j=3;j<evcards.length;j++) evcards[j].classList.add('evidence-card-extra');
-        var evbtn = document.createElement('button');
-        evbtn.className = 'btn-show-more';
-        evbtn.textContent = 'さらに見る（歯科・精神科の研究）';
-        evbtn.onclick = function(){
-          evGrid.querySelectorAll('.evidence-card-extra').forEach(function(c){c.classList.add('shown');});
-          evbtn.style.display='none';
-        };
-        evGrid.after(evbtn);
-      }
-    }
-  }
+  /* 4. エビデンスカード: タブ切替方式に移行。show-more廃止 */
 })();
 
 

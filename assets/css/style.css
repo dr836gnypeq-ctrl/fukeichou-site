@@ -91,6 +91,7 @@ a:hover{color:var(--gold)}
 .evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
 .evidence-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
 .evidence-source{text-align:center;font-size:.9rem;color:var(--ink-faint)}
+.ev-audience-tabs{display:flex;justify-content:center;gap:8px;margin:24px 0 32px;flex-wrap:wrap}
 
 /* FAQ */
 .faq-list{max-width:720px;margin:0 auto}
@@ -279,8 +280,7 @@ a:hover{color:var(--gold)}
 
 /* エビデンスカード: 4枚目以降hidden (mobile) */
 @media(max-width:768px){
-  .evidence-card-extra{display:none}
-  .evidence-card-extra.shown{display:block}
+  /* evidence-card-extra: タブ切替方式に移行のため廃止 */
 }
 
 /* ===== SECTION NAVIGATION ===== */
