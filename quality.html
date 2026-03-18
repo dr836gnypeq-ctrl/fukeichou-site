@@ -84,30 +84,34 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
-    <p class="ev-section-desc">北海道・美瑛で撮影した実写素材。左は8bit配信での階調劣化をシミュレーション。右は劣化処理なしの参考表示です。</p>
+    <p class="ev-section-desc">北海道・美瑛で撮影した実写素材の空グラデーション部分。8-bitの階調飛びが水平の帯として実際に発生しています。</p>
 
     <div class="ql-banding-wrap">
       <div class="ql-banding-grid"
-           data-banding-src="{{ '/assets/images/tree_banding.jpg' | relative_url }}">
+           data-banding-src="{{ '/assets/images/tree_banding_sky.jpg' | relative_url }}">
         <div>
-          <div class="ql-banding-label">8bit配信での劣化シミュレーション（地上波・YouTube相当）</div>
-          <div class="ql-banding-canvas-wrap">
-            <canvas class="ql-canvas" id="canvas8" width="600" height="338"></canvas>
-            <span class="ql-banding-tag ql-tag-bad">バンディングあり</span>
+          <div class="ql-banding-label">実写で発生したバンディング（8-bit処理による）</div>
+          <div class="ql-banding-canvas-wrap" style="position:relative">
+            <img id="img-banding"
+                 src="{{ '/assets/images/tree_banding_sky.jpg' | relative_url }}"
+                 alt="8bitバンディングが発生した青空グラデーション"
+                 style="width:100%;display:block;border-radius:inherit">
+            <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">実写・バンディングあり</span>
           </div>
         </div>
         <div>
-          <div class="ql-banding-label">劣化なし（参考表示）</div>
+          <div class="ql-banding-label">バンディングを除去した場合（参考）</div>
           <div class="ql-banding-canvas-wrap">
-            <canvas class="ql-canvas" id="canvas10" width="600" height="338"></canvas>
-            <span class="ql-banding-tag ql-tag-good">階調劣化なし</span>
+            <canvas class="ql-canvas" id="canvas-smooth" width="720" height="405"
+                    style="width:100%;display:block"></canvas>
+            <span class="ql-banding-tag ql-tag-good">階調劣化なし（参考）</span>
           </div>
         </div>
       </div>
 
       <p class="ql-banding-note">
-        ※ 左は実際に撮影した写真データに含まれる本物のバンディングノイズです。青空のグラデーションが段階的に見えます。右は同じ写真に平滑化処理を施したもので、比較用の参考表示です（ブラウザ上では標準的な8bit表示）。<br>
-        風景帖の実機映像（10bit HDR）では、右よりもさらに滑らかなグラデーションが実現されます。実際の映像品質は、デモ機にてご確認いただけます。
+        左は実際の撮影素材に発生した8-bitバンディングです。青空のグラデーションが水平の帯状に段階化されています。右は同じ画像の帯を平滑化した参考表示で、ブラウザ上では標準的な8-bit表示になります。<br>
+        風景帖の実機映像（10-bit HDR）では、バンディングが生じない階調数（1,024段階）で収録・表示されます。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
 
@@ -267,30 +271,49 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 
 <script>
 (function(){
-  var grid = document.querySelector('.ql-banding-grid[data-banding-src]');
-  if(!grid) return;
-  var base = grid.getAttribute('data-banding-src'); // tree_banding.jpg のパス
-  var srcBanding = base.replace('tree_banding.jpg', 'tree_sky_banding.jpg');
-  var srcSmooth  = base.replace('tree_banding.jpg', 'tree_sky_smooth.jpg');
+  var src = document.getElementById('img-banding');
+  if(!src) return;
+  var imgSrc = src.getAttribute('src');
 
-  function loadAndDraw(src, canvasId){
-    var img = new Image();
-    img.onload = function(){
-      var canvas = document.getElementById(canvasId);
-      if(!canvas) return;
-      var ctx = canvas.getContext('2d');
-      // drawImage: 画像全体をcanvasに収める（上部中心にクロップ）
-      var iw = img.naturalWidth, ih = img.naturalHeight;
-      var cw = canvas.width, ch = canvas.height;
-      var scale = Math.max(cw / iw, ch / ih);
-      var sw = cw / scale, sh = ch / scale;
-      var sx = (iw - sw) / 2, sy = 0; // 上端基準
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
-    };
-    img.src = src;
-  }
+  var img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = function(){
+    var canvas = document.getElementById('canvas-smooth');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var w = canvas.width, h = canvas.height;
 
-  loadAndDraw(srcBanding, 'canvas8');
-  loadAndDraw(srcSmooth,  'canvas10');
+    // 画像をcanvasに描画
+    ctx.drawImage(img, 0, 0, w, h);
+
+    // 垂直方向のボックスブラーでバンディングを平滑化
+    // バンディングは水平帯なので縦方向のみblurすれば消える
+    var id = ctx.getImageData(0, 0, w, h);
+    var d  = id.data;
+    var radius = 10; // 平滑化半径（帯幅~15pxを消すには10px程度で十分）
+    var tmp = new Uint8ClampedArray(d.length);
+
+    for(var x = 0; x < w; x++){
+      for(var y = 0; y < h; y++){
+        var r=0, g=0, b=0, cnt=0;
+        for(var ky = -radius; ky <= radius; ky++){
+          var ny = y + ky;
+          if(ny < 0 || ny >= h) continue;
+          var i = (ny * w + x) * 4;
+          r += d[i]; g += d[i+1]; b += d[i+2];
+          cnt++;
+        }
+        var oi = (y * w + x) * 4;
+        tmp[oi]   = r / cnt;
+        tmp[oi+1] = g / cnt;
+        tmp[oi+2] = b / cnt;
+        tmp[oi+3] = d[oi+3];
+      }
+    }
+
+    for(var k = 0; k < d.length; k++) d[k] = tmp[k];
+    ctx.putImageData(id, 0, 0);
+  };
+  img.src = imgSrc;
 })();
 </script>
