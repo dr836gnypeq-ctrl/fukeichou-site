@@ -169,14 +169,14 @@ if(typeof lucide !== 'undefined'){
 /* ===== HEADER HERO-PASS TRANSFORM + SECTION PILLS ===== */
 (function(){
   var SECTIONS = [
-    {id:'pain',        label:'課題'},
-    {id:'service',     label:'サービス'},
-    {id:'map',         label:'地図'},
-    {id:'authentic',   label:'本物宣言'},
+    {id:'pain',        label:'お悩み'},
+    {id:'service',     label:'できること'},
+    {id:'map',         label:'撮影地'},
+    {id:'authentic',   label:'なぜ実写か'},
     {id:'flow',        label:'導入の流れ'},
-    {id:'evidence',    label:'効果'},
+    {id:'evidence',    label:'科学的根拠'},
     {id:'pricing',     label:'料金'},
-    {id:'intro-image', label:'イメージ'},
+    {id:'intro-image', label:'導入イメージ'},
     {id:'faq',         label:'FAQ'},
   ].filter(function(s){ return !!document.getElementById(s.id); });
 
