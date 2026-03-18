@@ -84,34 +84,33 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">映像品質の違いは、目に見える</h2>
-    <p class="ev-section-desc">北海道・美瑛で撮影した実写素材の空グラデーション部分。8-bitの階調飛びが水平の帯として実際に発生しています。</p>
+    <p class="ev-section-desc">北海道・美瑛で実際に撮影した写真です。空のグラデーションに、8-bitの階調飛び（バンディングノイズ）が発生しています。</p>
 
     <div class="ql-banding-wrap">
-      <div class="ql-banding-grid"
-           data-banding-src="{{ '/assets/images/tree_banding_sky_v2.jpg' | relative_url }}">
-        <div>
-          <div class="ql-banding-label">実写で発生したバンディング（8-bit処理による）</div>
-          <div class="ql-banding-canvas-wrap" style="position:relative">
-            <img id="img-banding"
-                 src="{{ '/assets/images/tree_banding_sky_v2.jpg' | relative_url }}"
-                 alt="8bitバンディングが発生した青空グラデーション"
-                 style="width:100%;display:block;border-radius:inherit">
-            <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">実写・バンディングあり</span>
-          </div>
-        </div>
-        <div>
-          <div class="ql-banding-label">バンディングを除去した場合（参考）</div>
-          <div class="ql-banding-canvas-wrap">
-            <canvas class="ql-canvas" id="canvas-smooth" width="720" height="405"
-                    style="width:100%;display:block"></canvas>
-            <span class="ql-banding-tag ql-tag-good">階調劣化なし（参考）</span>
-          </div>
-        </div>
+
+      <!-- ① 全体写真 -->
+      <div class="ql-banding-label" style="margin-bottom:8px">実写写真（北海道・美瑛）</div>
+      <div class="ql-banding-canvas-wrap" style="position:relative;margin-bottom:0;border-radius:8px 8px 0 0">
+        <img src="{{ '/assets/images/tree_banding_sky_v2.jpg' | relative_url }}"
+             alt="北海道美瑛の冬景色・クリスマスツリーの木"
+             style="width:100%;display:block">
+        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">8-bit 実写</span>
+        <!-- 拡大エリアを示すボックス -->
+        <div style="position:absolute;top:0;left:0;width:37%;height:37%;border:2px solid #facc15;box-sizing:border-box;border-radius:2px"></div>
+        <div style="position:absolute;top:1%;left:38%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">↓ 拡大</div>
+      </div>
+
+      <!-- ② 拡大写真 -->
+      <div class="ql-banding-canvas-wrap" style="position:relative;border-top:2px solid #facc15;border-radius:0 0 8px 8px">
+        <img src="{{ '/assets/images/tree_zoom_banding.jpg' | relative_url }}"
+             alt="空グラデーション部分の拡大・バンディングノイズが見える"
+             style="width:100%;display:block">
+        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">バンディングノイズ（拡大）</span>
       </div>
 
       <p class="ql-banding-note">
-        左は実際の撮影素材に発生した8-bitバンディングです。青空のグラデーションが水平の帯状に段階化されています。右は同じ画像の帯を平滑化した参考表示で、ブラウザ上では標準的な8-bit表示になります。<br>
-        風景帖の実機映像（10-bit HDR）では、バンディングが生じない階調数（1,024段階）で収録・表示されます。実際の映像品質は、デモ機にてご確認いただけます。
+        上の写真は実際の撮影データです。空の青いグラデーション部分（黄枠内）を下に拡大表示しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では、緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
+        風景帖の実機映像は10-bit（1,024段階）で収録されており、この段差が視覚的識別限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
 
@@ -269,51 +268,4 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
   </div>
 </section>
 
-<script>
-(function(){
-  var src = document.getElementById('img-banding');
-  if(!src) return;
-  var imgSrc = src.getAttribute('src');
 
-  var img = new Image();
-  img.crossOrigin = 'anonymous';
-  img.onload = function(){
-    var canvas = document.getElementById('canvas-smooth');
-    if(!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var w = canvas.width, h = canvas.height;
-
-    // 画像をcanvasに描画
-    ctx.drawImage(img, 0, 0, w, h);
-
-    // 垂直方向のボックスブラーでバンディングを平滑化
-    // バンディングは水平帯なので縦方向のみblurすれば消える
-    var id = ctx.getImageData(0, 0, w, h);
-    var d  = id.data;
-    var radius = 10; // 平滑化半径（帯幅~15pxを消すには10px程度で十分）
-    var tmp = new Uint8ClampedArray(d.length);
-
-    for(var x = 0; x < w; x++){
-      for(var y = 0; y < h; y++){
-        var r=0, g=0, b=0, cnt=0;
-        for(var ky = -radius; ky <= radius; ky++){
-          var ny = y + ky;
-          if(ny < 0 || ny >= h) continue;
-          var i = (ny * w + x) * 4;
-          r += d[i]; g += d[i+1]; b += d[i+2];
-          cnt++;
-        }
-        var oi = (y * w + x) * 4;
-        tmp[oi]   = r / cnt;
-        tmp[oi+1] = g / cnt;
-        tmp[oi+2] = b / cnt;
-        tmp[oi+3] = d[oi+3];
-      }
-    }
-
-    for(var k = 0; k < d.length; k++) d[k] = tmp[k];
-    ctx.putImageData(id, 0, 0);
-  };
-  img.src = imgSrc;
-})();
-</script>
