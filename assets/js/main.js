@@ -169,13 +169,15 @@ if(typeof lucide !== 'undefined'){
 /* ===== HEADER HERO-PASS TRANSFORM + SECTION PILLS ===== */
 (function(){
   var SECTIONS = [
-    {id:'pain',      label:'課題'},
-    {id:'service',   label:'サービス'},
-    {id:'map',       label:'地図'},
-    {id:'authentic', label:'本物宣言'},
-    {id:'flow',      label:'導入の流れ'},
-    {id:'pricing',   label:'料金'},
-    {id:'faq',       label:'FAQ'},
+    {id:'pain',        label:'課題'},
+    {id:'service',     label:'サービス'},
+    {id:'map',         label:'地図'},
+    {id:'authentic',   label:'本物宣言'},
+    {id:'flow',        label:'導入の流れ'},
+    {id:'evidence',    label:'効果'},
+    {id:'pricing',     label:'料金'},
+    {id:'intro-image', label:'イメージ'},
+    {id:'faq',         label:'FAQ'},
   ].filter(function(s){ return !!document.getElementById(s.id); });
 
   var headerPills = document.getElementById('headerPills');
@@ -195,22 +197,6 @@ if(typeof lucide !== 'undefined'){
     });
     headerPills.appendChild(pi);
     pillItems.push(pi);
-  });
-
-  /* ── 別ページリンクピル: Evidence / Simulator ── */
-  var evidenceUrl  = headerPills.dataset.evidence  || '/evidence/';
-  var simulatorUrl = headerPills.dataset.simulator || '/simulator/';
-  /* 外部矢印SVG */
-  var arrowSvg = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M5 2h5v5"/></svg>';
-  [
-    {label:'Evidence',  href:evidenceUrl},
-    {label:'Simulator', href:simulatorUrl},
-  ].forEach(function(item){
-    var a = document.createElement('a');
-    a.className = 'h-pill h-pill-ext';
-    a.href = item.href;
-    a.innerHTML = item.label + arrowSvg;
-    headerPills.appendChild(a);
   });
 
   /* ── 現在地ハイライト ── */
