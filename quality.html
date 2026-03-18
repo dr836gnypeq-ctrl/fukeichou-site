@@ -23,7 +23,10 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-tag-good{background:#e8f5f1;color:#136b5e}
 .ql-banding-note{font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px}
 
-/* Scene selector */
+/* Banding C-1 layout */
+.ql-banding-lr{display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:start}
+.ql-banding-left{}
+.ql-banding-right{}
 
 
 /* Study card */
@@ -69,7 +72,9 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-hero{padding:120px 0 60px}
 .ql-hero .section-heading{font-size:1.6rem}
 .ql-banding-grid{grid-template-columns:1fr}
+.ql-banding-lr{grid-template-columns:1fr}
 .ql-reason-flow{grid-template-columns:1fr}
+.ql-banding-lr .ql-zoom-arrow::before{content:'↓ 拡大'}
 .ql-reason-step:not(:last-child)::after{content:'↓';right:auto;left:20px;top:auto;bottom:-14px}
 }
 </style>
@@ -91,28 +96,37 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 
     <div class="ql-banding-wrap">
 
-      <!-- ① 全体写真 -->
-      <div class="ql-banding-label" style="margin-bottom:8px">実写映像フレーム（北海道・美瑛）</div>
-      <div class="ql-banding-canvas-wrap" style="position:relative;margin-bottom:0;border-radius:8px 8px 0 0">
-        <img src="{{ '/assets/images/tree_8bitPNGFrom10bitH265_2nd.png' | relative_url }}"
-             alt="北海道美瑛の冬景色・クリスマスツリーの木と夕暮れの空"
-             style="width:100%;display:block">
-        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">実写映像フレーム（8-bit書き出し）</span>
-        <!-- 拡大エリア：木と太陽の間の空グラデーション帯 -->
-        <div style="position:absolute;top:14%;left:45.3%;width:33.9%;height:38%;border:2px solid #facc15;box-sizing:border-box;border-radius:2px"></div>
-        <div style="position:absolute;top:52.5%;left:46%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">↓ 拡大</div>
-      </div>
+      <!-- C-1: 左右並列（PC）→ 上下積み（モバイル） -->
+      <div class="ql-banding-lr">
 
-      <!-- ② 拡大写真 -->
-      <div class="ql-banding-canvas-wrap" style="position:relative;border:2px solid #facc15;border-radius:0 0 8px 8px">
-        <img src="{{ '/assets/images/tree_zoom_banding_v2.png' | relative_url }}"
-             alt="空グラデーション部分の拡大・バンディングノイズが見える"
-             style="width:100%;display:block">
-        <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;right:10px">バンディングノイズ（拡大）</span>
+        <!-- 左：全体写真 -->
+        <div class="ql-banding-left">
+          <div class="ql-banding-label">実写映像フレーム（北海道・美瑛）</div>
+          <div class="ql-banding-canvas-wrap" style="position:relative;border-radius:8px;margin-top:8px">
+            <img src="{{ '/assets/images/tree_8bitPNGFrom10bitH265_2nd.png' | relative_url }}"
+                 alt="北海道美瑛の冬景色・クリスマスツリーの木と夕暮れの空"
+                 style="width:100%;display:block;border-radius:8px">
+            <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;left:10px">実写映像フレーム（8-bit書き出し）</span>
+            <!-- 黄枠：木と太陽の間の空グラデーション帯 -->
+            <div style="position:absolute;top:14%;left:45.3%;width:33.9%;height:38%;border:4px solid #facc15;box-sizing:border-box;border-radius:2px"></div>
+            <div style="position:absolute;top:52.8%;left:46%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">→ 拡大</div>
+          </div>
+        </div>
+
+        <!-- 右：拡大写真 -->
+        <div class="ql-banding-right">
+          <div class="ql-banding-label">バンディングノイズ（拡大）</div>
+          <div class="ql-banding-canvas-wrap" style="position:relative;border:4px solid #facc15;border-radius:8px;margin-top:8px">
+            <img src="{{ '/assets/images/tree_zoom_banding_v2.png' | relative_url }}"
+                 alt="空グラデーション部分の拡大・バンディングノイズが見える"
+                 style="width:100%;display:block;border-radius:4px">
+          </div>
+        </div>
+
       </div>
 
       <p class="ql-banding-note">
-        空の青いグラデーション部分（黄枠内）を下に拡大しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
+        黄枠内の空グラデーションを右に拡大しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
         風景帖の映像は10-bit（1,024段階）で収録されており、この段差が視覚的識別限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
