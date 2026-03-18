@@ -84,7 +84,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
   <div class="container">
     <a href="{{ '/' | relative_url }}" class="ev-back">← トップページに戻る</a>
     <h1 class="section-heading">なぜ、映像の質が体験を変えるのか</h1>
-    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>地上波テレビや動画配信サイトで長く使われてきた「8bit SDR」規格と、それより上位の「10bit HDR」規格では、同じ映像素材でも生体反応が異なることが示されています。<br>生体信号を用いた実験が、その問いに答えています。</p>
+    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>地上波テレビや動画配信サイトで長く使われてきた「8bit SDR（Standard Dynamic Range＝従来の輝度規格）」と、より多くの明暗・色を再現できる上位規格「10bit HDR（High Dynamic Range＝高輝度・広色域の映像規格）」では、同じ映像素材でも生体反応が異なることが示されています。<br>生体信号を用いた実験が、その問いに答えています。</p>
   </div>
 </div>
 
@@ -127,7 +127,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 
       <p class="ql-banding-note">
         黄枠内の空グラデーションを右に拡大しています。水平方向に走る帯状の縞がバンディングノイズです。8-bitの階調（256段階）では緩やかな色の変化を表現しきれず、このような段差が生じます。<br>
-        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が視覚的識別限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
+        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が肉眼では区別できない限界以下に抑えられています。実際の映像品質は、デモ機にてご確認いただけます。
       </p>
     </div>
 
@@ -167,7 +167,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
         DOI: <a class="ql-study-link" href="https://doi.org/10.24663/jjpcats.16.2_40" target="_blank" rel="noopener">10.24663/jjpcats.16.2_40</a>
       </div>
       <div class="ql-study-body">
-        被験者12名に、映像規格の異なる自然画像（花・動物を含む風景）を各5分間視聴させ、心拍数・呼吸数・脳血流動態（NIRS）・皮膚温度の4種類の生体信号を計測した。比較した映像規格は以下の3種類。
+        被験者12名に、映像規格の異なる自然画像（花・動物を含む風景）を各5分間視聴させ、心拍数・呼吸数・脳血流動態（NIRS＝近赤外分光法、脳の血流変化を光で非侵襲的に測定する手法）・皮膚温度の4種類の生体信号を計測した。比較した映像規格は以下の3種類。
         <table class="ql-spec-table" style="margin-top:16px;margin-bottom:0">
           <tr><th>規格</th><th>ビット深度</th><th>色域</th><th>輝度</th></tr>
           <tr><td>BT.709</td><td>8bit</td><td>Rec.709（従来）</td><td>SDR</td></tr>
@@ -178,14 +178,15 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
       <div class="ql-result">
         <p><strong>皮膚温度（副交感神経優位＝リラックスの指標）</strong><br>
         BT.2100（広色域・HDR）で動物を含む自然画像を視聴した際、被験者12名中10名が安静時より皮膚温度が上昇し、有意差が確認された（p=0.000）。皮膚温度の上昇は副交感神経の活性化を示す。<br><br>
-        <strong>脳血流動態（感性処理の右脳 Hb 変化）</strong><br>
+        <strong>脳血流動態（右脳のヘモグロビン濃度変化＝脳活動の代替指標）</strong><br>
         映像規格の主効果に有意差あり（F=3.824, p＜0.05）。BT.2100 vs BT.2020 間で有意差が確認された。BT.2100視聴中は感性・映像処理に関わる右脳の活動が穏やかに安定する傾向が見られた。<br><br>
         <strong>主観評価（フラストレーション）</strong><br>
         被験者12名中7名が、BT.709（8bit SDR）視聴後にフラストレーションのスコアが最も高くなった。広色域・HDRの映像規格ほどストレスなく視聴できることが示唆された。</p>
       </div>
       <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-bottom:0">
         <strong>著者らの結論：</strong>「高品質な映像条件で視聴することによって、実際に見る景色に近づき、自然の中にいる時と同等の癒やし効果を得られる可能性が高いことを示した。」<br>
-        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者12名・単施設研究であり、結果はすべての環境・対象者に同一の効果を保証するものではありません。</span>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者12名・単施設研究であり、結果はすべての環境・対象者に同一の効果を保証するものではありません。</span><br>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※統計記号：p は有意確率（p＜0.05 で「偶然でない差」と判定）。F は分散分析の検定統計量。以下の論文でも同じ基準を使用しています。</span>
       </p>
     </div>
 
@@ -263,7 +264,7 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
       </table>
       <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px">
         <sup>※1</sup> 一部シーンを除く。<br>
-        ※ 映像の最終的な表示品質は、お客様にご用意いただくモニタの性能に依存します。HDR10対応の4Kテレビをご使用の場合に本来の画質でご覧いただけます。<br>
+        ※ 映像の最終的な表示品質は、お客様にご用意いただくモニタの性能に依存します。HDR10（現在最も普及しているHDR規格のひとつ）対応の4Kテレビをご使用の場合に本来の画質でご覧いただけます。<br>
         HDR非対応（従来のSDR）のモニタをご使用の場合、HDRの高輝度表現は再現されませんが、映像が破綻することはありません。地上波放送に近い水準の、自然で見やすい映像としてご覧いただけます。
       </p>
     </div>
