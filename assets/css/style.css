@@ -430,3 +430,12 @@ a:hover{color:var(--gold)}
   .map-wrapper{max-width:100%;border-radius:0}
 }
 
+/* ---- テキストリンクボタン（サブ誘導用） ---- */
+.text-link-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;font-size:.8rem;font-weight:500;border:1px solid var(--moss);color:var(--moss);border-radius:6px;background:rgba(19,107,94,.06);cursor:pointer;text-decoration:none;transition:all .2s var(--ease)}
+.text-link-btn:hover{background:var(--moss);color:var(--white)}
+
+/* ---- ページ下部ナビ（グローバル） ---- */
+.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s var(--ease);text-decoration:none}
+.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+
