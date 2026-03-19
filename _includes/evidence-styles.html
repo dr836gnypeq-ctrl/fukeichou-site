@@ -70,4 +70,79 @@
 .ev-hero .section-heading{font-size:1.6rem}
 .ev-route-grid{grid-template-columns:1fr}
 }
+
+/* ページ内ガイドナビ */
+.ev-page-nav{
+  position:sticky;
+  top:var(--header-h);
+  z-index:900;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:0;
+}
+.ev-page-nav-inner{
+  max-width:var(--max-w);
+  margin:0 auto;
+  padding:0 16px;
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  gap:4px;
+  align-items:center;
+  height:44px;
+  -webkit-overflow-scrolling:touch;
+}
+.ev-page-nav-inner::-webkit-scrollbar{display:none}
+.ev-page-nav .h-pill{
+  font-size:.75rem;
+  padding:4px 11px;
+  flex-shrink:0;
+}
+/* evidence ページはスクロール着地位置をナビ2段分ずらす */
+.ev-scroll-offset{scroll-padding-top:calc(var(--header-h) + 44px)}
 </style>
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    var nav = document.querySelector('.ev-page-nav');
+    if(!nav) return;
+    document.documentElement.classList.add('ev-scroll-offset');
+    var pills = nav.querySelectorAll('.h-pill[data-section]');
+    var ids = Array.from(pills).map(function(p){return p.dataset.section});
+    var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);
+    var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||72) + 44 + 8;
+
+    function getActive(){
+      var scrollY = window.scrollY || window.pageYOffset;
+      var active = ids[0];
+      for(var i=0;i<sections.length;i++){
+        if(sections[i] && sections[i].getBoundingClientRect().top + scrollY - offset <= scrollY){
+          active = ids[i];
+        }
+      }
+      return active;
+    }
+
+    function updatePills(){
+      var active = getActive();
+      pills.forEach(function(p){
+        p.classList.toggle('active', p.dataset.section === active);
+      });
+      /* アクティブピルをスクロール位置に追従 */
+      var activePill = nav.querySelector('.h-pill.active');
+      if(activePill){
+        var inner = nav.querySelector('.ev-page-nav-inner');
+        var left = activePill.offsetLeft - inner.offsetWidth/2 + activePill.offsetWidth/2;
+        inner.scrollTo({left:left, behavior:'smooth'});
+      }
+    }
+
+    window.addEventListener('scroll', updatePills, {passive:true});
+    updatePills();
+  });
+})();
+</script>
