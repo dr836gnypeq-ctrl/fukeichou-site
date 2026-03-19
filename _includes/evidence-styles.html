@@ -53,12 +53,16 @@
 .ev-cta-link:hover{color:#fff}
 .ev-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
 /* Routing page cards */
-.ev-route-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:48px;max-width:720px;margin-left:auto;margin-right:auto}
-.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:48px 32px;text-align:center;transition:transform .3s,box-shadow .3s}
+.ev-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;max-width:860px;margin-left:auto;margin-right:auto}
+.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
 .ev-route-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
-.ev-route-icon{font-size:2.8rem;margin-bottom:16px}
-.ev-route-card h3{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:12px}
-.ev-route-card p{font-size:.9rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px}
+.ev-route-icon{display:none}
+.ev-cat-pill{display:inline-block;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.02em}
+.ev-cat-pill--clinic{background:#e1f5ee;color:#0f6e56}
+.ev-cat-pill--mental{background:#eee8fd;color:#5340b5}
+.ev-cat-pill--care{background:#faeeda;color:#854f0b}
+.ev-route-card h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:12px;line-height:1.45}
+.ev-route-card p{font-size:.88rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px;flex:1}
 .ev-route-card .btn{width:100%}
 @media(max-width:768px){
 .ev-highlights{grid-template-columns:1fr;margin-top:-24px}
@@ -68,7 +72,7 @@
 .ev-theory-grid{grid-template-columns:1fr}
 .ev-hero{padding:120px 0 60px}
 .ev-hero .section-heading{font-size:1.6rem}
-.ev-route-grid{grid-template-columns:1fr}
+.ev-route-grid{grid-template-columns:1fr;max-width:420px}
 }
 
 /* ページ内ガイドナビ */
