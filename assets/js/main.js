@@ -235,3 +235,40 @@ if(typeof lucide !== 'undefined'){
     if(el) secObs.observe(el);
   });
 })();
+
+/* ===== URLパラメータ 業態自動切替 ===== */
+(function(){
+  var AUDIENCE_MESSAGES = {
+    clinic: '待合室のワイドショー——音量のジレンマ、待ち時間の口コミ、診察前の患者の緊張。<br>その三つ、まとめて解決できます。',
+    mental: '刺激的なニュースをやめたい、でも消すわけにもいかない——<br>心療内科・精神科の待合室に、静かな自然映像という答えがあります。',
+    care:   '外に出られない入居者に、桜と紅葉と海を届けたい——<br>その思いに、映像という答えを。共用スペースのテレビを、もうひとつの窓に変えます。'
+  };
+
+  function getParam(key){
+    try {
+      return new URLSearchParams(window.location.search).get(key);
+    } catch(e){ return null; }
+  }
+
+  function injectHeroBanner(audience){
+    var msg = AUDIENCE_MESSAGES[audience];
+    if(!msg) return;
+    var hero = document.querySelector('.hero-content');
+    if(!hero) return;
+    var banner = document.createElement('div');
+    banner.className = 'hero-audience-banner';
+    banner.innerHTML = msg;
+    var actions = hero.querySelector('.hero-actions');
+    if(actions) hero.insertBefore(banner, actions);
+    else hero.appendChild(banner);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var from = getParam('from');
+    var validAudiences = ['clinic','mental','care'];
+    if(from && validAudiences.indexOf(from) !== -1){
+      if(typeof setAudience === 'function') setAudience(from);
+      injectHeroBanner(from);
+    }
+  });
+})();
