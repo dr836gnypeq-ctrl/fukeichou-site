@@ -112,6 +112,11 @@ a:hover{color:var(--gold)}
 .step-number{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--moss);color:var(--white);font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:16px}
 .flow-step h3{font-family:var(--serif);font-size:1rem;margin-bottom:10px}
 .flow-step p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+.step-icon{display:block;width:80px;height:80px;margin:0 auto 12px}
+.step-icon .si-bg{fill:#e8f5f2}
+.step-icon .si-s{fill:none;stroke:var(--moss);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.step-icon .si-f{fill:var(--moss)}
+.step-icon .si-scr{fill:#b2e0d8;stroke:var(--moss);stroke-width:0.5}
 .flow-note{text-align:center;padding:20px;background:var(--moss);color:var(--white);border-radius:8px;font-size:1.1rem}
 
 /* Pricing */
