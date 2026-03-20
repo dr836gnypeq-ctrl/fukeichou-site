@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dr836gnypeq-ctrl.github.io/fukeichou-site/sitemap.xml
