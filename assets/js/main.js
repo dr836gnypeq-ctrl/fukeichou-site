@@ -178,7 +178,7 @@ if(typeof lucide !== 'undefined'){
     {id:'pain',        label:'お悩み'},
     {id:'evidence',    label:'科学的根拠'},
     {id:'service',     label:'サービス概要'},
-    {id:'authentic',   label:'なぜ実写か'},
+    {id:'authentic',   label:'本物へのこだわり'},
     {id:'map',         label:'撮影地'},
     {id:'pricing',     label:'料金'},
     {id:'flow',        label:'導入の流れ'},
