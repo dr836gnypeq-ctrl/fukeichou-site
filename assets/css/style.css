@@ -306,14 +306,37 @@ a:hover{color:var(--gold)}
   overflow-x:auto;
   overflow-y:hidden;
   scrollbar-width:none;
-  padding:0 10px 0 16px;
+  padding:0 4px 0 16px;
   gap:6px;
   align-items:center;
   -webkit-overflow-scrolling:touch;
   position:relative;
-  -webkit-mask-image:linear-gradient(to right,black 0%,black calc(100% - 32px),transparent 100%);
-  mask-image:linear-gradient(to right,black 0%,black calc(100% - 32px),transparent 100%);
+  -webkit-mask-image:linear-gradient(to right,black 0%,black calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,black 0%,black calc(100% - 24px),transparent 100%);
 }
+/* ピル列右端の › ボタン */
+.h-pill-scroll-btn{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--ink-light);
+  font-size:1.1rem;
+  line-height:1;
+  cursor:pointer;
+  padding:0;
+  transition:opacity .2s, background .2s, color .2s;
+}
+.h-pill-scroll-btn:hover{background:var(--moss);color:#fff;border-color:var(--moss)}
+.h-pill-scroll-btn.hidden{opacity:0;pointer-events:none}
+/* at-top (ヒーロー上) でのボタン色 */
+.site-header.at-top .h-pill-scroll-btn{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.35)}
+.site-header.at-top .h-pill-scroll-btn:hover{background:rgba(255,255,255,.2);color:#fff}
 .h-pill-wrap::-webkit-scrollbar{display:none}
 
 /* ページ内スクロールピル */

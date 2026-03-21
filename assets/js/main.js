@@ -234,6 +234,24 @@ if(typeof lucide !== 'undefined'){
     var el = document.getElementById(s.id);
     if(el) secObs.observe(el);
   });
+
+  /* ── › ボタン: スクロール制御 + 右端到達で非表示 ── */
+  var scrollBtn = document.getElementById('pillScrollBtn');
+  if(scrollBtn && headerPills){
+    /* 右端に到達したらボタンを隠す */
+    function updateScrollBtn(){
+      var atEnd = headerPills.scrollLeft + headerPills.clientWidth >= headerPills.scrollWidth - 4;
+      scrollBtn.classList.toggle('hidden', atEnd);
+    }
+    headerPills.addEventListener('scroll', updateScrollBtn, {passive:true});
+    window.addEventListener('resize', updateScrollBtn);
+    updateScrollBtn();
+
+    /* ボタン押下で1ピル分スクロール */
+    scrollBtn.addEventListener('click', function(){
+      headerPills.scrollBy({left: 120, behavior:'smooth'});
+    });
+  }
 })();
 
 /* ===== URLパラメータ 業態自動切替 ===== */
