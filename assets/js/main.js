@@ -177,7 +177,7 @@ if(typeof lucide !== 'undefined'){
   var SECTIONS = [
     {id:'pain',        label:'お悩み'},
     {id:'evidence',    label:'科学的根拠'},
-    {id:'service',     label:'できること'},
+    {id:'service',     label:'サービス概要'},
     {id:'authentic',   label:'なぜ実写か'},
     {id:'map',         label:'撮影地'},
     {id:'pricing',     label:'料金'},
