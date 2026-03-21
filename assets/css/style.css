@@ -97,7 +97,7 @@ a:hover{color:var(--gold)}
 .evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
 .evidence-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
 .evidence-source{text-align:center;font-size:.9rem;color:var(--ink-faint)}
-.ev-audience-tabs{display:flex;justify-content:center;gap:8px;margin:24px 0 32px;flex-wrap:wrap}
+.ev-audience-tabs{display:flex;justify-content:center;gap:0;margin:24px 0 32px}
 
 /* FAQ */
 .faq-list{max-width:720px;margin:0 auto}
@@ -158,9 +158,10 @@ a:hover{color:var(--gold)}
 .flow-steps{grid-template-columns:1fr 1fr}
 .section-heading{font-size:1.5rem}
 .tab-btn{padding:10px 10px;font-size:.75rem}
-.ev-audience-tabs{flex-wrap:nowrap;gap:4px}
 .tab-switcher{flex-wrap:nowrap}
 .tab-switcher .tab-btn{flex:1;padding:10px 4px;text-align:center}
+.ev-audience-tabs{flex-wrap:nowrap}
+.ev-audience-tabs .tab-btn{flex:1;padding:10px 4px;text-align:center}
 }
 @media(max-width:480px){
 .flow-steps{grid-template-columns:1fr}
