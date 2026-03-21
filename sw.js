@@ -1,9 +1,9 @@
-/* 風景帖 Service Worker v6
- * v6変更点: tree_zoom_banding_v2.png 差し替えによるキャッシュ強制クリア
+/* 風景帖 Service Worker v7
+ * v7変更点: evidence-styles.htmlキャッシュクリア（ev-study hoverエフェクト削除）
  */
 
-var CACHE_STATIC = 'fk-static-v6';
-var CACHE_PAGES  = 'fk-pages-v6';
+var CACHE_STATIC = 'fk-static-v7';
+var CACHE_PAGES  = 'fk-pages-v7';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
