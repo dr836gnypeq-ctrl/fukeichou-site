@@ -85,8 +85,8 @@ a:hover{color:var(--gold)}
 
 /* Features */
 .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-bottom:48px}
-.feature-card{padding:36px;background:var(--white);border-radius:12px;border:1px solid var(--border);transition:transform .3s,box-shadow .3s}
-.feature-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.feature-card{padding:36px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.feature-card:hover{box-shadow:none;transform:none}
 .feature-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:12px;color:var(--ink);line-height:1.7}
 .feature-a{font-size:.9rem;color:var(--ink-light);line-height:1.9}
 
