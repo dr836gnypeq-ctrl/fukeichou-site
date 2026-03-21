@@ -143,7 +143,7 @@ a:hover{color:var(--gold)}
 .pricing-card .btn{margin:0 32px 32px;width:calc(100% - 64px)}
 
 /* PC hero text sizing */
-@media(min-width:769px){.hero-title{font-size:4.8rem}.hero-subtitle{font-size:1.25rem}.hero-tagline{font-size:.8rem}}
+@media(min-width:769px){.hero-tagline{font-size:1rem;padding:6px 22px}}
 
 /* Responsive */
 @media(max-width:768px){
