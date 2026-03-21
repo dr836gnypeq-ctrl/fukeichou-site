@@ -45,7 +45,7 @@ function setAudience(target){
   /* 4. #evidence カード表示切替 */
   document.querySelectorAll('#evidence .evidence-card').forEach(function(card){
     var ev = card.getAttribute('data-ev');
-    card.style.display = (ev === 'all' || ev === target) ? '' : 'none';
+    card.style.display = (ev === target) ? '' : 'none';
   });
 }
 
