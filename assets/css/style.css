@@ -147,7 +147,7 @@ a:hover{color:var(--gold)}
 
 /* PC hero text sizing */
 @media(min-width:769px){.hero-tagline{font-size:.8rem}}
-@media(min-width:769px){.h-pill{border-width:1.5px}.site-header.at-top .h-pill{border-color:rgba(255,255,255,.55)}}
+@media(min-width:769px){.h-pill{border-width:2.5px}.site-header.at-top .h-pill{border-color:rgba(255,255,255,.55)}}
 
 /* Responsive */
 @media(max-width:768px){
