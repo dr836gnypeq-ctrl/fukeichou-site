@@ -158,6 +158,14 @@ a:hover{color:var(--gold)}
 .flow-steps{grid-template-columns:1fr 1fr}
 .section-heading{font-size:1.5rem}
 .tab-btn{padding:12px 20px;font-size:.85rem}
+.ev-audience-tabs{flex-direction:column;align-items:center;gap:6px}
+.ev-audience-tabs .tab-btn{width:220px;border-radius:8px!important;border:1px solid var(--border)!important}
+.ev-audience-tabs .tab-btn.active{border-color:var(--moss)!important}
+.tab-switcher{flex-direction:column;align-items:center}
+.tab-switcher .tab-btn{width:220px}
+.tab-switcher .tab-btn:first-child{border-radius:8px 8px 0 0}
+.tab-switcher .tab-btn:last-child{border-radius:0 0 8px 8px}
+.tab-switcher .tab-btn:not(:first-child){border-top:none}
 }
 @media(max-width:480px){
 .flow-steps{grid-template-columns:1fr}
