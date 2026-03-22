@@ -289,3 +289,45 @@ if(typeof lucide !== 'undefined'){
     }
   });
 })();
+
+/* Contact form (formsubmit.co AJAX) */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('contactForm');
+    if(!form) return;
+    var btn = document.getElementById('contactSubmitBtn');
+    var successEl = document.getElementById('contactSuccess');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+
+      var data = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res){
+        if(res.ok){
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+          if(typeof gtag === 'function'){
+            gtag('event', 'form_submit', {
+              event_category: 'contact',
+              event_label: data.get('施設の種類') || 'unknown'
+            });
+          }
+        } else {
+          btn.disabled = false;
+          btn.textContent = '送信';
+          alert('送信に失敗しました。お手数ですがメールでお問い合わせください。');
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        btn.textContent = '送信';
+        alert('通信エラーが発生しました。お手数ですがメールでお問い合わせください。');
+      });
+    });
+  });
+})();

@@ -2,9 +2,51 @@
 <div class="container">
 <h2 class="section-heading">まずはお気軽にご相談ください</h2>
 <p class="section-lead">「うちの施設に合うか見てみたい」——そんなご相談も歓迎です。</p>
-<div class="tally-embed-wrap">
-<iframe data-tally-src="https://tally.so/embed/D4eQjl?alignLeft=0&hideTitle=1&transparentBackground=0&dynamicHeight=1" loading="lazy" width="100%" height="400" frameborder="0" marginheight="0" marginwidth="0" title="導入のご相談"></iframe>
-<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function(e){e.src=e.dataset.tallySrc})};if("undefined"!=typeof Tally)v();else if(!d.querySelector('script[src="'+w+'"]')){var s=d.createElement("script");s.src=w;s.onload=v;s.onerror=v;d.body.appendChild(s)}</script>
+<div class="contact-form-wrap">
+<form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/yamashita@eyemel.co.jp" method="POST">
+<input type="hidden" name="_subject" value="【風景帖】新しいお問い合わせ">
+<input type="hidden" name="_template" value="table">
+<input type="text" name="_honey" style="display:none">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_autoresponse" value="【風景帖】お問い合わせを受け付けました。内容を確認のうえ、2営業日以内にご連絡いたします。">
+<div class="form-group">
+<label for="cf-facility" class="form-label">施設名 <span class="form-req">*</span></label>
+<input type="text" id="cf-facility" name="施設名" class="form-input" required autocomplete="organization">
+</div>
+<div class="form-group">
+<label for="cf-name" class="form-label">ご担当者名 <span class="form-req">*</span></label>
+<input type="text" id="cf-name" name="ご担当者名" class="form-input" required autocomplete="name">
+</div>
+<div class="form-group">
+<label for="cf-email" class="form-label">メールアドレス <span class="form-req">*</span></label>
+<input type="email" id="cf-email" name="メールアドレス" class="form-input" required autocomplete="email">
+</div>
+<div class="form-group">
+<label for="cf-tel" class="form-label">電話番号</label>
+<input type="text" id="cf-tel" name="電話番号" class="form-input" inputmode="tel" autocomplete="tel">
+</div>
+<div class="form-group">
+<label for="cf-type" class="form-label">施設の種類 <span class="form-req">*</span></label>
+<select id="cf-type" name="施設の種類" class="form-input form-select" required>
+<option value="" disabled selected>選択してください</option>
+<option value="クリニック（内科・外科等）">クリニック（内科・外科等）</option>
+<option value="歯科医院">歯科医院</option>
+<option value="心療内科・精神科">心療内科・精神科</option>
+<option value="介護施設">介護施設</option>
+<option value="その他">その他</option>
+</select>
+</div>
+<div class="form-group">
+<label for="cf-message" class="form-label">お問い合わせ内容</label>
+<textarea id="cf-message" name="お問い合わせ内容" class="form-input form-textarea" rows="4"></textarea>
+</div>
+<button type="submit" class="form-submit" id="contactSubmitBtn">送信</button>
+</form>
+<div id="contactSuccess" class="contact-success" style="display:none">
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#136b5e" stroke-width="2.5"/><polyline points="14,25 22,33 34,17" fill="none" stroke="#136b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<h3 class="success-heading">送信いただきありがとうございます</h3>
+<p class="success-text">内容を確認のうえ、2営業日以内にご連絡いたします。</p>
+</div>
 </div>
 </div>
 </section>

@@ -114,8 +114,22 @@ a:hover{color:var(--gold)}
 .section.section-contact{background:var(--moss);color:var(--white)}
 .section.section-contact .section-heading{color:var(--white)}
 .section.section-contact .section-lead{color:rgba(255,255,255,.75)}
-.tally-embed-wrap{max-width:560px;margin:2rem auto 0;background:var(--white);border-radius:16px;padding:2rem 1.5rem;box-shadow:0 8px 32px rgba(0,0,0,.12)}
-.tally-embed-wrap iframe{display:block}
+.contact-form-wrap{max-width:520px;margin:2rem auto 0;background:var(--white);border-radius:16px;padding:2.5rem 2rem;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-size:.875rem;font-weight:500;color:var(--ink);margin-bottom:6px;font-family:var(--sans)}
+.form-req{color:#c0392b;font-weight:600}
+.form-input{display:block;width:100%;padding:11px 14px;font-size:.95rem;font-family:var(--sans);color:var(--ink);background:var(--paper-warm);border:1.5px solid var(--border);border-radius:8px;transition:border-color .25s var(--ease),box-shadow .25s var(--ease);outline:none;-webkit-appearance:none}
+.form-input:focus{border-color:var(--moss);box-shadow:0 0 0 3px rgba(19,107,94,.12)}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-textarea{resize:vertical;min-height:100px}
+.form-submit{display:block;width:100%;padding:14px;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--white);background:var(--moss);border:none;border-radius:8px;cursor:pointer;transition:all .3s var(--ease);margin-top:.5rem;letter-spacing:.03em}
+.form-submit:hover{background:var(--moss-light);transform:translateY(-1px);box-shadow:0 4px 20px rgba(19,107,94,.3)}
+.form-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.contact-success{text-align:center;padding:2rem 0}
+.contact-success svg{margin:0 auto 1rem}
+.success-heading{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.success-text{color:var(--ink-light);font-size:.95rem;line-height:1.8}
+@media(max-width:768px){.contact-form-wrap{padding:1.75rem 1.25rem;margin-top:1.5rem}}
 
 /* Flow */
 .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
