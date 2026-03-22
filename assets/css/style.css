@@ -509,3 +509,5 @@ a:hover{color:var(--gold)}
 .ev-study-result strong{color:var(--ink)}
 .ev-study-link{font-size:.8rem;color:var(--moss)}
 .ev-study-link:hover{color:var(--gold)}
+/* DEV: 変更提案プレビュー用スタイル（公開前に削除） */
+.proposal{color:#1a6bb5;font-style:italic;border-left:3px solid #1a6bb5;padding-left:12px;margin-top:12px;font-size:.92em;line-height:1.9}
