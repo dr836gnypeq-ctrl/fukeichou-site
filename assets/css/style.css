@@ -20,6 +20,8 @@ a:hover{color:var(--gold)}
 .section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.08em}
 .section-lead{text-align:center;color:var(--ink-light);font-size:1rem;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
 .section-tagline{text-align:center;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-bottom:16px}
+.change-preview{color:#1a6fd4;font-size:.92em;margin-top:4px;margin-bottom:4px;padding:3px 8px;border-left:3px solid #1a6fd4;display:block}
+.change-preview-block{color:#1a6fd4;border:1.5px dashed #1a6fd4;border-radius:6px;padding:8px 12px;margin-top:6px;font-size:.92em}
 .section-overview{text-align:center;color:var(--ink-light);font-size:.95rem;line-height:2;margin-top:-28px;margin-bottom:48px;max-width:640px;margin-left:auto;margin-right:auto}
 
 /* Version badge */
