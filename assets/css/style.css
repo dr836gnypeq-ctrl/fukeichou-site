@@ -114,6 +114,8 @@ a:hover{color:var(--gold)}
 .section.section-contact{background:var(--moss);color:var(--white)}
 .section.section-contact .section-heading{color:var(--white)}
 .section.section-contact .section-lead{color:rgba(255,255,255,.75)}
+.tally-embed-wrap{max-width:560px;margin:2rem auto 0;background:var(--white);border-radius:16px;padding:2rem 1.5rem;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.tally-embed-wrap iframe{display:block}
 
 /* Flow */
 .flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
