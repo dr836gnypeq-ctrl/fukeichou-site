@@ -1,7 +1,7 @@
 ---
 layout: default
-title: 待合室シミュレーター
-description: あなたの待合室に風景帖の映像を置いてみませんか。写真をアップロードして、導入後のイメージをご確認ください。
+title: 導入シミュレーター
+description: あなたの施設に風景帖の映像を置いてみませんか。写真をアップロードして、導入後のイメージをご確認ください。
 noindex: true
 ---
 
@@ -120,10 +120,8 @@ noindex: true
 <!-- Hero -->
 <div class="sim-hero">
   <div class="container">
-    <h1>待合室シミュレーター</h1>
-    <span class="change-preview">【B-5案】導入イメージシミュレーター</span>
-    <p>あなたの待合室に、風景帖の映像を置いてみませんか。</p>
-    <span class="change-preview">【B-5案】あなたの施設に、風景帖の映像を置いてみませんか。</span>
+    <h1>導入シミュレーター</h1>
+    <p>あなたの施設に、風景帖の映像を置いてみませんか。</p>
   </div>
 </div>
 
@@ -146,7 +144,7 @@ noindex: true
       <circle cx="18" cy="22" r="4" stroke-width="2"/>
       <path d="M6 34l10-8 6 5 8-10 12 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <h3>待合室の写真をアップロード</h3>
+    <h3>施設の写真をアップロード</h3>
     <p>ドラッグ＆ドロップ、またはクリックして選択</p>
     <input type="file" accept="image/*" id="simFileInput">
   </div>
@@ -173,7 +171,7 @@ noindex: true
   </div>
 
   <div class="sim-canvas-wrap" id="simContainer">
-    <img class="sim-bg" id="simBgPhoto" src="{{ '/assets/images/sample-clinic.jpg' | relative_url }}" alt="待合室の写真">
+    <img class="sim-bg" id="simBgPhoto" src="{{ '/assets/images/sample-clinic.jpg' | relative_url }}" alt="施設の写真">
     <div class="sim-monitor" id="simMonitor">
       <div class="sim-drag-hint" id="simDragHint">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
@@ -217,7 +215,7 @@ noindex: true
 </div>
 
 <div class="sim-cta">
-  <p>この風景を、あなたの待合室に。</p>
+  <p>この風景を、あなたの施設に。</p>
   <a href="{{ '/#contact' | relative_url }}" class="btn btn-primary btn-lg">導入のご相談</a>
   <p style="font-size:.8rem;opacity:.6;margin-top:10px">初月無料トライアル実施中</p>
 </div>
