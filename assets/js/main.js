@@ -331,3 +331,31 @@ if(typeof lucide !== 'undefined'){
     });
   });
 })();
+
+/* ── Scroll Depth Tracking (10% increments) ── */
+(function(){
+  var thresholds = [10,20,30,40,50,60,70,80];
+  var fired = {};
+  function getScrollPercent(){
+    var h = document.documentElement;
+    var b = document.body;
+    var scrollTop = h.scrollTop || b.scrollTop;
+    var scrollHeight = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+    return scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
+  }
+  window.addEventListener('scroll', function(){
+    var pct = getScrollPercent();
+    for(var i = 0; i < thresholds.length; i++){
+      var t = thresholds[i];
+      if(pct >= t && !fired[t]){
+        fired[t] = true;
+        if(typeof gtag === 'function'){
+          gtag('event', 'scroll_depth', {
+            percent_scrolled: t,
+            page_path: location.pathname
+          });
+        }
+      }
+    }
+  }, {passive: true});
+})();
