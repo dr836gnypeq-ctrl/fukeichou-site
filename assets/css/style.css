@@ -551,6 +551,6 @@ a:hover{color:var(--gold)}
 
 /* Company Page */
 .company-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:24px 0}
-.company-table th{width:140px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top}
+.company-table th{width:180px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top;white-space:nowrap}
 .company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
-.company-info-img{display:block;max-width:280px;height:auto}
+.company-info-img{display:block;height:3.4em}
