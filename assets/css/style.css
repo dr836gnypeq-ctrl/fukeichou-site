@@ -525,3 +525,24 @@ a:hover{color:var(--gold)}
 .ev-study-result strong{color:var(--ink)}
 .ev-study-link{font-size:.8rem;color:var(--moss)}
 .ev-study-link:hover{color:var(--gold)}
+
+/* Site Footer */
+.site-footer{background:var(--ink);padding:20px 0}
+.site-footer-inner{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.5)}
+.site-footer-copy{margin:0}
+.site-footer-link{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.site-footer-link:hover{color:rgba(255,255,255,.8)}
+
+/* Privacy Page */
+.section-privacy{padding:120px 0 80px}
+.privacy-title{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.privacy-updated{font-size:.8rem;color:var(--ink-faint);margin-bottom:48px}
+.privacy-body h2{font-size:1rem;font-weight:700;margin:32px 0 12px;color:var(--ink)}
+.privacy-body p{font-size:.9rem;line-height:1.9;color:var(--ink-light);margin-bottom:12px}
+.privacy-table-wrap{overflow-x:auto;margin:16px 0}
+.privacy-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.privacy-table th{background:var(--paper-warm);padding:10px 16px;text-align:left;font-weight:600;border-bottom:1px solid #ddd}
+.privacy-table td{padding:10px 16px;border-bottom:1px solid #eee}
+.privacy-list{font-size:.9rem;line-height:1.9;color:var(--ink-light);padding-left:1.4em;margin:8px 0 16px}
+.privacy-link{color:var(--moss);text-decoration:underline;text-underline-offset:2px}
+.privacy-link:hover{color:var(--gold)}
