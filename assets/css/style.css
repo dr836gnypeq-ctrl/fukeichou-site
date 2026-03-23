@@ -546,3 +546,4 @@ a:hover{color:var(--gold)}
 .privacy-list{font-size:.9rem;line-height:1.9;color:var(--ink-light);padding-left:1.4em;margin:8px 0 16px}
 .privacy-link{color:var(--moss);text-decoration:underline;text-underline-offset:2px}
 .privacy-link:hover{color:var(--gold)}
+.privacy-back{margin-top:48px;padding-top:32px;border-top:1px solid #e8e6e0}

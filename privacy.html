@@ -3,7 +3,17 @@ layout: default
 title: プライバシーポリシー
 description: 風景帖のプライバシーポリシー。Cookie・アクセス解析ツールの利用、外部送信先、オプトアウト方法について。
 noindex: true
+no_contact: true
 ---
+
+<style>
+/* Force header to always show scrolled style (no hero on this page) */
+.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
+.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
+.site-header.at-top .logo-text{color:var(--ink)}
+.site-header.at-top .nav-toggle span{background:var(--ink)}
+</style>
 
 <section class="section section-privacy">
 <div class="container">
@@ -46,5 +56,22 @@ noindex: true
 <p>本ポリシーは、法令の改正やサービスの変更に伴い、事前の通知なく更新される場合があります。最新の内容は本ページをご確認ください。</p>
 
 </div>
+
+<div class="privacy-back">
+<a href="{{ '/' | relative_url }}" class="text-link-btn">← トップページに戻る</a>
+</div>
+
 </div>
 </section>
+
+<script>
+(function(){
+  var baseUrl = '{{ site.baseurl }}';
+  document.querySelectorAll('.site-header nav a').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      a.setAttribute('href', baseUrl + '/' + href);
+    }
+  });
+})();
+</script>
