@@ -41,7 +41,7 @@ no_contact: true
 <script>
 (function(){
   var baseUrl = '{{ site.baseurl }}';
-  document.querySelectorAll('.site-header nav a').forEach(function(a){
+  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
     var href = a.getAttribute('href');
     if(href && href.startsWith('#')){
       a.setAttribute('href', baseUrl + '/' + href);
