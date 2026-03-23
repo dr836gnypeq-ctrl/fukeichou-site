@@ -284,7 +284,9 @@ a:hover{color:var(--gold)}
 .intro-image-note{margin-top:10px;font-size:.72rem;color:var(--ink-light);opacity:.45;text-align:center;line-height:1.7}
 
 /* ===== MOBILE TEXT LEFT-ALIGN ===== */
+/* Headings / icons / stat numbers / CTAs stay centered. Body text goes left. */
 @media(max-width:768px){
+  /* LP global */
   .section-lead,.section-overview{text-align:left}
   .pain-card{text-align:left}
   .pain-card .pain-icon{text-align:center}
@@ -293,9 +295,14 @@ a:hover{color:var(--gold)}
   .evidence-card .evidence-stat{text-align:center}
   .evidence-card h3{text-align:center}
   .intro-image-caption{text-align:left}
+  .intro-image-note{text-align:left}
   .flow-step{text-align:left}
   .flow-step .step-number{display:flex;width:48px;margin-left:auto;margin-right:auto}
   .flow-step h3{text-align:center}
+  .flow-note{text-align:left}
+  /* Pricing */
+  .pricing-zero,.pricing-trial{text-align:left}
+  /* Evidence page shared — stat cards stay centered (short labels) */
 }
 
 /* ===== MOBILE SCROLL REDUCTION ===== */
