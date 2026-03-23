@@ -1,0 +1,51 @@
+---
+layout: default
+title: 運営者情報
+description: 風景帖の運営者情報。
+noindex: true
+no_contact: true
+---
+
+<style>
+/* Force header to always show scrolled style (no hero on this page) */
+.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
+.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
+.site-header.at-top .logo-text{color:var(--ink)}
+.site-header.at-top .nav-toggle span{background:var(--ink)}
+</style>
+
+<section class="section section-privacy">
+<div class="container">
+<h1 class="privacy-title">運営者情報</h1>
+
+<div class="privacy-body">
+
+<table class="company-table">
+<tbody>
+<tr><th>商号</th><td>アイメル合同会社</td></tr>
+<tr><th>代表者・所在地</th><td><img src="{{ '/assets/images/company-info.png' | relative_url }}" alt="" class="company-info-img"></td></tr>
+<tr><th>お問い合わせ</th><td><a href="{{ '/' | relative_url }}#contact" class="privacy-link">お問い合わせフォームはこちら</a></td></tr>
+</tbody>
+</table>
+
+</div>
+
+<div class="privacy-back">
+<a href="{{ '/' | relative_url }}" class="text-link-btn">← トップページに戻る</a>
+</div>
+
+</div>
+</section>
+
+<script>
+(function(){
+  var baseUrl = '{{ site.baseurl }}';
+  document.querySelectorAll('.site-header nav a').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      a.setAttribute('href', baseUrl + '/' + href);
+    }
+  });
+})();
+</script>
