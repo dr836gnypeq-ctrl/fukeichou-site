@@ -303,6 +303,8 @@ a:hover{color:var(--gold)}
   /* Pricing */
   .pricing-zero,.pricing-trial{text-align:left}
   /* Evidence page shared — stat cards stay centered (short labels) */
+  /* Map */
+  .map-note,.map-source{text-align:left}
 }
 
 /* ===== MOBILE SCROLL REDUCTION ===== */
