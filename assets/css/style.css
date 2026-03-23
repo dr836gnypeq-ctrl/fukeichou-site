@@ -283,6 +283,21 @@ a:hover{color:var(--gold)}
 }
 .intro-image-note{margin-top:10px;font-size:.72rem;color:var(--ink-light);opacity:.45;text-align:center;line-height:1.7}
 
+/* ===== MOBILE TEXT LEFT-ALIGN ===== */
+@media(max-width:768px){
+  .section-lead,.section-overview{text-align:left}
+  .pain-card{text-align:left}
+  .pain-card .pain-icon{text-align:center}
+  .pain-card h3{text-align:center}
+  .evidence-card{text-align:left}
+  .evidence-card .evidence-stat{text-align:center}
+  .evidence-card h3{text-align:center}
+  .intro-image-caption{text-align:left}
+  .flow-step{text-align:left}
+  .flow-step .step-number{display:flex;width:48px;margin-left:auto;margin-right:auto}
+  .flow-step h3{text-align:center}
+}
+
 /* ===== MOBILE SCROLL REDUCTION ===== */
 
 /* 比較表: モバイルで左列sticky */
