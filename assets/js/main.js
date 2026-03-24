@@ -80,56 +80,32 @@ function switchTab(target){ setAudience(target); }
   window.addEventListener('scroll',check,{passive:true});
 })();
 
-/* ── スクロール補正ユーティリティ ──
-   smooth scroll完了を検知してから位置ズレを瞬間補正する。
-   1) scrollendイベント (Chrome114+/FF109+/Safari17.4+)
-   2) rAFポーリング (フォールバック)
-   3) 安全タイムアウト 2000ms                              */
+/* ── スクロールユーティリティ ──
+   毎フレーム目標位置を再計算する自作スムーズスクロール。
+   レイアウトシフトに追従するため補正が不要。           */
 function _scrollToTarget(el, offsetFn){
-  var top = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
-  window.scrollTo({top:top, behavior:'smooth'});
+  var startY = window.pageYOffset;
+  var target = el.getBoundingClientRect().top + startY - offsetFn();
+  var dist   = Math.abs(target - startY);
+  /* 距離に応じた所要時間: 300〜800ms */
+  var dur = Math.min(800, Math.max(300, dist * 0.4));
+  var t0  = null;
 
-  var done = false;
-  function correct(){
-    if(done) return;
-    done = true;
-    var target = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
-    var delta = Math.abs(target - window.pageYOffset);
-    if(delta <= 2) return;
-    if(delta <= 30){
-      window.scrollTo({top:target});
-      return;
-    }
-    /* ease-out only animation — 減速のみ、再加速なし */
-    var start = window.pageYOffset;
-    var dist = target - start;
-    var dur = Math.min(300, delta * 2);  /* 最大300ms */
-    var t0 = null;
-    function step(ts){
-      if(!t0) t0 = ts;
-      var p = Math.min((ts - t0) / dur, 1);
-      var ease = 1 - (1 - p) * (1 - p);  /* easeOutQuad */
-      window.scrollTo(0, start + dist * ease);
-      if(p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
+  function easeInOut(t){
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  if('onscrollend' in window){
-    window.addEventListener('scrollend', correct, {once:true});
-  } else {
-    /* rAF polling: スクロール位置が5フレーム安定したら完了とみなす */
-    var lastY = window.pageYOffset, stable = 0;
-    (function poll(){
-      if(done) return;
-      var y = window.pageYOffset;
-      if(y === lastY) stable++; else stable = 0;
-      lastY = y;
-      if(stable >= 5){ correct(); return; }
-      requestAnimationFrame(poll);
-    })();
-  }
-  setTimeout(correct, 2000);
+  (function frame(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts - t0) / dur, 1);
+    /* 毎フレーム目標を再計算（レイアウトシフト追従） */
+    var liveTarget = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+    var pos = startY + (liveTarget - startY) * easeInOut(p);
+    window.scrollTo(0, pos);
+    if(p < 1) requestAnimationFrame(frame);
+  })(performance.now());
 }
 
 /* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
