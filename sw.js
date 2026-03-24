@@ -1,9 +1,9 @@
-/* 風景帖 Service Worker v7
- * v7変更点: evidence-styles.htmlキャッシュクリア（ev-study hoverエフェクト削除）
+/* 風景帖 Service Worker v8
+ * v8変更点: company-info.png高解像度差替えキャッシュクリア
  */
 
-var CACHE_STATIC = 'fk-static-v7';
-var CACHE_PAGES  = 'fk-pages-v7';
+var CACHE_STATIC = 'fk-static-v8';
+var CACHE_PAGES  = 'fk-pages-v8';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [

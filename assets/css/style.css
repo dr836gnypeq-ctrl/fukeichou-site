@@ -578,4 +578,4 @@ a:hover{color:var(--gold)}
 .company-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:24px 0}
 .company-table th{width:180px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top;white-space:nowrap}
 .company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
-.company-info-img{display:block;max-width:260px;height:auto}
+.company-info-img{display:block;width:204px;max-width:100%;height:auto}
