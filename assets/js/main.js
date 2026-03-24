@@ -82,14 +82,25 @@ function switchTab(target){ setAudience(target); }
 
 /* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
 (function(){
-  function scrollToHash(id){
-    var el = document.getElementById(id);
-    if(!el) return;
+  function getOffset(){
     var offset = document.querySelector('.site-header').offsetHeight;
     var subNav = document.querySelector('.ev-page-nav');
     if(subNav) offset += subNav.offsetHeight;
-    var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
-    window.scrollTo({top:top, behavior:'smooth'});
+    return offset;
+  }
+  function scrollToHash(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    /* 1回目: 瞬間移動（遅延読み込みの高さ変動前に着地） */
+    var top = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
+    window.scrollTo({top:top});
+    /* 2回目: 遅延コンテンツのレイアウト確定後に微調整 */
+    setTimeout(function(){
+      var top2 = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
+      if(Math.abs(top2 - window.pageYOffset) > 4){
+        window.scrollTo({top:top2, behavior:'smooth'});
+      }
+    }, 300);
   }
   document.addEventListener('click', function(e){
     var a = e.target.closest('a[href^="#"]');
@@ -226,9 +237,15 @@ if(typeof lucide !== 'undefined'){
     pi.addEventListener('click', function(){
       var el = document.getElementById(s.id);
       if(!el) return;
-      var top = el.getBoundingClientRect().top + window.pageYOffset
-                - document.querySelector('.site-header').offsetHeight;
-      window.scrollTo({top:top, behavior:'smooth'});
+      var hdr = document.querySelector('.site-header').offsetHeight;
+      var top = el.getBoundingClientRect().top + window.pageYOffset - hdr;
+      window.scrollTo({top:top});
+      setTimeout(function(){
+        var top2 = el.getBoundingClientRect().top + window.pageYOffset - hdr;
+        if(Math.abs(top2 - window.pageYOffset) > 4){
+          window.scrollTo({top:top2, behavior:'smooth'});
+        }
+      }, 300);
     });
     headerPills.appendChild(pi);
     pillItems.push(pi);
