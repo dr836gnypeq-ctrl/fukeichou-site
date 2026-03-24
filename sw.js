@@ -1,13 +1,13 @@
-/* 風景帖 Service Worker v9
- * v9変更点: scroll-padding-top削除に伴うキャッシュクリア
+/* 風景帖 Service Worker v10
+ * v10変更点: scroll-behavior:smooth完全削除
  */
 
-var CACHE_STATIC = 'fk-static-v9';
-var CACHE_PAGES  = 'fk-pages-v9';
+var CACHE_STATIC = 'fk-static-v10';
+var CACHE_PAGES  = 'fk-pages-v10';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
-  BASE + '/assets/css/style.css?v=20260324d',
+  BASE + '/assets/css/style.css?v=20260324e',
   BASE + '/assets/js/main.js?v=20260324c',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
