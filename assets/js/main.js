@@ -93,11 +93,26 @@ function _scrollToTarget(el, offsetFn){
   function correct(){
     if(done) return;
     done = true;
-    var top2 = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
-    var delta = Math.abs(top2 - window.pageYOffset);
-    if(delta > 2){
-      window.scrollTo({top:top2, behavior: delta > 30 ? 'smooth' : 'auto'});
+    var target = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+    var delta = Math.abs(target - window.pageYOffset);
+    if(delta <= 2) return;
+    if(delta <= 30){
+      window.scrollTo({top:target});
+      return;
     }
+    /* ease-out only animation — 減速のみ、再加速なし */
+    var start = window.pageYOffset;
+    var dist = target - start;
+    var dur = Math.min(300, delta * 2);  /* 最大300ms */
+    var t0 = null;
+    function step(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var ease = 1 - (1 - p) * (1 - p);  /* easeOutQuad */
+      window.scrollTo(0, start + dist * ease);
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
 
   if('onscrollend' in window){
