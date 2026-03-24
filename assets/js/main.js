@@ -97,7 +97,7 @@ function switchTab(target){ setAudience(target); }
     setTimeout(function(){
       var top2 = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
       if(Math.abs(top2 - window.pageYOffset) > 4){
-        window.scrollTo({top:top2, behavior:'smooth'});
+        window.scrollTo({top:top2});
       }
     }, 800);
   }
@@ -241,7 +241,7 @@ if(typeof lucide !== 'undefined'){
       setTimeout(function(){
         var top2 = el.getBoundingClientRect().top + window.pageYOffset - hdr;
         if(Math.abs(top2 - window.pageYOffset) > 4){
-          window.scrollTo({top:top2, behavior:'smooth'});
+          window.scrollTo({top:top2});
         }
       }, 800);
     });

@@ -8,7 +8,7 @@ var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
   BASE + '/assets/css/style.css?v=20260324e',
-  BASE + '/assets/js/main.js?v=20260324e',
+  BASE + '/assets/js/main.js?v=20260324f',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',
