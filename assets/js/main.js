@@ -199,7 +199,10 @@ if(typeof lucide !== 'undefined'){
     pi.textContent = s.label;
     pi.addEventListener('click', function(){
       var el = document.getElementById(s.id);
-      if(el) el.scrollIntoView({behavior:'smooth'});
+      if(!el) return;
+      var top = el.getBoundingClientRect().top + window.pageYOffset
+                - document.querySelector('.site-header').offsetHeight;
+      window.scrollTo({top:top, behavior:'smooth'});
     });
     headerPills.appendChild(pi);
     pillItems.push(pi);
