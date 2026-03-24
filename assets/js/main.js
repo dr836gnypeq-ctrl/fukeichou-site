@@ -80,6 +80,23 @@ function switchTab(target){ setAudience(target); }
   window.addEventListener('scroll',check,{passive:true});
 })();
 
+/* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
+(function(){
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').substring(1);
+    var el = document.getElementById(id);
+    if(!el) return;
+    e.preventDefault();
+    var offset = document.querySelector('.site-header').offsetHeight;
+    var subNav = document.querySelector('.ev-page-nav');
+    if(subNav) offset += subNav.offsetHeight;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({top:top, behavior:'smooth'});
+  });
+})();
+
 /* ハンバーガーメニュー */
 (function(){
   var toggle=document.getElementById('navToggle');
