@@ -9,7 +9,7 @@
 --header-h:72px;--max-w:1080px;
 --ease:cubic-bezier(0.4,0,0.2,1);
 }
-html{scroll-behavior:smooth;scroll-padding-top:var(--header-h);font-size:16px}
+html{scroll-behavior:smooth;font-size:16px}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
 img{max-width:100%;height:auto;display:block}
 a{color:var(--moss);text-decoration:none;transition:color .3s var(--ease)}

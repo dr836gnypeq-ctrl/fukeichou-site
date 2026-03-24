@@ -1,14 +1,14 @@
-/* 風景帖 Service Worker v8
- * v8変更点: company-info.png高解像度差替えキャッシュクリア
+/* 風景帖 Service Worker v9
+ * v9変更点: scroll-padding-top削除に伴うキャッシュクリア
  */
 
-var CACHE_STATIC = 'fk-static-v8';
-var CACHE_PAGES  = 'fk-pages-v8';
+var CACHE_STATIC = 'fk-static-v9';
+var CACHE_PAGES  = 'fk-pages-v9';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
-  BASE + '/assets/css/style.css?v=20260317n',
-  BASE + '/assets/js/main.js?v=20260317n',
+  BASE + '/assets/css/style.css?v=20260324d',
+  BASE + '/assets/js/main.js?v=20260324c',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',

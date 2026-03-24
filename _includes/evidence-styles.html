@@ -89,8 +89,7 @@
   padding:4px 11px;
   flex-shrink:0;
 }
-/* evidence ページはスクロール着地位置をナビ2段分ずらす */
-.ev-scroll-offset{scroll-padding-top:calc(var(--header-h) + 44px)}
+/* evidence ページのスクロール着地はmain.jsのアンカー補正で処理 */
 </style>
 
 <script>
@@ -98,7 +97,6 @@
   document.addEventListener('DOMContentLoaded',function(){
     var nav = document.querySelector('.ev-page-nav');
     if(!nav) return;
-    document.documentElement.classList.add('ev-scroll-offset');
     var pills = nav.querySelectorAll('.h-pill[data-section]');
     var ids = Array.from(pills).map(function(p){return p.dataset.section});
     var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);

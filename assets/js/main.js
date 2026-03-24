@@ -82,19 +82,28 @@ function switchTab(target){ setAudience(target); }
 
 /* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
 (function(){
-  document.addEventListener('click', function(e){
-    var a = e.target.closest('a[href^="#"]');
-    if(!a) return;
-    var id = a.getAttribute('href').substring(1);
+  function scrollToHash(id){
     var el = document.getElementById(id);
     if(!el) return;
-    e.preventDefault();
     var offset = document.querySelector('.site-header').offsetHeight;
     var subNav = document.querySelector('.ev-page-nav');
     if(subNav) offset += subNav.offsetHeight;
     var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
     window.scrollTo({top:top, behavior:'smooth'});
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').substring(1);
+    if(!document.getElementById(id)) return;
+    e.preventDefault();
+    history.pushState(null, '', '#' + id);
+    scrollToHash(id);
   });
+  /* URL直アクセス時のハッシュ補正 */
+  if(location.hash){
+    setTimeout(function(){ scrollToHash(location.hash.substring(1)); }, 100);
+  }
 })();
 
 /* ハンバーガーメニュー */
