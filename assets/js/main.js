@@ -80,6 +80,42 @@ function switchTab(target){ setAudience(target); }
   window.addEventListener('scroll',check,{passive:true});
 })();
 
+/* ── スクロール補正ユーティリティ ──
+   smooth scroll完了を検知してから位置ズレを瞬間補正する。
+   1) scrollendイベント (Chrome114+/FF109+/Safari17.4+)
+   2) rAFポーリング (フォールバック)
+   3) 安全タイムアウト 2000ms                              */
+function _scrollToTarget(el, offsetFn){
+  var top = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+  window.scrollTo({top:top, behavior:'smooth'});
+
+  var done = false;
+  function correct(){
+    if(done) return;
+    done = true;
+    var top2 = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+    if(Math.abs(top2 - window.pageYOffset) > 2){
+      window.scrollTo({top:top2});
+    }
+  }
+
+  if('onscrollend' in window){
+    window.addEventListener('scrollend', correct, {once:true});
+  } else {
+    /* rAF polling: スクロール位置が5フレーム安定したら完了とみなす */
+    var lastY = window.pageYOffset, stable = 0;
+    (function poll(){
+      if(done) return;
+      var y = window.pageYOffset;
+      if(y === lastY) stable++; else stable = 0;
+      lastY = y;
+      if(stable >= 5){ correct(); return; }
+      requestAnimationFrame(poll);
+    })();
+  }
+  setTimeout(correct, 2000);
+}
+
 /* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
 (function(){
   function getOffset(){
@@ -91,15 +127,7 @@ function switchTab(target){ setAudience(target); }
   function scrollToHash(id){
     var el = document.getElementById(id);
     if(!el) return;
-    var top = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
-    window.scrollTo({top:top, behavior:'smooth'});
-    /* スクロール完了後、遅延読み込みで位置がずれていたら補正 */
-    setTimeout(function(){
-      var top2 = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
-      if(Math.abs(top2 - window.pageYOffset) > 4){
-        window.scrollTo({top:top2});
-      }
-    }, 800);
+    _scrollToTarget(el, getOffset);
   }
   document.addEventListener('click', function(e){
     var a = e.target.closest('a[href^="#"]');
@@ -235,15 +263,9 @@ if(typeof lucide !== 'undefined'){
     pi.addEventListener('click', function(){
       var el = document.getElementById(s.id);
       if(!el) return;
-      var hdr = document.querySelector('.site-header').offsetHeight;
-      var top = el.getBoundingClientRect().top + window.pageYOffset - hdr;
-      window.scrollTo({top:top, behavior:'smooth'});
-      setTimeout(function(){
-        var top2 = el.getBoundingClientRect().top + window.pageYOffset - hdr;
-        if(Math.abs(top2 - window.pageYOffset) > 4){
-          window.scrollTo({top:top2});
-        }
-      }, 800);
+      _scrollToTarget(el, function(){
+        return document.querySelector('.site-header').offsetHeight;
+      });
     });
     headerPills.appendChild(pi);
     pillItems.push(pi);
