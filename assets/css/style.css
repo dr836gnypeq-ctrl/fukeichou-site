@@ -10,7 +10,7 @@
 --ease:cubic-bezier(0.4,0,0.2,1);
 }
 html{scroll-behavior:smooth;scroll-padding-top:var(--header-h);font-size:16px}
-body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
 img{max-width:100%;height:auto;display:block}
 a{color:var(--moss);text-decoration:none;transition:color .3s var(--ease)}
 a:hover{color:var(--gold)}
@@ -125,6 +125,7 @@ a:hover{color:var(--gold)}
 .form-submit{display:block;width:100%;padding:14px;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--white);background:var(--moss);border:none;border-radius:8px;cursor:pointer;transition:all .3s var(--ease);margin-top:.5rem;letter-spacing:.03em}
 .form-submit:hover{background:var(--moss-light);transform:translateY(-1px);box-shadow:0 4px 20px rgba(19,107,94,.3)}
 .form-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.form-operator-link{text-align:center;margin-top:12px;font-size:.78rem}
 .contact-success{text-align:center;padding:2rem 0}
 .contact-success svg{margin:0 auto 1rem}
 .success-heading{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
@@ -551,7 +552,7 @@ a:hover{color:var(--gold)}
 .ev-study-link:hover{color:var(--gold)}
 
 /* Site Footer */
-.site-footer{background:var(--ink);padding:20px 0}
+.site-footer{background:var(--ink);padding:20px 0;margin-top:auto}
 .site-footer-inner{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.5)}
 .site-footer-copy{margin:0}
 .site-footer-links{display:flex;gap:20px}
