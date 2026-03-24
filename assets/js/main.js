@@ -91,16 +91,15 @@ function switchTab(target){ setAudience(target); }
   function scrollToHash(id){
     var el = document.getElementById(id);
     if(!el) return;
-    /* 1回目: 瞬間移動（遅延読み込みの高さ変動前に着地） */
     var top = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
-    window.scrollTo({top:top});
-    /* 2回目: 遅延コンテンツのレイアウト確定後に微調整 */
+    window.scrollTo({top:top, behavior:'smooth'});
+    /* スクロール完了後、遅延読み込みで位置がずれていたら補正 */
     setTimeout(function(){
       var top2 = el.getBoundingClientRect().top + window.pageYOffset - getOffset();
       if(Math.abs(top2 - window.pageYOffset) > 4){
         window.scrollTo({top:top2, behavior:'smooth'});
       }
-    }, 300);
+    }, 800);
   }
   document.addEventListener('click', function(e){
     var a = e.target.closest('a[href^="#"]');
@@ -111,7 +110,6 @@ function switchTab(target){ setAudience(target); }
     history.pushState(null, '', '#' + id);
     scrollToHash(id);
   });
-  /* URL直アクセス時のハッシュ補正 */
   if(location.hash){
     setTimeout(function(){ scrollToHash(location.hash.substring(1)); }, 100);
   }
@@ -239,13 +237,13 @@ if(typeof lucide !== 'undefined'){
       if(!el) return;
       var hdr = document.querySelector('.site-header').offsetHeight;
       var top = el.getBoundingClientRect().top + window.pageYOffset - hdr;
-      window.scrollTo({top:top});
+      window.scrollTo({top:top, behavior:'smooth'});
       setTimeout(function(){
         var top2 = el.getBoundingClientRect().top + window.pageYOffset - hdr;
         if(Math.abs(top2 - window.pageYOffset) > 4){
           window.scrollTo({top:top2, behavior:'smooth'});
         }
-      }, 300);
+      }, 800);
     });
     headerPills.appendChild(pi);
     pillItems.push(pi);

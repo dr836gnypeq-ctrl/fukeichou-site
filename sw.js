@@ -1,14 +1,14 @@
-/* 風景帖 Service Worker v11
- * v11変更点: scroll instant-then-adjust
+/* 風景帖 Service Worker v12
+ * v12変更点: smooth scroll + post-settle correction
  */
 
-var CACHE_STATIC = 'fk-static-v11';
-var CACHE_PAGES  = 'fk-pages-v11';
+var CACHE_STATIC = 'fk-static-v12';
+var CACHE_PAGES  = 'fk-pages-v12';
 var BASE = '/fukeichou-site';
 
 var PRECACHE_STATIC = [
   BASE + '/assets/css/style.css?v=20260324e',
-  BASE + '/assets/js/main.js?v=20260324d',
+  BASE + '/assets/js/main.js?v=20260324e',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',
