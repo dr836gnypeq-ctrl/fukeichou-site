@@ -94,8 +94,9 @@ function _scrollToTarget(el, offsetFn){
     if(done) return;
     done = true;
     var top2 = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
-    if(Math.abs(top2 - window.pageYOffset) > 2){
-      window.scrollTo({top:top2});
+    var delta = Math.abs(top2 - window.pageYOffset);
+    if(delta > 2){
+      window.scrollTo({top:top2, behavior: delta > 30 ? 'smooth' : 'auto'});
     }
   }
 
