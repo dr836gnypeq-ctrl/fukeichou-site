@@ -348,8 +348,11 @@ if(typeof lucide !== 'undefined'){
   });
 })();
 
-/* Contact form (formsubmit.co AJAX) */
+/* Contact form (formsubmit.co AJAX + GAS台帳記録) */
 (function(){
+  /* GASデプロイ後にURLを差し替える */
+  var GAS_URL = 'GAS_DEPLOY_URL_PLACEHOLDER';
+
   document.addEventListener('DOMContentLoaded', function(){
     var form = document.getElementById('contactForm');
     if(!form) return;
@@ -362,6 +365,20 @@ if(typeof lucide !== 'undefined'){
       btn.textContent = '送信中…';
 
       var data = new FormData(form);
+
+      /* ── GAS台帳記録（fire-and-forget: 失敗してもUXに影響しない） ── */
+      if(GAS_URL !== 'GAS_DEPLOY_URL_PLACEHOLDER'){
+        var gasParams = new URLSearchParams();
+        data.forEach(function(v, k){ if(!k.startsWith('_')) gasParams.append(k, v); });
+        fetch(GAS_URL, {
+          method: 'POST',
+          body: gasParams
+        }).catch(function(err){
+          console.warn('[風景帖] GAS台帳記録失敗:', err);
+        });
+      }
+
+      /* ── formsubmit.co（メール通知・成功/失敗をUXに反映） ── */
       fetch(form.action, {
         method: 'POST',
         body: data,
