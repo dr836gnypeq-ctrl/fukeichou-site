@@ -351,7 +351,7 @@ if(typeof lucide !== 'undefined'){
 /* Contact form (formsubmit.co AJAX + GAS台帳記録) */
 (function(){
   /* GASデプロイ後にURLを差し替える */
-  var GAS_URL = 'GAS_DEPLOY_URL_PLACEHOLDER';
+  var GAS_URL = 'https://script.google.com/a/macros/eyemel.co.jp/s/AKfycbwj9KCMfoyYtDzIttdAO0jlutLwXYXWI3x3lQ5GkPu2E3P9kbXi-97VOP75aDS55q_sUg/exec';
 
   document.addEventListener('DOMContentLoaded', function(){
     var form = document.getElementById('contactForm');
