@@ -372,7 +372,8 @@ if(typeof lucide !== 'undefined'){
         data.forEach(function(v, k){ if(!k.startsWith('_')) gasParams.append(k, v); });
         fetch(GAS_URL, {
           method: 'POST',
-          body: gasParams
+          body: gasParams,
+          mode: 'no-cors'
         }).catch(function(err){
           console.warn('[風景帖] GAS台帳記録失敗:', err);
         });
