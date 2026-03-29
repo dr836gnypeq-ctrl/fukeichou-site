@@ -574,6 +574,7 @@ a:hover{color:var(--gold)}
 .privacy-list{font-size:.9rem;line-height:1.9;color:var(--ink-light);padding-left:1.4em;margin:8px 0 16px}
 .privacy-link{color:var(--moss);text-decoration:underline;text-underline-offset:2px}
 .privacy-link:hover{color:var(--gold)}
+.privacy-email-img{display:inline-block;height:1.1em;width:auto;vertical-align:baseline;position:relative;top:1px}
 .privacy-back{margin-top:48px;padding-top:32px;border-top:1px solid #e8e6e0}
 
 /* Company Page */
