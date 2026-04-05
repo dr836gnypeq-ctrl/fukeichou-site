@@ -1,6 +1,6 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
---ink:#2a2a2a;--ink-light:#555555;--ink-faint:#6b6b6b;
+--ink:#2a2a2a;--ink-light:#5a5650;--ink-faint:#6b6560;
 --paper:#ffffff;--paper-warm:#f5f7f8;
 --moss:#136b5e;--moss-light:#15795a;
 --gold:#9a5e15;--gold-light:#b06e20;
@@ -17,7 +17,7 @@ a:hover{color:var(--gold)}
 .container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
 .section{padding:100px 0}
 .section:nth-child(even){background:var(--paper-warm)}
-.section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.08em}
+.section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.06em;line-height:1.45}
 .section-lead{text-align:center;color:var(--ink-light);font-size:1rem;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
 .section-tagline{text-align:center;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-bottom:16px}
 .change-preview{color:#1a6fd4;font-size:.92em;margin-top:4px;margin-bottom:4px;padding:3px 8px;border-left:3px solid #1a6fd4;display:block}
@@ -41,7 +41,7 @@ a:hover{color:var(--gold)}
 /* at-top: CTA白透過 */
 .site-header.at-top .header-cta-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.45);color:#fff!important}
 .site-header.at-top .header-cta-btn:hover{background:rgba(255,255,255,.28)}
-.site-header.scrolled{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.scrolled{background:rgba(250,248,245,.92);backdrop-filter:saturate(120%) blur(14px);border-bottom-color:var(--border)}
 .site-header.scrolled .logo-text{color:var(--ink)}
 
 /* Hero video */
@@ -61,9 +61,9 @@ a:hover{color:var(--gold)}
 .hero-title{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--white);letter-spacing:.12em;line-height:1.6;margin-bottom:24px}
 .hero-subtitle{font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.88);line-height:2;margin-bottom:40px}
 .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:14px 32px;font-family:var(--sans);font-size:.95rem;font-weight:500;border-radius:6px;border:none;cursor:pointer;transition:all .3s var(--ease);text-align:center;text-decoration:none}
+.btn{display:inline-block;padding:14px 32px;font-family:var(--sans);font-size:.95rem;font-weight:500;border-radius:8px;border:none;cursor:pointer;transition:all .3s var(--ease);text-align:center;text-decoration:none}
 .btn-primary{background:var(--moss);color:var(--white)}
-.btn-primary:hover{background:var(--moss-light);color:var(--white);transform:translateY(-1px);box-shadow:0 4px 20px rgba(19,107,94,.3)}
+.btn-primary:hover{background:var(--moss-light);color:var(--white);transform:translateY(-2px);box-shadow:0 6px 20px rgba(19,107,94,0.25),0 3px 8px rgba(0,0,0,0.06)}
 .btn-hero-cta{background:#fff;color:#136b5e;padding:13px 36px;border-radius:100px;font-size:1rem;font-weight:500;letter-spacing:.03em;border:none;transition:all .3s var(--ease)}
 .btn-hero-cta:hover{background:rgba(255,255,255,.88);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5)}
@@ -81,21 +81,21 @@ a:hover{color:var(--gold)}
 
 /* Pain */
 .pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px}
-.pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .pain-icon{font-size:2.4rem;margin-bottom:16px;color:#136b5e}.pain-icon svg{width:40px;height:40px;stroke:#136b5e}
 .pain-card h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:12px;line-height:1.6}
 .pain-card p{font-size:.9rem;color:var(--ink-light);line-height:1.8}
 
 /* Features */
 .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-bottom:48px}
-.feature-card{padding:36px;background:var(--white);border-radius:12px;border:1px solid var(--border);transition:box-shadow .3s}
-.feature-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.feature-card{padding:36px;background:var(--white);border-radius:16px;border:1px solid var(--border);transition:box-shadow .3s,transform .3s;box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.feature-card:hover{box-shadow:0 8px 24px rgba(19,107,94,0.08),0 4px 12px rgba(0,0,0,0.04);transform:translateY(-1px)}
 .feature-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:12px;color:var(--ink);line-height:1.7}
 .feature-a{font-size:.9rem;color:var(--ink-light);line-height:1.9}
 
 /* Evidence */
 .evidence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px;margin-bottom:32px}
-.evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .evidence-stat{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--moss);margin-bottom:16px}
 .evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
 .evidence-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
@@ -148,7 +148,7 @@ a:hover{color:var(--gold)}
 .flow-note{text-align:center;padding:20px;background:var(--moss);color:var(--white);border-radius:8px;font-size:1.1rem}
 
 /* Pricing */
-.pricing-card{max-width:520px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;text-align:center}
+.pricing-card{max-width:520px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;text-align:center;box-shadow:0 8px 30px rgba(19,107,94,0.08),0 4px 14px rgba(0,0,0,0.04)}
 .pricing-header{padding:40px 32px 32px;background:linear-gradient(135deg,#136b5e 0%,#15795a 100%);color:var(--white)}
 .pricing-badge{display:inline-block;padding:4px 16px;background:var(--gold);color:var(--white);font-size:.8rem;font-weight:700;border-radius:20px;margin-bottom:16px;letter-spacing:.1em}
 .pricing-amount{display:flex;align-items:baseline;justify-content:center;gap:4px}
@@ -161,9 +161,9 @@ a:hover{color:var(--gold)}
 .pricing-includes ul{list-style:none}
 .pricing-includes li{padding:8px 0;font-size:.9rem;border-bottom:1px solid var(--border)}
 .pricing-includes li::before{content:"✓ ";color:var(--moss);font-weight:700}
-.pricing-discount{padding:20px 32px;background:var(--paper-warm)}
-.pricing-discount p{font-size:.95rem}
-.pricing-discount small{color:var(--ink-faint);font-size:.8rem}
+.pricing-discount{margin:16px 32px;padding:14px 16px;background:#eaf4f1;border-radius:8px;text-align:center}
+.pricing-discount p{font-size:.95rem;color:#0f6e56;line-height:1.8;margin:0}
+.pricing-discount small{color:rgba(15,110,86,0.7);font-size:.8rem}
 .pricing-note{padding:16px 32px;font-size:.8rem;color:var(--ink-faint)}
 .pricing-card .btn{margin:0 32px 32px;width:calc(100% - 64px)}
 
@@ -491,29 +491,32 @@ a:hover{color:var(--gold)}
     margin-right:-24px;
   }
   .comp-table-scroll{
-    overflow-x:scroll;
+    overflow-x:auto;
     -webkit-overflow-scrolling:touch;
     border-left:none;
     border-right:none;
     border-radius:0;
-    /* マスクで右端が切れることを示す */
-    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
-    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
   }
-  /* table-layout:fixedにして幅を完全コントロール */
+  /* table-layout:fixedで比率コントロール。min-widthでiPhoneはスクロール、iPadは全幅 */
   .comp-table{
     table-layout:fixed;
-    width:560px; /* 5列分の合計: 76+110+118+118+118=540 + 余白 */
-    min-width:unset;
+    width:100%;
+    min-width:560px;
   }
   .comp-th-label,.comp-td-label{ width:76px; font-size:.72rem; padding:10px 4px 10px 8px }
   .comp-th-ours,.comp-td-ours  { width:110px }
   .comp-th,.comp-td            { width:118px; font-size:.72rem; padding:10px 6px }
   .comp-sub{ font-size:.66rem; line-height:1.45 }
   .comp-good,.comp-ok,.comp-bad,.comp-ng,.comp-neutral{ font-size:.82rem }
-  /* stickyは完全廃止（Safari overflow内で動作保証なし） */
   .comp-th-label{ position:static!important }
   .comp-td-label{ position:static!important }
+}
+/* スクロールヒントマスク: iPhoneなど狭い画面のみ */
+@media(max-width:600px){
+  .comp-table-scroll{
+    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+  }
 }
 
 /* ---- 地図 モバイル: container padding を突き破って全幅に ---- */
@@ -535,7 +538,7 @@ a:hover{color:var(--gold)}
 .ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
 
 /* ---- エビデンスページ 論文カード ---- */
-.ev-study{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:24px;margin-top:32px}
+.ev-study{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:32px;margin-top:32px;box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .ev-study--rct{border-left:3px solid var(--moss);padding-left:20px}
 .ev-study-note{background:var(--sand-pale,#f8f5f0);border-left:3px solid var(--ink-light,#aaa);padding:12px 16px;margin-top:16px;font-size:.85rem;color:var(--ink-light,#666);line-height:1.7}
 .ev-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px}
