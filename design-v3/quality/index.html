@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>【Design v3】運営者情報</title>
+<title>【Design v3】4K HDRと8bit SDRの違い</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -596,6 +596,140 @@ a:hover{color:var(--gold)}
 /* Design v3 badge */
 .version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#9a5e15;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.85}
 </style>
+<style>
+/* Evidence page shared styles */
+.ev-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
+.ev-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
+.ev-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0}
+.ev-back{display:inline-flex;align-items:center;gap:8px;font-size:1rem;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:28px;padding:10px 20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;transition:all .3s}
+.ev-back:hover{color:#fff;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
+/* Bottom navigation */
+.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s}
+.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.ev-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:-40px auto 0;max-width:var(--max-w);position:relative;z-index:2}
+.ev-hl-card{padding:32px 24px;text-align:center;background:var(--white);border:1px solid var(--border)}
+.ev-hl-card:first-child{border-radius:12px 0 0 12px}
+.ev-hl-card:last-child{border-radius:0 12px 12px 0}
+.ev-hl-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--moss);line-height:1.2}
+.ev-hl-label{font-size:.85rem;color:var(--ink-light);margin-top:4px}
+
+.ev-section-sub{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px;padding-top:16px}
+.feature-card:hover{box-shadow:none}
+.ev-section-desc{font-size:.95rem;color:var(--ink-light);margin-bottom:32px;line-height:1.8}
+.ev-theory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
+.ev-theory-card{padding:28px 24px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
+.ev-theory-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
+.ev-theory-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+.ev-theory-card .ev-theory-author{font-size:.75rem;color:var(--ink-faint);margin-top:8px}
+.ev-refs{counter-reset:ref}
+.ev-ref-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:.85rem;line-height:1.7;color:var(--ink-light);display:flex;gap:12px}
+.ev-ref-item::before{counter-increment:ref;content:counter(ref)".";font-weight:600;color:var(--ink-faint);min-width:24px;flex-shrink:0}
+.ev-ref-item a{color:var(--moss);font-size:.8rem;word-break:break-all}
+.ev-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
+.ev-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
+.ev-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
+.ev-cta .btn:hover{background:rgba(255,255,255,.9);color:var(--moss);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.ev-cta-sub{font-size:.8rem;opacity:.65;margin-top:10px}
+.ev-cta-link{color:rgba(255,255,255,.9);text-decoration:underline;font-size:.85rem}
+.ev-cta-link:hover{color:#fff}
+.ev-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
+/* Routing page cards */
+.ev-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;max-width:860px;margin-left:auto;margin-right:auto}
+.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
+.ev-route-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.ev-route-icon{display:none}
+.ev-cat-pill{display:inline-block;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.02em}
+.ev-cat-pill--clinic{background:#e1f5ee;color:#0f6e56}
+.ev-cat-pill--mental{background:#eee8fd;color:#5340b5}
+.ev-cat-pill--care{background:#faeeda;color:#854f0b}
+.ev-route-card h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:12px;line-height:1.45}
+.ev-route-card p{font-size:.88rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px;flex:1}
+.ev-route-card .btn{width:100%}
+@media(max-width:768px){
+.ev-highlights{grid-template-columns:1fr;margin-top:-24px}
+.ev-hl-card{border-radius:0!important}
+.ev-hl-card:first-child{border-radius:12px 12px 0 0!important}
+.ev-hl-card:last-child{border-radius:0 0 12px 12px!important}
+.ev-theory-grid{grid-template-columns:1fr}
+.ev-hero{padding:120px 0 60px}
+.ev-hero .section-heading{font-size:1.6rem}
+.ev-route-grid{grid-template-columns:1fr;max-width:420px}
+}
+
+/* ページ内ガイドナビ */
+.ev-page-nav{
+  position:sticky;
+  top:var(--header-h);
+  z-index:900;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:0;
+}
+.ev-page-nav-inner{
+  max-width:var(--max-w);
+  margin:0 auto;
+  padding:0 16px;
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  gap:4px;
+  align-items:center;
+  height:44px;
+  -webkit-overflow-scrolling:touch;
+}
+.ev-page-nav-inner::-webkit-scrollbar{display:none}
+.ev-page-nav .h-pill{
+  font-size:.75rem;
+  padding:4px 11px;
+  flex-shrink:0;
+}
+/* evidence ページのスクロール着地はmain.jsのアンカー補正で処理 */
+</style>
+
+<script>
+(function(){
+  document.addEventListener('DOMContentLoaded',function(){
+    var nav = document.querySelector('.ev-page-nav');
+    if(!nav) return;
+    var pills = nav.querySelectorAll('.h-pill[data-section]');
+    var ids = Array.from(pills).map(function(p){return p.dataset.section});
+    var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);
+    var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||72) + 44 + 8;
+
+    function getActive(){
+      var scrollY = window.scrollY || window.pageYOffset;
+      var active = ids[0];
+      for(var i=0;i<sections.length;i++){
+        if(sections[i] && sections[i].getBoundingClientRect().top + scrollY - offset <= scrollY){
+          active = ids[i];
+        }
+      }
+      return active;
+    }
+
+    function updatePills(){
+      var active = getActive();
+      pills.forEach(function(p){
+        p.classList.toggle('active', p.dataset.section === active);
+      });
+      /* アクティブピルをスクロール位置に追従 */
+      var activePill = nav.querySelector('.h-pill.active');
+      if(activePill){
+        var inner = nav.querySelector('.ev-page-nav-inner');
+        var left = activePill.offsetLeft - inner.offsetWidth/2 + activePill.offsetWidth/2;
+        inner.scrollTo({left:left, behavior:'smooth'});
+      }
+    }
+
+    window.addEventListener('scroll', updatePills, {passive:true});
+    updatePills();
+  });
+})();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
 </head>
@@ -605,7 +739,7 @@ a:hover{color:var(--gold)}
 
 <header class="site-header">
 <div class="header-inner">
-<a href="index.html" style="text-decoration:none">
+<a href="../" style="text-decoration:none">
 <span class="logo-text">風景帖</span>
 <span class="logo-reading">ふうけいちょう</span>
 </a>
@@ -625,60 +759,644 @@ a:hover{color:var(--gold)}
 
 
 <style>
-/* Force header to always show scrolled style (no hero on this page) */
-.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
-.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
-.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
-.site-header.at-top .logo-text{color:var(--ink)}
-.site-header.at-top .nav-toggle span{background:var(--ink)}
+/* Evidence page shared styles */
+.ev-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
+.ev-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
+.ev-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0}
+.ev-back{display:inline-flex;align-items:center;gap:8px;font-size:1rem;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:28px;padding:10px 20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;transition:all .3s}
+.ev-back:hover{color:#fff;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
+/* Bottom navigation */
+.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s}
+.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.ev-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:-40px auto 0;max-width:var(--max-w);position:relative;z-index:2}
+.ev-hl-card{padding:32px 24px;text-align:center;background:var(--white);border:1px solid var(--border)}
+.ev-hl-card:first-child{border-radius:12px 0 0 12px}
+.ev-hl-card:last-child{border-radius:0 12px 12px 0}
+.ev-hl-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--moss);line-height:1.2}
+.ev-hl-label{font-size:.85rem;color:var(--ink-light);margin-top:4px}
+
+.ev-section-sub{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px;padding-top:16px}
+.feature-card:hover{box-shadow:none}
+.ev-section-desc{font-size:.95rem;color:var(--ink-light);margin-bottom:32px;line-height:1.8}
+.ev-theory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
+.ev-theory-card{padding:28px 24px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
+.ev-theory-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
+.ev-theory-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+.ev-theory-card .ev-theory-author{font-size:.75rem;color:var(--ink-faint);margin-top:8px}
+.ev-refs{counter-reset:ref}
+.ev-ref-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:.85rem;line-height:1.7;color:var(--ink-light);display:flex;gap:12px}
+.ev-ref-item::before{counter-increment:ref;content:counter(ref)".";font-weight:600;color:var(--ink-faint);min-width:24px;flex-shrink:0}
+.ev-ref-item a{color:var(--moss);font-size:.8rem;word-break:break-all}
+.ev-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
+.ev-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
+.ev-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
+.ev-cta .btn:hover{background:rgba(255,255,255,.9);color:var(--moss);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.ev-cta-sub{font-size:.8rem;opacity:.65;margin-top:10px}
+.ev-cta-link{color:rgba(255,255,255,.9);text-decoration:underline;font-size:.85rem}
+.ev-cta-link:hover{color:#fff}
+.ev-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
+/* Routing page cards */
+.ev-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;max-width:860px;margin-left:auto;margin-right:auto}
+.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
+.ev-route-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.ev-route-icon{display:none}
+.ev-cat-pill{display:inline-block;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.02em}
+.ev-cat-pill--clinic{background:#e1f5ee;color:#0f6e56}
+.ev-cat-pill--mental{background:#eee8fd;color:#5340b5}
+.ev-cat-pill--care{background:#faeeda;color:#854f0b}
+.ev-route-card h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:12px;line-height:1.45}
+.ev-route-card p{font-size:.88rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px;flex:1}
+.ev-route-card .btn{width:100%}
+@media(max-width:768px){
+.ev-highlights{grid-template-columns:1fr;margin-top:-24px}
+.ev-hl-card{border-radius:0!important}
+.ev-hl-card:first-child{border-radius:12px 12px 0 0!important}
+.ev-hl-card:last-child{border-radius:0 0 12px 12px!important}
+.ev-theory-grid{grid-template-columns:1fr}
+.ev-hero{padding:120px 0 60px}
+.ev-hero .section-heading{font-size:1.6rem}
+.ev-route-grid{grid-template-columns:1fr;max-width:420px}
+}
+
+/* ページ内ガイドナビ */
+.ev-page-nav{
+  position:sticky;
+  top:var(--header-h);
+  z-index:900;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:0;
+}
+.ev-page-nav-inner{
+  max-width:var(--max-w);
+  margin:0 auto;
+  padding:0 16px;
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  gap:4px;
+  align-items:center;
+  height:44px;
+  -webkit-overflow-scrolling:touch;
+}
+.ev-page-nav-inner::-webkit-scrollbar{display:none}
+.ev-page-nav .h-pill{
+  font-size:.75rem;
+  padding:4px 11px;
+  flex-shrink:0;
+}
+/* evidence ページのスクロール着地はmain.jsのアンカー補正で処理 */
 </style>
-
-<section class="section section-privacy">
-<div class="container">
-<h1 class="privacy-title">運営者情報</h1>
-
-<div class="privacy-body">
-
-<table class="company-table">
-<tbody>
-<tr><th>会社名</th><td>アイメル合同会社</td></tr>
-<tr><th>資本金</th><td>800万円</td></tr>
-<tr><th>代表者・所在地</th><td><img src="../assets/images/company-info.png" alt="" class="company-info-img"></td></tr>
-<tr><th>法人番号</th><td>0127-03-002771</td></tr>
-<tr><th>お問い合わせ</th><td><a href="../#contact" class="privacy-link">お問い合わせフォームはこちら</a><br><img src="../assets/images/privacy-email.png" alt="メールアドレス" class="privacy-email-img" style="margin-top:6px"></td></tr>
-</tbody>
-</table>
-
-<p><small>※迷惑メール対策のため、一部情報を画像で表示しています。</small></p>
-
-</div>
-
-<div class="privacy-back">
-<a href="index.html" class="text-link-btn">← トップページに戻る</a>
-</div>
-
-</div>
-</section>
 
 <script>
 (function(){
-  var baseUrl = '';
-  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
-    var href = a.getAttribute('href');
-    if(href && href.startsWith('#')){
-      a.setAttribute('href', baseUrl + '/' + href);
+  document.addEventListener('DOMContentLoaded',function(){
+    var nav = document.querySelector('.ev-page-nav');
+    if(!nav) return;
+    var pills = nav.querySelectorAll('.h-pill[data-section]');
+    var ids = Array.from(pills).map(function(p){return p.dataset.section});
+    var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);
+    var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||72) + 44 + 8;
+
+    function getActive(){
+      var scrollY = window.scrollY || window.pageYOffset;
+      var active = ids[0];
+      for(var i=0;i<sections.length;i++){
+        if(sections[i] && sections[i].getBoundingClientRect().top + scrollY - offset <= scrollY){
+          active = ids[i];
+        }
+      }
+      return active;
     }
+
+    function updatePills(){
+      var active = getActive();
+      pills.forEach(function(p){
+        p.classList.toggle('active', p.dataset.section === active);
+      });
+      /* アクティブピルをスクロール位置に追従 */
+      var activePill = nav.querySelector('.h-pill.active');
+      if(activePill){
+        var inner = nav.querySelector('.ev-page-nav-inner');
+        var left = activePill.offsetLeft - inner.offsetWidth/2 + activePill.offsetWidth/2;
+        inner.scrollTo({left:left, behavior:'smooth'});
+      }
+    }
+
+    window.addEventListener('scroll', updatePills, {passive:true});
+    updatePills();
   });
 })();
 </script>
 
 
+<style>
+/* ── Quality page specific styles ── */
+.ql-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
+.ql-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
+.ql-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0;max-width:640px;margin-left:auto;margin-right:auto}
+
+/* Banding demo */
+.ql-banding-wrap{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:48px}
+.ql-banding-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.ql-banding-label{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px}
+.ql-banding-canvas-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--border);position:relative}
+canvas.ql-canvas{display:block;width:100%;height:160px}
+.ql-banding-tag{position:absolute;bottom:10px;right:10px;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:.06em}
+.ql-tag-bad{background:#fce8e8;color:#8a2222}
+.ql-tag-good{background:#e8f5f1;color:#136b5e}
+.ql-banding-note{font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px}
+
+/* Banding C-1 layout */
+.ql-banding-lr{display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:start}
+.ql-banding-left{}
+.ql-banding-right{}
+
+
+/* Study card */
+.ql-study{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:24px}
+.ql-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px;background:#e8f5f1;color:#136b5e}
+.ql-study h3{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:8px;line-height:1.6}
+.ql-study-meta{font-size:.8rem;color:var(--ink-faint);margin-bottom:16px;line-height:1.6}
+.ql-study-body{font-size:.9rem;color:var(--ink-light);line-height:1.9;margin-bottom:16px}
+.ql-result{background:var(--paper-warm);border-radius:8px;padding:20px 24px;margin-bottom:16px}
+.ql-result p{font-size:.9rem;line-height:1.8;margin:0}
+.ql-result strong{color:var(--ink)}
+
+/* Spec table */
+.ql-spec-table{width:100%;border-collapse:collapse;font-size:.9rem;margin-top:24px}
+.ql-spec-table th{padding:10px 16px;text-align:left;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);border-bottom:2px solid var(--border);background:var(--paper-warm)}
+.ql-spec-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--ink-light);vertical-align:top;line-height:1.7}
+.ql-spec-table tr:last-child td{border-bottom:none}
+.ql-spec-table td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+.ql-spec-table td.ql-highlight{color:var(--moss);font-weight:600}
+.ql-spec-icon{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.ql-dot-moss{background:var(--moss)}
+.ql-dot-gray{background:#ccc}
+
+/* Reason flow */
+.ql-reason-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px}
+.ql-reason-step{padding:24px 20px 20px;background:var(--white);border-top:3px solid var(--moss);position:relative}
+.ql-reason-step:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:28px;font-size:1rem;color:var(--moss);z-index:1;line-height:1}
+.ql-step-num{font-size:1.4rem;font-weight:700;color:var(--moss);font-family:var(--serif);line-height:1;margin-bottom:10px}
+.ql-reason-step h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px;line-height:1.5}
+.ql-reason-step p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+
+/* Bit depth compare diagram */
+.ql-bit-compare{margin-top:36px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:28px 32px}
+.ql-bit-compare-title{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px}
+.ql-bit-row{margin-bottom:20px}
+.ql-bit-row:last-child{margin-bottom:0}
+.ql-bit-row-label{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.ql-bit-tag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:4px}
+.ql-bit-tag-bad{background:#fce8e8;color:#8a2222}
+.ql-bit-tag-good{background:#e8f5f1;color:#136b5e}
+.ql-bit-canvas-wrap{position:relative;border-radius:6px;overflow:visible}
+canvas.ql-bit-canvas{display:block;width:100%;height:52px;border-radius:6px}
+.ql-bit-ticks{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+@media(max-width:768px){
+.ql-bit-compare{padding:20px 16px}
+canvas.ql-bit-canvas{height:40px}
+}
+.ql-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
+.ql-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
+.ql-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
+.ql-cta .btn:hover{background:rgba(255,255,255,.9);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
+
+.ql-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
+
+@media(max-width:768px){
+.ql-hero{padding:120px 0 60px}
+.ql-hero .section-heading{font-size:1.6rem}
+.ql-banding-grid{grid-template-columns:1fr}
+.ql-banding-lr{grid-template-columns:1fr}
+.ql-reason-flow{grid-template-columns:1fr}
+.ql-banding-lr .ql-zoom-arrow::before{content:'↓ 拡大'}
+.ql-reason-step:not(:last-child)::after{content:'↓';right:auto;left:20px;top:auto;bottom:-14px}
+}
+</style>
+
+<!-- Hero -->
+<div class="ql-hero">
+  <div class="container">
+    <a href="../" class="ev-back">← トップページに戻る</a>
+    <h1 class="section-heading">風景帖が映像品質にこだわる理由</h1>
+    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>地上波テレビや動画配信サイトで長く使われてきた「8bit SDR（Standard Dynamic Range＝従来の輝度規格）」と、より多くの明暗・色を再現できる上位規格「10bit HDR（High Dynamic Range＝高輝度・広色域の映像規格）」では、同じ映像素材でも生体反応が異なることが研究で示されています。だからこそ私たちは、映像規格の選択を妥協せず、その根拠を外部研究で確認しながら制作しています。</p>
+  </div>
+</div>
+
+<nav class="ev-page-nav" aria-label="ページ内ナビゲーション">
+  <div class="ev-page-nav-inner">
+    <a class="h-pill" data-section="banding" href="#banding">8bitの限界</a>
+    <a class="h-pill" data-section="study" href="#study">科学的裏付け</a>
+    <a class="h-pill" data-section="spec" href="#spec">風景帖の規格</a>
+  </div>
+</nav>
+
+<!-- Banding visualization -->
+<section class="section" id="banding">
+  <div class="container">
+    <h2 class="ev-section-sub">8bitの限界は、この縞に現れる ── バンディングノイズを実写で確認する</h2>
+    <p class="ev-section-desc">北海道・美瑛で実際に撮影した映像フレームです。これが「8bit」規格で書き出すと何が起きるかの証拠です。地上波テレビ・スマホ動画・YouTubeのほとんどが、この規格で配信されています。画面下部の空を、よく見てください。</p>
+
+    <div class="ql-banding-wrap">
+
+      <!-- C-1: 左右並列（PC）→ 上下積み（モバイル） -->
+      <div class="ql-banding-lr">
+
+        <!-- 左：全体写真 -->
+        <div class="ql-banding-left">
+          <div class="ql-banding-label">実写映像フレーム（北海道・美瑛）</div>
+          <div class="ql-banding-canvas-wrap" style="position:relative;border-radius:8px;margin-top:8px">
+            <img src="../../assets/images/tree_8bitPNGFrom10bitH265_2nd.png"
+                 alt="北海道美瑛の冬景色・クリスマスツリーの木と夕暮れの空"
+                 style="width:100%;display:block;border-radius:8px">
+            <span class="ql-banding-tag ql-tag-bad" style="position:absolute;bottom:10px;left:10px">実写映像フレーム（8-bit書き出し）</span>
+            <!-- 黄枠：木と太陽の間の空グラデーション帯 -->
+            <div style="position:absolute;top:14%;left:45.3%;width:33.9%;height:38%;border:4px solid #facc15;box-sizing:border-box;border-radius:2px"></div>
+            <div style="position:absolute;top:52.8%;left:46%;font-size:.72rem;font-weight:700;color:#facc15;background:rgba(0,0,0,.55);padding:2px 7px;border-radius:3px;white-space:nowrap">→ 拡大</div>
+          </div>
+        </div>
+
+        <!-- 右：拡大写真 -->
+        <div class="ql-banding-right">
+          <div class="ql-banding-label">バンディングノイズ（拡大）</div>
+          <div class="ql-banding-canvas-wrap" style="position:relative;border:4px solid #facc15;border-radius:8px;margin-top:8px">
+            <img src="../../assets/images/tree_zoom_banding_v2.png"
+                 alt="空グラデーション部分の拡大・バンディングノイズが見える"
+                 style="width:100%;display:block;border-radius:4px">
+          </div>
+        </div>
+
+      </div>
+
+      <p class="ql-banding-note">
+        黄枠内を右に拡大しています。木の右側に見える白い輝点が夕日です。そこから放射状に広がるグラデーションは明るさが極めて緩やかに変化します。8bitの256段階ではその変化を表現しきれず、縞状の段差（バンディングノイズ）が生じます。<br>
+        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が肉眼では区別できない限界以下に抑えられています。実際の映像品質は、初月無料のトライアルでご体感いただけます。
+      </p>
+    </div>
+
+    <div class="ql-reason-flow">
+      <div class="ql-reason-step">
+        <div class="ql-step-num">① なぜ縞が出るか</div>
+        <h4>8bit ＝ 30年続く標準規格</h4>
+        <p>1チャンネルあたり256段階で色を表現する方式で、1990年代から地上波・DVDに広く使われてきた規格です。日常のスナップ写真には十分ですが、空のような緩やかなグラデーションを256の「段」で近似すると、肉眼でも識別できる段差が生じます。</p>
+      </div>
+      <div class="ql-reason-step">
+        <div class="ql-step-num">② 10bitで何が変わるか</div>
+        <h4>段数が4倍、段差が見えなくなる</h4>
+        <p>10bitは1チャンネルあたり1,024段階。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。脳が「自然な光」として処理できる条件が整います。</p>
+      </div>
+      <div class="ql-reason-step">
+        <div class="ql-step-num">③ 体験への影響</div>
+        <h4>品質は「見た目」だけでなく「体験の深さ」に関わる</h4>
+        <p>不自然な縞は、意識しなくても脳が「補正しようとする」処理を引き起こします。その無意識の負荷が、リラックスや注意の回復に向かうべきリソースを消費します。待合室や共用スペースという「何もしない時間」を質の高い休息にするには、脳に余計な仕事をさせないことが重要です。</p>
+      </div>
+    </div>
+
+    <!-- 8bit vs 10bit schematic -->
+    <div class="ql-bit-compare">
+      <div class="ql-bit-compare-title">階調数の違い — 模式図（美瑛の空の色域）</div>
+      <div class="ql-bit-row">
+        <div class="ql-bit-row-label">
+          <span class="ql-bit-tag ql-bit-tag-bad">8bit・256段階</span>
+          段差が肉眼で見える
+        </div>
+        <div class="ql-bit-canvas-wrap">
+          <canvas class="ql-bit-canvas" id="qlCanvas8" height="52"></canvas>
+        </div>
+      </div>
+      <div class="ql-bit-row">
+        <div class="ql-bit-row-label">
+          <span class="ql-bit-tag ql-bit-tag-good">10bit・1,024段階</span>
+          段差が識別できない
+        </div>
+        <div class="ql-bit-canvas-wrap">
+          <canvas class="ql-bit-canvas" id="qlCanvas10" height="52"></canvas>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var cA = [245, 238, 220];
+      var cB = [110, 140, 180];
+      function lerp(a,b,t){ return Math.round(a+(b-a)*t); }
+      function rgb(c){ return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+      function drawCanvas(id, steps){
+        var canvas = document.getElementById(id);
+        if(!canvas) return;
+        function render(){
+          canvas.width = canvas.offsetWidth;
+          var ctx = canvas.getContext('2d');
+          var w = canvas.width, h = canvas.height;
+          if(steps){
+            for(var i=0;i<steps;i++){
+              var t = i/(steps-1);
+              var c = [lerp(cA[0],cB[0],t),lerp(cA[1],cB[1],t),lerp(cA[2],cB[2],t)];
+              var x = Math.floor(i*w/steps);
+              var bw = Math.ceil(w/steps)+1;
+              ctx.fillStyle = rgb(c);
+              ctx.fillRect(x,0,bw,h);
+            }
+            ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+            ctx.lineWidth = 1;
+            for(var j=1;j<steps;j++){
+              var tx = Math.floor(j*w/steps);
+              ctx.beginPath(); ctx.moveTo(tx,0); ctx.lineTo(tx,h); ctx.stroke();
+            }
+          } else {
+            var grad = ctx.createLinearGradient(0,0,w,0);
+            grad.addColorStop(0,rgb(cA));
+            grad.addColorStop(1,rgb(cB));
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,w,h);
+          }
+        }
+        render();
+        if(window.ResizeObserver){ new ResizeObserver(render).observe(canvas); }
+      }
+      drawCanvas('qlCanvas8', 14);
+      drawCanvas('qlCanvas10', null);
+    })();
+    </script>
+
+  </div>
+</section>
+
+<!-- Study section -->
+<section class="section" id="study">
+  <div class="container">
+    <p class="ev-section-desc" style="margin-bottom:32px;padding:20px 24px;background:var(--paper-warm);border-radius:8px;border-left:3px solid var(--moss)">この問題を認識した上で、私たちは外部の査読論文も参照しながら映像規格を選んでいます。以下は、映像規格の差が実際の生体反応に影響することを示した研究です。</p>
+    <h2 class="ev-section-sub">映像規格の違いが生体反応に影響することを示した研究</h2>
+    <p class="ev-section-desc">主観評価ではなく、皮膚温度・脳血流・心拍数という生体信号で測定した実験です。</p>
+
+    <div class="ql-study">
+      <span class="ql-study-badge">査読論文・2021年</span>
+      <h3>広色域・高輝度（HDR）映像の視聴時に、8bit SDRより副交感神経が優位になることを確認</h3>
+      <div class="ql-study-meta">
+        篠原未歩, 石井英里子, 星野祐子, 山田光穗（東海大学・鹿児島県立短期大学）<br>
+        「高品質な映像条件が人にもたらす癒やし効果の検討」<br>
+        パーソナルコンピュータ利用技術学会論文誌, 16巻2号, pp. 40–55（2021年）<br>
+        DOI: <a class="ev-study-link" href="https://doi.org/10.24663/jjpcats.16.2_40" target="_blank" rel="noopener">10.24663/jjpcats.16.2_40</a>
+      </div>
+      <div class="ql-study-body">
+        被験者12名に、映像規格の異なる自然画像（花・動物を含む風景）を各5分間視聴させ、心拍数・呼吸数・脳血流動態（NIRS＝近赤外分光法、脳の血流変化を光で非侵襲的に測定する手法）・皮膚温度の4種類の生体信号を計測した。比較した映像規格は以下の3種類。
+        <table class="ql-spec-table" style="margin-top:16px;margin-bottom:0">
+          <tr><th>規格</th><th>ビット深度</th><th>色域</th><th>輝度</th></tr>
+          <tr><td>BT.709</td><td>8bit</td><td>Rec.709（従来）</td><td>SDR</td></tr>
+          <tr><td>BT.2020</td><td>10/12bit</td><td>Rec.2020（広色域）</td><td>SDR</td></tr>
+          <tr><td class="ql-highlight">BT.2100 HLG</td><td class="ql-highlight">10/12bit</td><td class="ql-highlight">Rec.2020（広色域）</td><td class="ql-highlight">HDR</td></tr>
+        </table>
+      </div>
+      <div class="ql-result">
+        <p><strong>皮膚温度（副交感神経優位＝リラックスの指標）</strong><br>
+        BT.2100（広色域・HDR）で動物を含む自然画像を視聴した際、被験者12名中10名が安静時より皮膚温度が上昇し、有意差が確認された（p=0.000）。皮膚温度の上昇は副交感神経の活性化を示す。<br><br>
+        <strong>脳血流動態（右脳のヘモグロビン濃度変化＝脳活動の代替指標）</strong><br>
+        映像規格の主効果に有意差あり（F=3.824, p＜0.05）。BT.2100 vs BT.2020 間で有意差が確認された。BT.2100視聴中は感性・映像処理に関わる右脳の活動が穏やかに安定する傾向が見られた。<br><br>
+        <strong>主観評価（フラストレーション）</strong><br>
+        被験者12名中7名が、BT.709（8bit SDR）視聴後にフラストレーションのスコアが最も高くなった。広色域・HDRの映像規格ほどストレスなく視聴できることが示唆された。</p>
+      </div>
+      <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-bottom:0">
+        <strong>著者らの結論：</strong>「高品質な映像条件で視聴することによって、実際に見る景色に近づき、自然の中にいる時と同等の癒やし効果を得られる可能性が高いことを示した。」<br>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者12名・単施設研究であり、結果はすべての環境・対象者に同一の効果を保証するものではありません。</span><br>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※統計記号：p は有意確率（p＜0.05 で「偶然でない差」と判定）。F は分散分析の検定統計量。以下の論文でも同じ基準を使用しています。</span>
+      </p>
+    </div>
+
+    <div class="ql-study">
+      <span class="ql-study-badge">査読論文・2022年</span>
+      <h3>HDR映像は、SDR映像より自然映像の没入感を有意に高める</h3>
+      <div class="ql-study-meta">
+        Hinde, S. J., Noland, K. C., Thomas, G. A., Bull, D. R., & Gilchrist, I. D.「On the Immersive Properties of High Dynamic Range Video」<br>
+        ACM Transactions on Applied Perception, Vol. 19, No. 2, Article 7（2022年）<br>
+        DOI: <a class="ev-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">10.1145/3524692</a>
+      </div>
+      <div class="ql-study-body">
+        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、HD-SDRと4K(UHD)-HDRの視聴中の没入感を二次課題反応時間法（映像への没入が深いほど外部刺激への反応が遅くなることを利用した客観的指標）で測定。50分間の長尺視聴を2つの独立した実験で検証した。
+      </div>
+      <div class="ql-result">
+        <p><strong>実験1：</strong>HD-SDR vs 4K(UHD)-HDRで、4K(UHD)-HDR群が有意に没入感が高い（F=295, p＜.001）。<br><br>
+        <strong>実験2（解像度とダイナミックレンジを独立変数に分離）：</strong><br>
+        HDRの主効果：有意（p=.038）<strong>——没入感を高めたのはHDRの効果</strong><br>
+        解像度（4K(UHD) vs HD）の主効果：<strong>有意差なし（p=.83）</strong><br><br>
+        解像度（4K vs HD）ではなく、<strong>ダイナミックレンジ（HDR）の有無が没入感を左右した</strong>という重要な知見。</p>
+      </div>
+      <a class="ev-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">ACM Digital Library で論文を確認 →</a>
+    </div>
+
+    <div class="ql-study">
+      <span class="ql-study-badge">査読論文・2015年</span>
+      <h3>4K自然映像は、HD映像より主観的ネガティブ情動（ストレス感）を有意に低減する</h3>
+      <div class="ql-study-meta">
+        川久保惇, 吉岡明里, 小口孝司（立教大学大学院現代心理学研究科ほか）<br>
+        「自然環境の映像と音がストレス低減に及ぼす影響」<br>
+        立教大学心理学研究（Rikkyo Psychological Research）, Vol.57, pp.11-19（2015年）<br>
+        対象: 私立大学生 n=45（分析対象n=41）、4K条件・HD条件・自然音条件に無作為割り付け
+      </div>
+      <div class="ql-study-body">
+        長野県伊那谷の自然風景（草原・水田・森林・小川・水辺の花・夕暮れの山など）を55型テレビで8分間視聴させ、ストレス負荷（内田クレペリン検査）前後のネガティブ情動をPANAS尺度（日本語版）で測定。4K映像（3840×2160）とHD映像（1920×1080）の中身は同一で画質のみを変えた。自律神経機能の生理指標（指尖容積脈波・LF/HF比）も同時測定した。
+      </div>
+      <div class="ql-result">
+        <p><strong>主観的ネガティブ情動（PANAS-NA）の変化:</strong><br>
+        ・4K条件：刺激提示前→後で<strong>有意に低減（p&lt;0.05）</strong><br>
+        ・自然環境音条件：<strong>有意に低減（p&lt;0.01）</strong><br>
+        ・HD条件：低減傾向を示すが<strong>有意差には至らず</strong></p>
+        <p style="margin-top:12px">4K映像とHD映像は内容が完全に同一であるため、<strong>差異は解像度（高精細さ）の違いのみ</strong>に帰因できる。4Kの高精細さが臨場感・没入感を高め、その結果ネガティブ情動の低減が安定して現れたと著者らは考察している。</p>
+        <p style="margin-top:12px"><strong>生理的指標（LF/HF比）:</strong> 全条件で有意差なし。自律神経への影響は今回の負荷強度では検出されなかった。</p>
+      </div>
+      <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-bottom:0">
+        <strong>Hinde (2022) との対応：</strong>Hindeが「没入感を高めるのは解像度ではなくHDRの効果」を示したのに対し、川久保ら（2015）は「4K解像度がHD映像より主観的ストレス感を安定して低減させる」ことを示している。測定対象（没入感の客観的行動指標 vs 主観的感情評価）が異なるため両者は矛盾せず、<strong>風景帖が備える4K・HDRの組み合わせが、それぞれ独立した経路でストレス低減に寄与する可能性を示唆している。</strong><br>
+        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者は大学生（平均21.3歳、女性85%）であり、医療施設の患者層への外挿には慎重さが必要です。また生理的指標では有意差が確認されておらず、主観的効果にとどまります。</span>
+      </p>
+      <a class="ev-study-link" href="https://rikkyo.repo.nii.ac.jp/record/10982/files/AA11430459_57_02.pdf" target="_blank" rel="noopener">論文全文を読む（立教大学） →</a>
+    </div>
+
+    <p class="section-overview" style="margin-top:40px;padding:24px;background:var(--paper-warm);border-radius:8px;font-size:.9rem;max-width:none">
+      施設での臨床研究など、自然映像が患者・入居者にもたらす効果の科学的根拠は別ページにまとめています。<br>
+      <a href="../evidence/" class="text-link-btn" style="margin-top:10px;display:inline-block">自然映像の科学的根拠を見る →</a>
+    </p>
+  </div>
+</section>
+
+<!-- Fukeichou spec section -->
+<section class="section" id="spec">
+  <div class="container">
+    <h2 class="ev-section-sub">風景帖の映像規格</h2>
+    <p class="ev-section-desc">上記の研究が効果を確認した映像規格と同等の仕様で、すべての映像を制作・収録しています。</p>
+
+    <div class="ql-study" style="padding:28px 36px">
+      <table class="ql-spec-table">
+        <tr>
+          <th>仕様</th>
+          <th>風景帖の規格</th>
+          <th>意味</th>
+        </tr>
+        <tr>
+          <td>映像規格</td>
+          <td class="ql-highlight">BT.2100 HLG 相当</td>
+          <td>地上波テレビ（BT.709）の上位規格。NHK・BBC主導で策定されたHDR方式。篠原ら（2021）が最も高い生体効果を確認した規格と同等</td>
+        </tr>
+        <tr>
+          <td>ビット深度</td>
+          <td class="ql-highlight">10bit</td>
+          <td>約10億7,000万色。バンディングノイズが識別閾値以下に</td>
+        </tr>
+        <tr>
+          <td>色域</td>
+          <td class="ql-highlight">Rec.2020（広色域）</td>
+          <td>可視光の約76%をカバー。従来のRec.709（現在の地上波テレビ・Blu-rayの色域＝約36%）の約2倍。BT.2100はRec.2020の色域をそのまま継承</td>
+        </tr>
+        <tr>
+          <td>輝度</td>
+          <td class="ql-highlight">HLG（Hybrid Log-Gamma）</td>
+          <td>NHKとBBCが共同開発。HDR対応モニタでは高輝度・広色域でフル表現、SDR対応モニタでも映像が破綻せず自然に再生される、両対応に優れた規格</td>
+        </tr>
+        <tr>
+          <td>解像度</td>
+          <td class="ql-highlight">4K（3840×2160）</td>
+          <td>UHD（Ultra High Definition）とも呼ばれる規格。フルHDの4倍。遠景の木の葉一枚まで記録</td>
+        </tr>
+        <tr>
+          <td>再生方式</td>
+          <td class="ql-highlight">完全オフライン・ローカル再生</td>
+          <td>YouTubeのような圧縮・帯域制限なし。収録品質のまま届く</td>
+        </tr>
+        <tr>
+          <td>撮影形式</td>
+          <td class="ql-highlight">12-bit ProRes RAW <sup>※1</sup></td>
+          <td>映画・テレビCMの制作現場で使われる収録形式。カメラ収録段階から12bitの階調情報を保持。編集・マスタリングによる画質劣化を最小限に抑える</td>
+        </tr>
+      </table>
+      <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px">
+        <sup>※1</sup> 一部シーンを除く。<br>
+        ※ 映像の最終的な表示品質は、お客様にご用意いただくモニタの性能に依存します。HDR10（現在最も普及しているHDR規格のひとつ）対応の4Kテレビをご使用の場合に本来の画質でご覧いただけます。<br>
+        HDR非対応（従来のSDR）のモニタをご使用の場合、HDRの高輝度表現は再現されませんが、映像が破綻することはありません。地上波放送に近い水準の、自然で見やすい映像としてご覧いただけます。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+
+    <p class="ql-disclaimer">本ページで引用した研究結果は、それぞれの実験条件下で得られたものであり、すべての環境・対象者に同一の効果を保証するものではありません。篠原ら（2021）は被験者12名・単施設の研究であり、今後のさらなる検証が必要です。風景帖は医療機器・医薬品ではなく、疾病の治療を目的としたものではありません。</p>
+
+    <div class="ev-bottom-nav">
+      <a href="../">← トップページに戻る</a>
+      <a href="../evidence/">自然映像の科学的根拠を見る →</a>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "風景帖 トップ",
+          "item": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "4K HDRと8bit SDRの違い — 自然映像が生体反応に与える影響",
+          "item": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/quality/"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "4K HDRと8bit SDRの違い — 自然映像が生体反応に与える影響",
+      "description": "同じ自然映像でも、4K HDR（10bit）と地上波SDR（8bit）では生体反応が異なることが研究で示されています。バンディングノイズの仕組み・査読論文の結果から、風景帖が映像品質にこだわる理由を解説します。",
+      "url": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/quality/",
+      "inLanguage": "ja",
+      "publisher": {
+        "@type": "Organization",
+        "name": "風景帖",
+        "url": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/quality/"
+      }
+    }
+  ]
+}
+</script>
+
+
+<section class="section section-contact" id="contact">
+<div class="container">
+<h2 class="section-heading">まず、1か月だけ試してみませんか。</h2>
+<p class="cta-offer">初月無料トライアル実施中</p>
+<p class="cta-reassure">お問い合わせは「興味を持っただけなのですが」も、もちろん大丈夫です。</p>
+<div class="contact-form-wrap">
+<form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/eafb8addb5f674b0d463db935c8905a4" method="POST">
+<input type="hidden" name="_subject" value="【風景帖】新しいお問い合わせ">
+<input type="hidden" name="_template" value="table">
+<input type="text" name="_honey" style="display:none">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_autoresponse" value="【風景帖】お問い合わせを受け付けました。内容を確認のうえ、2営業日以内にご連絡いたします。">
+<div class="form-group">
+<label for="cf-facility" class="form-label">施設名 <span class="form-req">*</span></label>
+<input type="text" id="cf-facility" name="施設名" class="form-input" required autocomplete="organization">
+</div>
+<div class="form-group">
+<label for="cf-name" class="form-label">ご担当者名 <span class="form-req">*</span></label>
+<input type="text" id="cf-name" name="ご担当者名" class="form-input" required autocomplete="name">
+</div>
+<div class="form-group">
+<label for="cf-email" class="form-label">メールアドレス <span class="form-req">*</span></label>
+<input type="email" id="cf-email" name="メールアドレス" class="form-input" required autocomplete="email">
+</div>
+<div class="form-group">
+<label for="cf-tel" class="form-label">電話番号</label>
+<input type="text" id="cf-tel" name="電話番号" class="form-input" inputmode="tel" autocomplete="tel">
+</div>
+<div class="form-group">
+<label for="cf-type" class="form-label">施設の種類 <span class="form-req">*</span></label>
+<select id="cf-type" name="施設の種類" class="form-input form-select" required>
+<option value="" disabled selected>選択してください</option>
+<option value="クリニック（内科・外科等）">クリニック（内科・外科等）</option>
+<option value="歯科医院">歯科医院</option>
+<option value="心療内科・精神科">心療内科・精神科</option>
+<option value="介護施設">介護施設</option>
+<option value="その他">その他</option>
+</select>
+</div>
+<div class="form-group">
+<label for="cf-message" class="form-label">お問い合わせ内容</label>
+<textarea id="cf-message" name="お問い合わせ内容" class="form-input form-textarea" rows="4"></textarea>
+</div>
+<button type="submit" class="form-submit" id="contactSubmitBtn">送信</button>
+<p class="form-operator-link"><a href="../company/" class="privacy-link">運営者情報</a></p>
+</form>
+<div id="contactSuccess" class="contact-success" style="display:none">
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#136b5e" stroke-width="2.5"/><polyline points="14,25 22,33 34,17" fill="none" stroke="#136b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<h3 class="success-heading">送信いただきありがとうございます</h3>
+<p class="success-text">内容を確認のうえ、2営業日以内にご連絡いたします。</p>
+</div>
+</div>
+</div>
+</section>
+
 <footer class="site-footer">
 <div class="container site-footer-inner">
 <p class="site-footer-copy">&copy; 2026 風景帖</p>
 <div class="site-footer-links">
-<a href="privacy.html" class="site-footer-link">プライバシーポリシー</a>
-<a href="company.html" class="site-footer-link">運営者情報</a>
+<a href="../privacy/" class="site-footer-link">プライバシーポリシー</a>
+<a href="../company/" class="site-footer-link">運営者情報</a>
 </div>
 </div>
 </footer>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>【Design v3】プライバシーポリシー</title>
+<title>【Design v3】導入シミュレーター</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -605,7 +605,7 @@ a:hover{color:var(--gold)}
 
 <header class="site-header">
 <div class="header-inner">
-<a href="index.html" style="text-decoration:none">
+<a href="../" style="text-decoration:none">
 <span class="logo-text">風景帖</span>
 <span class="logo-reading">ふうけいちょう</span>
 </a>
@@ -631,103 +631,413 @@ a:hover{color:var(--gold)}
 .site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
 .site-header.at-top .logo-text{color:var(--ink)}
 .site-header.at-top .nav-toggle span{background:var(--ink)}
+
+/* ─── Simulator page scoped styles ─── */
+.sim-hero{padding:120px 0 60px;text-align:center;background:var(--paper-warm)}
+.sim-hero h1{font-family:var(--serif);font-size:2rem;font-weight:600;letter-spacing:.1em;margin-bottom:12px}
+.sim-hero p{color:var(--ink-light);font-size:1rem;line-height:2}
+
+/* Tab for clinic / care */
+.sim-tabs{display:flex;justify-content:center;gap:0;margin:32px 0 24px}
+.sim-tab{padding:12px 32px;font-family:var(--sans);font-size:.9rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--ink-light);cursor:pointer;transition:all .25s var(--ease)}
+.sim-tab:first-child{border-radius:8px 0 0 8px}
+.sim-tab:last-child{border-radius:0 8px 8px 0}
+.sim-tab:not(:first-child){border-left:none}
+.sim-tab.active{background:var(--moss);color:var(--white);border-color:var(--moss)}
+
+/* Workspace */
+.sim-workspace{max-width:960px;margin:0 auto;padding:0 24px 40px}
+
+.sim-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sim-toolbar-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--white);font-family:var(--sans);font-size:.8rem;color:var(--ink);cursor:pointer;transition:all .2s}
+.sim-toolbar-btn:hover{border-color:var(--moss);color:var(--moss)}
+.sim-toolbar-sep{flex:1}
+.sim-toolbar-label{font-size:.75rem;color:var(--ink-faint)}
+.sim-size-slider{width:120px;accent-color:var(--moss)}
+
+.sim-canvas-wrap{position:relative;width:100%;aspect-ratio:1376/768;background:#e8e5de;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);cursor:default;touch-action:none}
+.sim-canvas-wrap img.sim-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+
+/* Monitor overlay */
+.sim-monitor{position:absolute;cursor:grab;user-select:none;filter:drop-shadow(0 4px 16px rgba(0,0,0,.35))}
+.sim-monitor:active{cursor:grabbing}
+.sim-monitor-bezel{position:absolute;inset:0;border:2px solid #1a1a1a;border-radius:2px;pointer-events:none;z-index:2}
+.sim-monitor-screen{position:relative;width:100%;height:100%;overflow:hidden;border-radius:1px;background:#000}
+.sim-resize{position:absolute;bottom:-4px;right:-4px;width:20px;height:20px;cursor:nwse-resize;z-index:10;display:flex;align-items:center;justify-content:center}
+.sim-resize::after{content:'';width:10px;height:10px;border-right:2px solid var(--moss);border-bottom:2px solid var(--moss);opacity:.7}
+
+/* Upload area */
+.sim-upload-area{max-width:720px;margin:0 auto 24px;padding:0 24px}
+.sim-dropzone{border:2px dashed rgba(19,107,94,.3);border-radius:8px;padding:48px 24px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.5);position:relative}
+.sim-dropzone:hover,.sim-dropzone.dragover{border-color:var(--moss);background:rgba(19,107,94,.03)}
+.sim-dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.sim-dropzone h3{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:6px}
+.sim-dropzone p{font-size:.8rem;color:var(--ink-faint)}
+.sim-privacy{font-size:.72rem;color:var(--ink-faint);text-align:center;margin-top:8px;opacity:.8}
+
+/* Drag hint icon */
+.sim-drag-hint{position:absolute;top:-28px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;transition:opacity .4s}
+.sim-drag-hint svg{opacity:.55;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))}
+.sim-drag-hint.hidden{opacity:0}
+
+/* Wobble animation */
+@keyframes sim-wobble{
+  0%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} 100%{transform:translateX(0)}
+}
+.sim-monitor.wobble{animation:sim-wobble .6s ease-in-out}
+
+
+/* Hint bar above canvas */
+.sim-hint-bar{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:10px;
+  padding:10px 20px;
+  background:rgba(19,107,94,.10);
+  border:1.5px solid rgba(19,107,94,.30);
+  border-radius:10px;
+  font-size:.88rem;font-weight:500;
+  color:var(--moss);
+  transition:opacity .6s,max-height .6s;
+  max-height:60px;overflow:hidden;
+}
+.sim-hint-bar svg{flex-shrink:0;opacity:.8}
+.sim-hint-bar.hidden{opacity:0;max-height:0;margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}
+
+/* CTA */
+.sim-tv-size{background:var(--paper-warm);padding:64px 24px}
+.sim-tv-size-inner{max-width:640px;margin:0 auto;text-align:center}
+.sim-tv-size-heading{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:.08em;margin-bottom:12px}
+.sim-tv-size-lead{color:var(--ink-light);font-size:.95rem;line-height:1.8;margin-bottom:32px}
+.sim-tv-size-table-wrap{overflow-x:auto}
+.sim-tv-size-table{width:100%;border-collapse:collapse;font-size:.95rem}
+.sim-tv-size-table th{background:var(--moss);color:var(--white);padding:12px 20px;font-weight:500;letter-spacing:.05em}
+.sim-tv-size-table td{padding:12px 20px;border-bottom:1px solid var(--border);color:var(--ink)}
+.sim-tv-size-table td:first-child{font-weight:600;color:var(--moss)}
+.sim-tv-size-table tbody tr:last-child td{border-bottom:none}
+.sim-tv-size-table tbody tr:hover{background:rgba(19,107,94,.04)}
+.sim-tv-size-note{margin-top:16px;font-size:.78rem;color:var(--ink-faint);line-height:1.7}
+.sim-cta{text-align:center;padding:60px 24px 40px}
+.sim-cta p{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:20px;letter-spacing:.06em}
+
+/* State control */
+.sim-state-upload{display:block}
+.sim-state-workspace{display:none}
+.sim-active .sim-state-upload{display:none}
+.sim-active .sim-state-workspace{display:block}
+
+@media(max-width:600px){
+  .sim-hero h1{font-size:1.5rem}
+  .sim-tab{padding:10px 20px;font-size:.82rem}
+  .sim-toolbar{gap:6px}
+  .sim-toolbar-btn{padding:6px 10px;font-size:.75rem}
+}
+@media(max-width:768px){
+  .sim-hero{text-align:left}
+  .sim-hero h1{text-align:center}
+  .sim-tv-size-inner{text-align:left}
+  .sim-tv-size-heading{text-align:center}
+}
+.ev-bottom-nav{margin-bottom:48px}
 </style>
 
-<section class="section section-privacy">
+<div id="simApp">
+
+<!-- Hero -->
+<div class="sim-hero">
+  <div class="container">
+    <h1>導入シミュレーター</h1>
+    <p>あなたの施設に、風景帖の映像を置いてみませんか。</p>
+  </div>
+</div>
+
 <div class="container">
-<h1 class="privacy-title">プライバシーポリシー</h1>
-<p class="privacy-updated">最終更新日：2026年3月29日</p>
 
-<div class="privacy-body">
-
-<h2>第1条（個人情報の取得と利用目的）</h2>
-<p>当社は、以下の目的で個人情報を取得・利用いたします。利用目的の範囲を超えて個人情報を利用することはありません。</p>
-<div class="privacy-table-wrap">
-<table class="privacy-table">
-<thead>
-<tr><th>取得する情報</th><th>利用目的</th></tr>
-</thead>
-<tbody>
-<tr><td>施設名・ご担当者名・メールアドレス・電話番号・施設の種類・お問い合わせ内容</td><td>お問い合わせへの対応、サービスに関するご案内</td></tr>
-<tr><td>契約者の氏名・住所・電話番号・メールアドレス・請求情報</td><td>サービス提供、契約管理、料金の請求</td></tr>
-<tr><td>IPアドレス・Cookie・閲覧履歴等のアクセスログ</td><td>サイトの改善、アクセス解析（GA4）</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2>第2条（個人情報の取得方法）</h2>
-<p>当社は、以下の方法で適正に個人情報を取得いたします。</p>
-<ul class="privacy-list">
-<li>お問い合わせフォームへのご入力</li>
-<li>サービス利用契約の締結に伴うご提供</li>
-<li>Cookie 等によるアクセス情報の自動取得</li>
-</ul>
-
-<h2>第3条（業務委託と第三者提供）</h2>
-<p>当社は、利用目的の達成に必要な範囲内において、個人情報の取扱いの全部または一部を外部の事業者に委託する場合があります。その際は、委託先に対し個人情報の適切な取扱いを求め、必要かつ適切な監督を行います。</p>
-<p>委託先には、米国に所在するサーバーを利用する事業者が含まれます。</p>
-<p>これらの委託先への情報の提供は、個人情報保護法第27条第5項第1号に定める「委託」に該当し、第三者提供には当たりません。</p>
-<p>上記の業務委託の場合を除き、法令に基づく場合またはお客様の同意がある場合を除いて、個人情報を第三者に提供することはありません。</p>
-
-<h2>第4条（安全管理措置）</h2>
-<p>当社は、取り扱う個人情報の漏えい・滅失・毀損を防止するため、以下の安全管理措置を講じています。</p>
-<ul class="privacy-list">
-<li><strong>組織的措置：</strong>代表者が個人情報管理責任者を兼務し、取扱い規程を定めています。</li>
-<li><strong>人的措置：</strong>個人情報を取り扱う者は代表者のみです。</li>
-<li><strong>物理的措置：</strong>業務用端末は施錠管理し、不要となった書類は適切に廃棄します。</li>
-<li><strong>技術的措置：</strong>業務用端末にパスワードを設定し、OS およびソフトウェアを最新の状態に保ちます。外部サービスへのアクセスには二段階認証を使用しています。</li>
-</ul>
-
-<h2>第5条（開示・訂正・利用停止等の請求）</h2>
-<p>お客様は、当社が保有するお客様の個人情報について、個人情報保護法に基づき、開示・訂正・追加・削除・利用停止・消去・第三者提供の停止を請求することができます。</p>
-<p>ご請求の際は、第7条に記載の窓口までお問い合わせください。ご本人確認をさせていただいた上で、法令に基づき、合理的な期間内に対応いたします。</p>
-
-<h2>第6条（Cookie・アクセス解析）</h2>
-<p>本サイトでは、Google LLC が提供する「Google アナリティクス 4（GA4）」を利用しています。GA4 は以下の Cookie を使用してアクセス情報を収集しますが、個人を特定する情報は含まれません。</p>
-<div class="privacy-table-wrap">
-<table class="privacy-table">
-<thead>
-<tr><th>Cookie 名</th><th>目的</th><th>有効期限</th></tr>
-</thead>
-<tbody>
-<tr><td>_ga</td><td>ユーザーの識別（匿名）</td><td>2年</td></tr>
-<tr><td>_ga_&lt;ID&gt;</td><td>セッション状態の保持</td><td>2年</td></tr>
-</tbody>
-</table>
-</div>
-<p>以下の方法で GA4 による情報収集を無効にできます。</p>
-<ul class="privacy-list">
-<li>ブラウザの設定で Cookie を無効にする</li>
-<li>Google が提供する<a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" class="privacy-link">オプトアウト アドオン</a>をインストールする</li>
-</ul>
-
-<h2>第7条（お問い合わせ窓口）</h2>
-<p>個人情報の取扱いに関するお問い合わせ・ご相談、および第5条に基づく開示等のご請求は、以下の窓口までご連絡ください。</p>
-<p>アイメル合同会社（<a href="../company" class="privacy-link">運営者情報はこちら</a>）<br>
-メール：<img src="../assets/images/privacy-email.png" alt="メールアドレス" class="privacy-email-img"><br>
-<small>※迷惑メール対策のため、メールアドレスを画像で表示しています。</small></p>
-
-<h2>第8条（ポリシーの変更）</h2>
-<p>本ポリシーは、法令の改正やサービスの変更に伴い、事前の通知なく更新される場合があります。最新の内容は本ページをご確認ください。</p>
-
-</div>
-
-<div class="privacy-back">
-<a href="index.html" class="text-link-btn">← トップページに戻る</a>
+<!-- Tabs: sample clinic / care / upload own -->
+<div class="sim-tabs">
+  <button class="sim-tab active" data-target="clinic">クリニック・歯科</button>
+  <button class="sim-tab" data-target="care">介護施設</button>
+  <button class="sim-tab" data-target="upload">ご自分の写真で試す</button>
 </div>
 
 </div>
-</section>
+
+<!-- Upload zone (shown only for "upload" tab) -->
+<div class="sim-state-upload sim-upload-area" id="simUploadZone" style="display:none">
+  <div class="sim-dropzone" id="simDropzone">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin:0 auto 12px;display:block;stroke:var(--moss);opacity:.5">
+      <rect x="6" y="10" width="36" height="28" rx="3" stroke-width="2"/>
+      <circle cx="18" cy="22" r="4" stroke-width="2"/>
+      <path d="M6 34l10-8 6 5 8-10 12 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>施設の写真をアップロード</h3>
+    <p class="sim-privacy" style="margin-bottom:8px">※ モニターを置く壁面を正面から撮影した写真をご用意ください。</p>
+    <p>ドラッグ＆ドロップ、またはクリックして選択</p>
+    <input type="file" accept="image/*" id="simFileInput">
+  </div>
+  <p class="sim-privacy">※ 写真はブラウザ内でのみ処理されます。サーバーへの送信は一切ありません。</p>
+</div>
+
+<!-- Workspace -->
+<div class="sim-workspace" id="simWorkspace">
+
+  <div class="sim-toolbar">
+    <button class="sim-toolbar-btn" id="simBtnUpload" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      写真を変更
+    </button>
+    <span class="sim-toolbar-sep"></span>
+    <span class="sim-toolbar-label">モニターサイズ</span>
+    <input type="range" class="sim-size-slider" id="simSizeSlider" min="15" max="60" value="30">
+  </div>
+
+  <!-- Hint bar above canvas -->
+  <div class="sim-hint-bar" id="simHintBar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+    <span id="simHintText">モニターをドラッグして、好きな位置に動かせます</span>
+  </div>
+
+  <div class="sim-canvas-wrap" id="simContainer">
+    <img class="sim-bg" id="simBgPhoto" src="../../assets/images/sample-clinic.jpg" alt="施設の写真">
+    <div class="sim-monitor" id="simMonitor">
+      <div class="sim-drag-hint" id="simDragHint">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+      </div>
+      <div class="sim-monitor-bezel"></div>
+      <div class="sim-monitor-screen">
+        <video id="simVideo" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
+      </div>
+      <div class="sim-resize" id="simResize"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="sim-tv-size">
+  <div class="sim-tv-size-inner">
+    <h2 class="sim-tv-size-heading">何インチのモニターが置けますか？</h2>
+    <p class="sim-tv-size-lead">壁や設置スペースの幅を測って、参考にしてください。</p>
+    <div class="sim-tv-size-table-wrap">
+      <table class="sim-tv-size-table">
+        <thead>
+          <tr>
+            <th>サイズ</th>
+            <th>幅</th>
+            <th>高さ</th>
+            <th>対角線</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>50型</td><td>111 cm</td><td>62 cm</td><td>127 cm</td></tr>
+          <tr><td>55型</td><td>122 cm</td><td>69 cm</td><td>140 cm</td></tr>
+          <tr><td>65型</td><td>144 cm</td><td>81 cm</td><td>165 cm</td></tr>
+          <tr><td>75型</td><td>166 cm</td><td>93 cm</td><td>190 cm</td></tr>
+          <tr><td>85型</td><td>188 cm</td><td>106 cm</td><td>216 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sim-tv-size-note">※ 数値はパネルのみ（スタンド・ベゼル除く）の参考値です。機種により多少異なります。</p>
+  </div>
+</div>
+
+<div class="ev-bottom-nav">
+  <a href="../#intro-image">← 導入イメージに戻る</a>
+</div>
+
+
+
+</div>
 
 <script>
 (function(){
   var baseUrl = '';
-  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
+  var sampleImages = {
+    clinic: baseUrl + '/assets/images/sample-clinic.jpg',
+    care: baseUrl + '/assets/images/sample-care.jpg'
+  };
+
+  var defaultPositions = {
+    clinic:   { x: 0.52, y: 0.42 },
+    care:     { x: 0.56, y: 0.35 },
+    upload:   { x: 0.50, y: 0.40 }
+  };
+
+  var container  = document.getElementById('simContainer');
+  var bgPhoto    = document.getElementById('simBgPhoto');
+  var overlay    = document.getElementById('simMonitor');
+  var sizeSlider = document.getElementById('simSizeSlider');
+  var uploadZone = document.getElementById('simUploadZone');
+  var dropzone   = document.getElementById('simDropzone');
+  var fileInput  = document.getElementById('simFileInput');
+  var btnUpload  = document.getElementById('simBtnUpload');
+  var workspace  = document.getElementById('simWorkspace');
+  var video      = document.getElementById('simVideo');
+  var dragHint   = document.getElementById('simDragHint');
+  var hintBar    = document.getElementById('simHintBar');
+  var hintText   = document.getElementById('simHintText');
+
+  // スマホ/タッチ判定でヒントテキストを切替
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  if(isTouch){
+    hintText.textContent = 'モニターをタップして、好きな位置に動かせます';
+  }
+
+  // ヒントバーを初回ドラッグ/タッチ操作で非表示に
+  var hintBarDismissed = false;
+  function dismissHintBar(){
+    if(hintBarDismissed) return;
+    hintBarDismissed = true;
+    hintBar.classList.add('hidden');
+  }
+
+  var monitorWidthPercent = 30;
+  var currentTab = 'clinic';
+  var userImageLoaded = false;
+
+  var mon = { xP: 0.52, yP: 0.42, dragging: false, resizing: false, sx: 0, sy: 0, sxP: 0, syP: 0, swP: 0 };
+
+  // ─── Tabs ───
+  document.querySelectorAll('.sim-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.sim-tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentTab = tab.dataset.target;
+
+      if (currentTab === 'upload') {
+        if (userImageLoaded) {
+          uploadZone.style.display = 'none';
+          workspace.style.display = '';
+          btnUpload.style.display = '';
+        } else {
+          uploadZone.style.display = '';
+          workspace.style.display = 'none';
+        }
+      } else {
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = 'none';
+        bgPhoto.src = sampleImages[currentTab];
+        bgPhoto.onerror = function() {
+          bgPhoto.src = sampleImages['clinic'];
+          bgPhoto.onerror = null;
+        };
+        var pos = defaultPositions[currentTab];
+        mon.xP = pos.x; mon.yP = pos.y;
+        bgPhoto.onload = function(){ positionMonitor(); };
+        if (bgPhoto.complete) positionMonitor();
+      }
+    });
+  });
+
+  // ─── File Upload ───
+  function handleFile(file){
+    if (!file || !file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      bgPhoto.src = e.target.result;
+      bgPhoto.onload = function(){
+        userImageLoaded = true;
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = '';
+        var pos = defaultPositions.upload;
+        mon.xP = pos.x; mon.yP = pos.y;
+        positionMonitor();
+        hintBarDismissed=false; hintBar.classList.remove('hidden');
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  fileInput.addEventListener('change', function(e){ handleFile(e.target.files[0]); });
+  dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('dragover'); });
+  dropzone.addEventListener('drop', function(e){ e.preventDefault(); dropzone.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+
+  btnUpload.addEventListener('click', function(){
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = function(e){ handleFile(e.target.files[0]); };
+    inp.click();
+  });
+
+  // ─── Monitor position ───
+  function positionMonitor(){
+    var cw=container.offsetWidth, ch=container.offsetHeight;
+    var mw=cw*(monitorWidthPercent/100), mh=mw*9/16;
+    overlay.style.width=mw+'px'; overlay.style.height=mh+'px';
+    overlay.style.left=(mon.xP*cw-mw/2)+'px'; overlay.style.top=(mon.yP*ch-mh/2)+'px';
+  }
+
+  // ─── Drag & Resize ───
+  function ptr(e){var t=e.touches?e.touches[0]:e,r=container.getBoundingClientRect(); return{x:t.clientX-r.left,y:t.clientY-r.top};}
+  var resizeEl = document.getElementById('simResize');
+
+  function startDrag(e){if(e.target===resizeEl||mon.resizing)return; e.preventDefault(); var p=ptr(e); mon.dragging=true; mon.sx=p.x; mon.sy=p.y; mon.sxP=mon.xP; mon.syP=mon.yP; dragHint.classList.add('hidden'); dismissHintBar();}
+  function startResize(e){e.preventDefault(); e.stopPropagation(); mon.resizing=true; var p=ptr(e); mon.sx=p.x; mon.swP=monitorWidthPercent;}
+  function onMove(e){if(!mon.dragging&&!mon.resizing)return; e.preventDefault(); var p=ptr(e), cw=container.offsetWidth, ch=container.offsetHeight;
+    if(mon.dragging){var dx=(p.x-mon.sx)/cw, dy=(p.y-mon.sy)/ch; mon.xP=Math.max(.1,Math.min(.9,mon.sxP+dx)); mon.yP=Math.max(.1,Math.min(.9,mon.syP+dy)); positionMonitor();}
+    else if(mon.resizing){var dx=(p.x-mon.sx)/cw*100; monitorWidthPercent=Math.max(15,Math.min(60,mon.swP+dx)); sizeSlider.value=monitorWidthPercent; positionMonitor();}
+  }
+  function endInt(){mon.dragging=false; mon.resizing=false;}
+
+  overlay.addEventListener('mousedown',startDrag); overlay.addEventListener('touchstart',startDrag,{passive:false});
+  resizeEl.addEventListener('mousedown',startResize); resizeEl.addEventListener('touchstart',startResize,{passive:false});
+  document.addEventListener('mousemove',onMove); document.addEventListener('mouseup',endInt); document.addEventListener('touchend',endInt);
+  container.addEventListener('touchmove',onMove,{passive:false});
+
+  sizeSlider.addEventListener('input',function(e){monitorWidthPercent=parseInt(e.target.value); positionMonitor();});
+  window.addEventListener('resize',function(){positionMonitor();});
+
+  // ─── Hint ───
+
+  // ─── Init ───
+  // 動画は画面内に入ったとき初めてロード（ページロード時の帯域を節約）
+  var vidBase = baseUrl + '/assets/images/';
+  var videoLoaded = false;
+  function loadVideo(){
+    if(videoLoaded) return;
+    videoLoaded = true;
+    var ua=navigator.userAgent;
+    var isIpad=/iPad/.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua));
+    if(window.innerWidth<=768||isIpad){
+      video.innerHTML='<source src="'+vidBase+'hero-mobile.mp4" type="video/mp4">';
+    }else{
+      video.innerHTML='<source src="'+vidBase+'hero-pc.mp4" type=\'video/mp4; codecs="av01.0.12M.10"\'>'
+                     +'<source src="'+vidBase+'hero-pc-fallback.mp4" type="video/mp4">';
+    }
+    video.load();
+    video.play().catch(function(){});
+  }
+  if('IntersectionObserver' in window){
+    var videoObs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ loadVideo(); videoObs.disconnect(); }
+    },{threshold:0.1});
+    videoObs.observe(document.getElementById('simContainer'));
+  }else{
+    loadVideo(); // フォールバック：即時ロード
+  }
+
+  // aspect-ratioでコンテナサイズが確定しているため即時配置可能
+  positionMonitor();
+  bgPhoto.onload = function(){ triggerWobble(); hintBarDismissed=false; hintBar.classList.remove('hidden'); };
+
+  function triggerWobble(){
+    setTimeout(function(){
+      overlay.classList.add('wobble');
+      overlay.addEventListener('animationend',function(){overlay.classList.remove('wobble');},{once:true});
+    },1200);
+  }
+
+  // ─── Fix header nav links to point back to LP ───
+  document.querySelectorAll('.site-header nav a').forEach(function(a){
     var href = a.getAttribute('href');
     if(href && href.startsWith('#')){
       a.setAttribute('href', baseUrl + '/' + href);
     }
   });
+
 })();
 </script>
 
@@ -736,8 +1046,8 @@ a:hover{color:var(--gold)}
 <div class="container site-footer-inner">
 <p class="site-footer-copy">&copy; 2026 風景帖</p>
 <div class="site-footer-links">
-<a href="privacy.html" class="site-footer-link">プライバシーポリシー</a>
-<a href="company.html" class="site-footer-link">運営者情報</a>
+<a href="../privacy/" class="site-footer-link">プライバシーポリシー</a>
+<a href="../company/" class="site-footer-link">運営者情報</a>
 </div>
 </div>
 </footer>

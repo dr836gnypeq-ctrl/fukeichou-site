@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>【Design v3】科学的根拠（介護施設向け）</title>
+<title>【Design v3】運営者情報</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -596,140 +596,6 @@ a:hover{color:var(--gold)}
 /* Design v3 badge */
 .version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#9a5e15;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.85}
 </style>
-<style>
-/* Evidence page shared styles */
-.ev-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
-.ev-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
-.ev-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0}
-.ev-back{display:inline-flex;align-items:center;gap:8px;font-size:1rem;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:28px;padding:10px 20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;transition:all .3s}
-.ev-back:hover{color:#fff;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
-/* Bottom navigation */
-.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
-.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s}
-.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
-.ev-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:-40px auto 0;max-width:var(--max-w);position:relative;z-index:2}
-.ev-hl-card{padding:32px 24px;text-align:center;background:var(--white);border:1px solid var(--border)}
-.ev-hl-card:first-child{border-radius:12px 0 0 12px}
-.ev-hl-card:last-child{border-radius:0 12px 12px 0}
-.ev-hl-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--moss);line-height:1.2}
-.ev-hl-label{font-size:.85rem;color:var(--ink-light);margin-top:4px}
-
-.ev-section-sub{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px;padding-top:16px}
-.feature-card:hover{box-shadow:none}
-.ev-section-desc{font-size:.95rem;color:var(--ink-light);margin-bottom:32px;line-height:1.8}
-.ev-theory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
-.ev-theory-card{padding:28px 24px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
-.ev-theory-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
-.ev-theory-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
-.ev-theory-card .ev-theory-author{font-size:.75rem;color:var(--ink-faint);margin-top:8px}
-.ev-refs{counter-reset:ref}
-.ev-ref-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:.85rem;line-height:1.7;color:var(--ink-light);display:flex;gap:12px}
-.ev-ref-item::before{counter-increment:ref;content:counter(ref)".";font-weight:600;color:var(--ink-faint);min-width:24px;flex-shrink:0}
-.ev-ref-item a{color:var(--moss);font-size:.8rem;word-break:break-all}
-.ev-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
-.ev-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
-.ev-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
-.ev-cta .btn:hover{background:rgba(255,255,255,.9);color:var(--moss);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
-.ev-cta-sub{font-size:.8rem;opacity:.65;margin-top:10px}
-.ev-cta-link{color:rgba(255,255,255,.9);text-decoration:underline;font-size:.85rem}
-.ev-cta-link:hover{color:#fff}
-.ev-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
-/* Routing page cards */
-.ev-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;max-width:860px;margin-left:auto;margin-right:auto}
-.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
-.ev-route-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
-.ev-route-icon{display:none}
-.ev-cat-pill{display:inline-block;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.02em}
-.ev-cat-pill--clinic{background:#e1f5ee;color:#0f6e56}
-.ev-cat-pill--mental{background:#eee8fd;color:#5340b5}
-.ev-cat-pill--care{background:#faeeda;color:#854f0b}
-.ev-route-card h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:12px;line-height:1.45}
-.ev-route-card p{font-size:.88rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px;flex:1}
-.ev-route-card .btn{width:100%}
-@media(max-width:768px){
-.ev-highlights{grid-template-columns:1fr;margin-top:-24px}
-.ev-hl-card{border-radius:0!important}
-.ev-hl-card:first-child{border-radius:12px 12px 0 0!important}
-.ev-hl-card:last-child{border-radius:0 0 12px 12px!important}
-.ev-theory-grid{grid-template-columns:1fr}
-.ev-hero{padding:120px 0 60px}
-.ev-hero .section-heading{font-size:1.6rem}
-.ev-route-grid{grid-template-columns:1fr;max-width:420px}
-}
-
-/* ページ内ガイドナビ */
-.ev-page-nav{
-  position:sticky;
-  top:var(--header-h);
-  z-index:900;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--border);
-  padding:0;
-}
-.ev-page-nav-inner{
-  max-width:var(--max-w);
-  margin:0 auto;
-  padding:0 16px;
-  display:flex;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scrollbar-width:none;
-  gap:4px;
-  align-items:center;
-  height:44px;
-  -webkit-overflow-scrolling:touch;
-}
-.ev-page-nav-inner::-webkit-scrollbar{display:none}
-.ev-page-nav .h-pill{
-  font-size:.75rem;
-  padding:4px 11px;
-  flex-shrink:0;
-}
-/* evidence ページのスクロール着地はmain.jsのアンカー補正で処理 */
-</style>
-
-<script>
-(function(){
-  document.addEventListener('DOMContentLoaded',function(){
-    var nav = document.querySelector('.ev-page-nav');
-    if(!nav) return;
-    var pills = nav.querySelectorAll('.h-pill[data-section]');
-    var ids = Array.from(pills).map(function(p){return p.dataset.section});
-    var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);
-    var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||72) + 44 + 8;
-
-    function getActive(){
-      var scrollY = window.scrollY || window.pageYOffset;
-      var active = ids[0];
-      for(var i=0;i<sections.length;i++){
-        if(sections[i] && sections[i].getBoundingClientRect().top + scrollY - offset <= scrollY){
-          active = ids[i];
-        }
-      }
-      return active;
-    }
-
-    function updatePills(){
-      var active = getActive();
-      pills.forEach(function(p){
-        p.classList.toggle('active', p.dataset.section === active);
-      });
-      /* アクティブピルをスクロール位置に追従 */
-      var activePill = nav.querySelector('.h-pill.active');
-      if(activePill){
-        var inner = nav.querySelector('.ev-page-nav-inner');
-        var left = activePill.offsetLeft - inner.offsetWidth/2 + activePill.offsetWidth/2;
-        inner.scrollTo({left:left, behavior:'smooth'});
-      }
-    }
-
-    window.addEventListener('scroll', updatePills, {passive:true});
-    updatePills();
-  });
-})();
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
 </head>
@@ -739,15 +605,15 @@ a:hover{color:var(--gold)}
 
 <header class="site-header">
 <div class="header-inner">
-<a href="../index.html" style="text-decoration:none">
+<a href="../" style="text-decoration:none">
 <span class="logo-text">風景帖</span>
 <span class="logo-reading">ふうけいちょう</span>
 </a>
 <!-- 常時表示: スクロールピル群 (JS生成) -->
 <button class="h-pill-scroll-btn h-pill-scroll-btn--left hidden" id="pillScrollBtnLeft" aria-label="前へ" type="button">&#8249;</button>
 <div class="h-pill-wrap" id="headerPills"
-  data-evidence="../../evidence/"
-  data-simulator="../../simulator/"></div>
+  data-evidence="../evidence/"
+  data-simulator="../simulator/"></div>
 <button class="h-pill-scroll-btn" id="pillScrollBtn" aria-label="もっと見る" type="button">&#8250;</button>
 <!-- 右端CTA (常時表示) -->
 <a href="#contact" class="header-cta-btn">
@@ -759,500 +625,60 @@ a:hover{color:var(--gold)}
 
 
 <style>
-/* Evidence page shared styles */
-.ev-hero{padding:160px 0 80px;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%);color:var(--white);text-align:center}
-.ev-hero .section-heading{color:var(--white);font-size:2.2rem;margin-bottom:16px}
-.ev-hero .section-lead{color:rgba(255,255,255,.75);margin-bottom:0}
-.ev-back{display:inline-flex;align-items:center;gap:8px;font-size:1rem;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:28px;padding:10px 20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;transition:all .3s}
-.ev-back:hover{color:#fff;background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)}
-/* Bottom navigation */
-.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
-.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s}
-.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
-.ev-highlights{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:-40px auto 0;max-width:var(--max-w);position:relative;z-index:2}
-.ev-hl-card{padding:32px 24px;text-align:center;background:var(--white);border:1px solid var(--border)}
-.ev-hl-card:first-child{border-radius:12px 0 0 12px}
-.ev-hl-card:last-child{border-radius:0 12px 12px 0}
-.ev-hl-num{font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--moss);line-height:1.2}
-.ev-hl-label{font-size:.85rem;color:var(--ink-light);margin-top:4px}
-
-.ev-section-sub{font-family:var(--serif);font-size:1.3rem;font-weight:600;margin-bottom:8px;padding-top:16px}
-.feature-card:hover{box-shadow:none}
-.ev-section-desc{font-size:.95rem;color:var(--ink-light);margin-bottom:32px;line-height:1.8}
-.ev-theory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:32px}
-.ev-theory-card{padding:28px 24px;border-left:3px solid var(--moss);background:var(--white);border-radius:0 8px 8px 0}
-.ev-theory-card h4{font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:8px}
-.ev-theory-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
-.ev-theory-card .ev-theory-author{font-size:.75rem;color:var(--ink-faint);margin-top:8px}
-.ev-refs{counter-reset:ref}
-.ev-ref-item{padding:12px 0;border-bottom:1px solid var(--border);font-size:.85rem;line-height:1.7;color:var(--ink-light);display:flex;gap:12px}
-.ev-ref-item::before{counter-increment:ref;content:counter(ref)".";font-weight:600;color:var(--ink-faint);min-width:24px;flex-shrink:0}
-.ev-ref-item a{color:var(--moss);font-size:.8rem;word-break:break-all}
-.ev-cta{text-align:center;padding:48px 24px;background:var(--moss);border-radius:12px;color:var(--white);margin-top:24px}
-.ev-cta p{font-size:1rem;margin-bottom:20px;opacity:.9}
-.ev-cta .btn{background:var(--white);color:var(--moss);font-weight:600}
-.ev-cta .btn:hover{background:rgba(255,255,255,.9);color:var(--moss);transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,0,0,.15)}
-.ev-cta-sub{font-size:.8rem;opacity:.65;margin-top:10px}
-.ev-cta-link{color:rgba(255,255,255,.9);text-decoration:underline;font-size:.85rem}
-.ev-cta-link:hover{color:#fff}
-.ev-disclaimer{font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-top:48px;padding-top:24px;border-top:1px solid var(--border)}
-/* Routing page cards */
-.ev-route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px;max-width:860px;margin-left:auto;margin-right:auto}
-.ev-route-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:left;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;text-decoration:none;color:var(--ink)}
-.ev-route-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
-.ev-route-icon{display:none}
-.ev-cat-pill{display:inline-block;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:.02em}
-.ev-cat-pill--clinic{background:#e1f5ee;color:#0f6e56}
-.ev-cat-pill--mental{background:#eee8fd;color:#5340b5}
-.ev-cat-pill--care{background:#faeeda;color:#854f0b}
-.ev-route-card h3{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:12px;line-height:1.45}
-.ev-route-card p{font-size:.88rem;color:var(--ink-light);line-height:1.8;margin-bottom:24px;flex:1}
-.ev-route-card .btn{width:100%}
-@media(max-width:768px){
-.ev-highlights{grid-template-columns:1fr;margin-top:-24px}
-.ev-hl-card{border-radius:0!important}
-.ev-hl-card:first-child{border-radius:12px 12px 0 0!important}
-.ev-hl-card:last-child{border-radius:0 0 12px 12px!important}
-.ev-theory-grid{grid-template-columns:1fr}
-.ev-hero{padding:120px 0 60px}
-.ev-hero .section-heading{font-size:1.6rem}
-.ev-route-grid{grid-template-columns:1fr;max-width:420px}
-}
-
-/* ページ内ガイドナビ */
-.ev-page-nav{
-  position:sticky;
-  top:var(--header-h);
-  z-index:900;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border-bottom:1px solid var(--border);
-  padding:0;
-}
-.ev-page-nav-inner{
-  max-width:var(--max-w);
-  margin:0 auto;
-  padding:0 16px;
-  display:flex;
-  overflow-x:auto;
-  overflow-y:hidden;
-  scrollbar-width:none;
-  gap:4px;
-  align-items:center;
-  height:44px;
-  -webkit-overflow-scrolling:touch;
-}
-.ev-page-nav-inner::-webkit-scrollbar{display:none}
-.ev-page-nav .h-pill{
-  font-size:.75rem;
-  padding:4px 11px;
-  flex-shrink:0;
-}
-/* evidence ページのスクロール着地はmain.jsのアンカー補正で処理 */
+/* Force header to always show scrolled style (no hero on this page) */
+.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
+.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
+.site-header.at-top .logo-text{color:var(--ink)}
+.site-header.at-top .nav-toggle span{background:var(--ink)}
 </style>
+
+<section class="section section-privacy">
+<div class="container">
+<h1 class="privacy-title">運営者情報</h1>
+
+<div class="privacy-body">
+
+<table class="company-table">
+<tbody>
+<tr><th>会社名</th><td>アイメル合同会社</td></tr>
+<tr><th>資本金</th><td>800万円</td></tr>
+<tr><th>代表者・所在地</th><td><img src="../../assets/images/company-info.png" alt="" class="company-info-img"></td></tr>
+<tr><th>法人番号</th><td>0127-03-002771</td></tr>
+<tr><th>お問い合わせ</th><td><a href="../#contact" class="privacy-link">お問い合わせフォームはこちら</a><br><img src="../../assets/images/privacy-email.png" alt="メールアドレス" class="privacy-email-img" style="margin-top:6px"></td></tr>
+</tbody>
+</table>
+
+<p><small>※迷惑メール対策のため、一部情報を画像で表示しています。</small></p>
+
+</div>
+
+<div class="privacy-back">
+<a href="../" class="text-link-btn">← トップページに戻る</a>
+</div>
+
+</div>
+</section>
 
 <script>
 (function(){
-  document.addEventListener('DOMContentLoaded',function(){
-    var nav = document.querySelector('.ev-page-nav');
-    if(!nav) return;
-    var pills = nav.querySelectorAll('.h-pill[data-section]');
-    var ids = Array.from(pills).map(function(p){return p.dataset.section});
-    var sections = ids.map(function(id){return document.getElementById(id)}).filter(Boolean);
-    var offset = (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h'))||72) + 44 + 8;
-
-    function getActive(){
-      var scrollY = window.scrollY || window.pageYOffset;
-      var active = ids[0];
-      for(var i=0;i<sections.length;i++){
-        if(sections[i] && sections[i].getBoundingClientRect().top + scrollY - offset <= scrollY){
-          active = ids[i];
-        }
-      }
-      return active;
+  var baseUrl = '';
+  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      a.setAttribute('href', baseUrl + '/' + href);
     }
-
-    function updatePills(){
-      var active = getActive();
-      pills.forEach(function(p){
-        p.classList.toggle('active', p.dataset.section === active);
-      });
-      /* アクティブピルをスクロール位置に追従 */
-      var activePill = nav.querySelector('.h-pill.active');
-      if(activePill){
-        var inner = nav.querySelector('.ev-page-nav-inner');
-        var left = activePill.offsetLeft - inner.offsetWidth/2 + activePill.offsetWidth/2;
-        inner.scrollTo({left:left, behavior:'smooth'});
-      }
-    }
-
-    window.addEventListener('scroll', updatePills, {passive:true});
-    updatePills();
   });
 })();
 </script>
 
 
-<div class="ev-hero">
-<div class="container">
-<a href="./" class="ev-back">← 科学的根拠一覧に戻る</a>
-<h1 class="section-heading">科学的根拠：介護施設向け</h1>
-<p class="section-lead">認知症の不穏行動の軽減、高齢者の気分改善、<br>非薬物的アプローチとしての自然映像の可能性。</p>
-</div>
-</div>
-
-<div class="container">
-<div class="ev-highlights">
-<div class="ev-hl-card">
-<div class="ev-hl-num">29研究</div>
-<div class="ev-hl-label">認知症×自然介入のメタ分析</div>
-</div>
-<div class="ev-hl-card">
-<div class="ev-hl-num">733名</div>
-<div class="ev-hl-label">メタ分析の総参加者数</div>
-</div>
-<div class="ev-hl-card">
-<div class="ev-hl-num">屋内＞屋外</div>
-<div class="ev-hl-label">屋内介入の効果量が屋外を統計的に上回る</div>
-</div>
-</div>
-</div>
-
-
-<nav class="ev-page-nav" aria-label="ページ内ナビゲーション">
-  <div class="ev-page-nav-inner">
-    <a class="h-pill" data-section="dementia" href="#dementia">認知症ケア</a>
-    <a class="h-pill" data-section="elderly" href="#elderly">高齢者</a>
-    <a class="h-pill" data-section="foundation" href="#foundation">メタ分析</a>
-    <a class="h-pill" data-section="theory" href="#theory">理論的基盤</a>
-    <a class="h-pill" data-section="relevance" href="#relevance">研究との対応</a>
-    <a class="h-pill" data-section="references" href="#references">参考文献</a>
-  </div>
-</nav>
-
-
-<section class="section" id="dementia">
-<div class="container">
-<h2 class="ev-section-sub">認知症ケアにおける自然映像の効果</h2>
-<p class="ev-section-desc">認知症の行動・心理症状（BPSD）の軽減に対する自然映像の有効性を検証した研究です。</p>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-meta">メタ分析（2025年）</span>
-<h3>認知症高齢者の不穏行動に対する自然介入の効果：29研究・733名のメタ分析</h3>
-<div class="ev-study-meta">Healthcare誌 (2025) — MDPI, 13(14), 1727<br>対象: 長期介護施設に入居する65歳以上の認知症患者、29研究・733名を統合</div>
-<div class="ev-study-body">MEDLINE、PsycINFO、Scopus、Web of Scienceの4データベースから、自然要素を用いた介入（園芸、自然映像の視聴、屋外活動等）が認知症患者の不穏行動に与える効果を系統的にレビューし、メタ分析を実施。</div>
-<div class="ev-study-result">
-<p>自然を活用した介入は、認知症患者の<strong>不穏行動（agitation）を有意に低減</strong>する効果があった（Hedges' g = -0.86、p &lt; 0.001）。<br>
-サブグループ解析の結果：<br>
-① <strong>介入環境（屋内 vs 屋外）</strong>：屋内介入（g = -1.00）は屋外介入（g = -0.76）を統計的に有意に上回った（p = 0.040）。屋外環境では手すりの欠如・天候変動などが効果を減弱させる要因として報告されている。<br>
-② <strong>体験の種類（間接体験 vs 直接体験）</strong>：映像・写真・香りなどの間接体験と、植物・動物・自然光との直接体験の間に、効果量の有意差はなかった。→ 外出が困難な入居者にも、映像による自然体験が直接体験と同等の効果をもたらす可能性を示唆。<br>
-社会的交流を伴う介入は個別介入より効果量が大きかった（g = -0.99 vs g = -0.73、p = 0.028）。</p>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12294372/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-clinical">認知症ケア</span>
-<h3>メモリーケア入居者14名への自然映像の効果：心拍数の有意な低下と快感情の改善傾向</h3>
-<div class="ev-study-meta">Reynolds, L. et al. (2018) — Journal of Housing for the Elderly, 32(2), 176-193<br>対象: 米国のメモリーケア施設、中等度〜重度認知症の入居者14名</div>
-<div class="ev-study-body">壁掛けテレビで1時間の自然映像（滝と山の遠景）を視聴する条件と、同世代の古い映画を視聴する条件を、交互に3回ずつ実施。心拍数（ストレス指標）、Observed Emotion Rating Scale（感情）、Agitated Behavior Scale（不穏行動）を前後で測定。</div>
-<div class="ev-study-result">
-<p><strong>わずか10分の自然映像視聴で</strong>、心拍数が平均8.5拍/分低下（＝生理的ストレスの軽減）。映画条件との比較で統計的に有意。<br>
-不安の減少や<strong>快感情（pleasure）の増加傾向</strong>も観察された（※感情指標は改善傾向を示したが、統計的有意差には達していない）。<br>
-古い映画と比較して、自然映像の方が生理的な改善効果が大きかった。<br>
-<strong>VRゴーグルは使用せず、通常の壁掛けテレビでの視聴</strong>。</p>
-</div>
-<a class="ev-study-link" href="https://www.healthdesign.org/insights-solutions/virtual-nature-experience-reduces-anxiety-and-agitation-people-dementia" target="_blank" rel="noopener">The Center for Health Design で詳細を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-neuro">認知症ケア映像</span>
-<h3>認知症フレンドリー映像がもたらす「安らぎ」と「対話の促進」</h3>
-<div class="ev-study-meta">Wong, K.L.Y., Hung, L. et al. (2025) — DIGITAL HEALTH, 11, 20552076251357490<br>対象: 中等度〜重度認知症の介護施設入居者と介護スタッフ</div>
-<div class="ev-study-body">介護施設で認知症フレンドリーな映像コンテンツ（自然映像を含む）を使用した際の心理社会的影響を、入居者の行動観察とスタッフへのインタビューを通じて質的に分析。</div>
-<div class="ev-study-result">
-<p>映像視聴により入居者に<strong>安らぎ（comfort）と不穏行動の軽減</strong>が観察された。<br>
-入居者間、および入居者とスタッフの間の<strong>対話・交流（engagement and interaction）が促進</strong>された。<br>
-1990〜2000年代には「受動的で効果が限定的」とされていた映像の活用が、近年の研究では<strong>肯定的な評価に転換</strong>している。</p>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12246666/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-clinical">レビュー（非薬物的介入）</span>
-<h3>自然映像は「夕暮れ症候群（サンダウニング）」への非薬物的介入として有望</h3>
-<div class="ev-study-meta">「Nature-Based Video with Music for Individuals Experiencing Sundown Syndrome」(2021) — Journal of Long-Term Care<br>レビュー論文</div>
-<div class="ev-study-body">認知症患者の最大66%が経験するとされる夕暮れ症候群（午後〜夜間に不穏・不安・攻撃性が増悪する現象）に対する、非薬物的な介入としての自然映像・音楽の可能性をレビュー。</div>
-<div class="ev-study-result">
-<p>自然映像の視聴は、認知症入居者の<strong>気分を改善し不穏行動を軽減する</strong>ことが複数の研究で示されている。<br>
-<strong>抗精神病薬の副作用</strong>（糖尿病発症、体重増加、歩行障害による転倒、脳卒中、認知機能の更なる悪化）が深刻な問題であるため、<strong>副作用のない非薬物的アプローチ</strong>としての自然映像の価値が強調されている。</p>
-</div>
-<a class="ev-study-link" href="https://journal.ilpnetwork.org/articles/10.31389/jltc.69" target="_blank" rel="noopener">Journal of Long-Term Care で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-clinical">探索的研究（n=9〜13）</span>
-<h3>好みの自然画像で認知症入居者のエンゲージメントが改善</h3>
-<div class="ev-study-meta">Eggert, J. et al. (2015) — SAGE Open Medicine, 3, 2050312115602579<br>対象: 米国サウスカロライナ州のアシステッドリビング施設メモリーケアユニット、重度認知症患者（MMSE 10未満）</div>
-<div class="ev-study-body">参加者ごとに好みの自然画像（8.5×11インチの印刷画像）を選定し、週1回90分の個別セッションで4週間提示した。エンゲージメント（IDEAS尺度）を各セッションの前後で測定。言語的非攻撃性行動をCMAI（Cohen-Mansfield Agitation Inventory）で評価した。</div>
-<div class="ev-study-result">
-<p><strong>エンゲージメント（IDEAS尺度）は自然画像セッションの4週すべてで前後に改善</strong>がみられた（例：第1週 26.8→28.3）。参加者は画像をきっかけに幼少期の記憶を語ったり、スタッフに画像を見せて会話を始めるなど、<strong>自発的な交流が観察された</strong>。<br>言語的非攻撃性行動（CMAI）は改善がみられた週とみられなかった週があり、一貫した結果は得られなかった。</p>
-<div class="ev-study-note">対照群およびランダム割付のない探索的研究です。サンプルサイズが小さく（自然画像介入9名、音楽介入6名）、統計的有意差の検定は行われていません（記述統計による傾向の報告）。介入は印刷された自然画像であり、デジタルスクリーン表示ではありません。IDEAS尺度はこの研究で初めて短期間使用されたもので、信頼性は未確立です。</div>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4679336/" target="_blank" rel="noopener">PMC で論文全文を確認 →</a>
-</div>
-
-</div>
-</section>
-
-
-<section class="section" id="elderly">
-<div class="container">
-<h2 class="ev-section-sub">高齢者の気分改善・社会的つながり</h2>
-<p class="ev-section-desc">認知症の有無を問わず、高齢者全般に対する自然映像の心理的効果を検証した研究です。</p>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-clinical">高齢者の気分改善</span>
-<h3>高齢者で確認：仮想自然体験によるポジティブ感情の有意な改善</h3>
-<div class="ev-study-meta">Chan, S.H. et al. (2021) — Virtual Reality（Springer）<br>対象: Study 1 = 若年成人、Study 2 = 高齢者（シニアセンター利用者）</div>
-<div class="ev-study-body">VRによる仮想の森林散策体験が気分に与える影響を、若年成人と高齢者の2つの独立した研究で検証。高齢者向けの研究では、シニアセンターの利用者が参加。※本研究はVRヘッドセットを使用しているが、2Dモニタでも同等のストレス低減効果が得られることはSuseno (2023) で確認されている。</div>
-<div class="ev-study-result">
-<p><strong>高齢者: ポジティブ感情が有意に改善</strong>。その効果は「自然とのつながり感覚（nature connectedness）」の向上を介して生じることが確認された。<br>
-著者らは、<strong>介護施設やケアホームでの導入が実用的な解決策になる</strong>と結論。</p>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8617374/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-neuro">フレイル高齢者</span>
-<h3>フレイル高齢者のデジタル自然体験：社会的つながりと穏やかさの向上</h3>
-<div class="ev-study-meta">「Designing digital nature for older adults」(2023) — DIGITAL HEALTH, 9, 20552076231218504<br>混合研究法<br>対象: 移動に制限のあるフレイル高齢者</div>
-<div class="ev-study-body">外出が困難なフレイル（虚弱）高齢者に対し、デジタル自然コンテンツ（映像・画像）を提供した際の効果を検証。特に好まれたのは「海」や「水辺の広い景色」であった。</div>
-<div class="ev-study-result">
-<p>デジタル自然体験後に<strong>社会的つながり感（social connectedness）のスコアが有意に上昇</strong>。<br>
-<strong>穏やかさ（peacefulness）が有意に向上</strong>。<br>
-「畏怖（awe）を喚起する壮大な自然シーン」を1日わずか数分見るだけでも、気分の改善とポジティブ感情の誘発が確認されている。</p>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10695079/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-clinical">語り・対話の誘発</span>
-<h3>自然風景の動画が高齢者の語りと社会的交流意欲を引き出す</h3>
-<div class="ev-study-meta">Otten, K. et al. (2024) — DIGITAL HEALTH, 10, 20552076241261886<br>対象: 60歳以上・n=118名（RCT・2×2ファクトリアルデザイン）</div>
-<div class="ev-study-body">孤独感の軽減を目的に、謎めきと開放感を変えた自然風景動画4種をランダムに提示。視聴後に湧き起こった「語り（small stories）」の構造・内容・社会的意図を分析した。University of Twente（オランダ）による。</div>
-<div class="ev-study-result">
-<p>自然動画の視聴により、高齢者は記憶・意味づけ・将来への思いを含む<strong>語りを有意に多く生成</strong>した。参加者からは「昔の記憶や大切な思い出が浮かんでくる」「誰かに話したくなる」といった発言が記録された。<br>
-著者らは、自然映像を<strong>社会的孤立への介入ツールとして有望</strong>と結論。</p>
-<div class="ev-study-note">※本研究はオンライン調査形式であり、介護施設での直接介入を実証したものではありません。</div>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11406585/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-</div>
-</section>
-
-
-<section class="section" id="foundation">
-<div class="container">
-<h2 class="ev-section-sub">基盤となるメタ分析</h2>
-<p class="ev-section-desc">自然映像が人の心身に与える効果を大規模に検証した基盤的研究です。※Chen (2025) は健常成人を対象としており、介護施設入居者への効果を直接実証したものではありませんが、自然映像の有効性の方向性を示す参考データとして掲載しています。</p>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-meta">メタ分析（2025年）</span>
-<h3>24研究・1,471名を統合：仮想自然環境の不安・ストレス・うつへの効果</h3>
-<div class="ev-study-meta">Chen, L. et al. (2025) — npj Digital Medicine (Nature系列)<br>対象: 健常成人（24研究・1,471名を統合）</div>
-<div class="ev-study-body">健康な成人を対象に、仮想的な自然環境への接触（2Dモニタ・360°映像・VRを含む）が不安・ストレス・うつに与える影響を包括的に評価した系統的レビューおよびメタ分析。介護施設入居者への効果を直接実証したものではありませんが、自然映像の有効性の方向性を示す参考データとして掲載しています。</div>
-<div class="ev-study-result">
-<p><strong>不安:</strong> SMD = 0.82, p < 0.001 — 大きな効果<br>
-<strong>ストレス:</strong> SMD = 0.577, p = 0.003 — 中程度の効果<br>
-<strong>うつ:</strong> SMD = 0.621, p < 0.001 — 中程度の効果</p>
-</div>
-<a class="ev-study-link" href="https://www.nature.com/articles/s41746-025-02057-4" target="_blank" rel="noopener">Nature で論文を確認 →</a>
-</div>
-
-<div class="ev-study">
-<span class="ev-study-badge ev-badge-neuro">2D vs VR 比較</span>
-<h3>通常のモニタ映像でもVRと同等のストレス低減効果</h3>
-<div class="ev-study-meta">Suseno, B. & Hastjarjo, T. D. (2023) — Frontiers in Psychology</div>
-<div class="ev-study-body">同一の自然環境映像をVRヘッドセットと2Dモニタで視聴させ、ストレス低減効果を比較した無作為化比較試験（n=62）。VRゴーグルを装着できない認知症の方や高齢者への適用可能性を検討するうえで重要な知見です。</div>
-<div class="ev-study-result">
-<p>心拍数・主観的ストレスの低減において、<strong>2Dモニタ映像とVRの間に有意差なし</strong>。VRゴーグルを装着できない認知症の方や高齢者にとって、壁掛けテレビでの視聴がはるかに実用的。</p>
-</div>
-<a class="ev-study-link" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10214952/" target="_blank" rel="noopener">PMC で論文を確認 →</a>
-</div>
-</div>
-<p style="margin-top:24px;font-size:.85rem;color:var(--ink-light);line-height:1.8">これらの研究の詳細な考察（実験手法・限界・クリニックへの応用）は<a href="../../evidence/clinic/#neuroscience" style="color:var(--moss)">クリニック向け科学的根拠ページ</a>に掲載しています。</p>
-</div>
-</section>
-
-
-<section class="section" id="theory">
-<div class="container">
-<h2 class="ev-section-sub">理論的基盤</h2>
-<p class="ev-section-desc">自然映像がなぜ人間の心身に作用するのか。その背景にある3つの主要理論です。</p>
-<div class="ev-theory-grid">
-<div class="ev-theory-card"><h4>ストレス低減理論（SRT）</h4><p>自然環境の視覚パターンは、進化的に獲得された「安全信号」として脳に認識され、副交感神経を活性化させる。認知機能が低下した状態でも、この反応は保たれる。</p><div class="ev-theory-author">Roger Ulrich, 1991</div></div>
-<div class="ev-theory-card"><h4>注意回復理論（ART）</h4><p>自然環境に特有の「ソフト・ファシネーション」が、指向性注意を休息させる。認知症の方にとっても、穏やかな自然映像は過剰な刺激にならない「ちょうどいい」環境を提供する。</p><div class="ev-theory-author">Kaplan & Kaplan, 1989</div></div>
-<div class="ev-theory-card"><h4>バイオフィリア仮説</h4><p>人間には自然環境とのつながりを求める生得的な傾向がある。外出が困難な入居者にとって、映像による自然体験はこの根源的な欲求を満たす手段となる。</p><div class="ev-theory-author">E.O. Wilson, 1984 / 宮崎良文, 千葉大学</div></div>
-</div>
-</div>
-</section>
-
-
-<section class="section" id="relevance">
-<div class="container">
-<h2 class="ev-section-sub">これらの研究と風景帖の対応</h2>
-<p class="ev-section-desc">上記の研究は、風景帖のサービス設計を直接的に裏付けています。</p>
-<div class="feature-grid">
-<div class="feature-card"><p class="feature-q">なぜ介護施設に「自然映像」なのか</p><p class="feature-a">29研究のメタ分析（Choe 2025）で、映像・写真などの間接体験と屋外での直接体験の間に効果量の有意差がないことが確認されました。さらに介入環境のサブグループ解析では、屋内介入（g=-1.00）の方が屋外介入（g=-0.76）よりも効果量が統計的に高い結果が示されています（p=0.040）。外出が困難な入居者にも、モニタ越しの自然が直接体験と同等以上の鎮静効果をもたらす可能性があります。</p></div>
-<div class="feature-card"><p class="feature-q">なぜ「VRではなくモニタ」なのか</p><p class="feature-a">Reynolds (2018) は通常の壁掛けテレビで認知症入居者への効果を実証しています。VRゴーグルを装着できない認知症の方や高齢者にとって、共用スペースのテレビでの視聴がはるかに実用的です。</p></div>
-<div class="feature-card"><p class="feature-q">なぜ「テレビの代わり」なのか</p><p class="feature-a">チャンネル争いの原因にもなる地上波テレビに代わり、誰にとっても不快にならない自然映像を流すことで、共用スペースの環境が改善されます。不穏行動の軽減はスタッフの負担軽減にも直結します。</p></div>
-<div class="feature-card"><p class="feature-q">スタッフ自身への効果はあるか</p><p class="feature-a">高齢者医療施設の職員13名を対象とした交差実験（高山ら 2020）では、休憩室への自然映像（木漏れ日・2D投影）が、通常休憩と比べてストレス指標（唾液アミラーゼ活性）を有意に低下させ、緊張・不安感の改善と職務満足度の向上傾向をもたらしました。入居者の穏やかさがスタッフの負担を減らす間接効果に加え、スタッフ自身が映像を目にする環境でも直接的なリラクゼーション効果が期待できます。</p></div>
-<div class="feature-card"><p class="feature-q">なぜ「150時間」の映像量なのか</p><p class="feature-a">同じ映像の繰り返しは「馴化」により効果が低下します。季節・時間帯の自動切替で毎日異なる風景を提供し、「あら、ここ知ってる」という会話のきっかけを生み続けます。</p></div>
-</div>
-<p style="text-align:center;margin-top:24px"><a href="../quality.html" class="text-link-btn">映像品質への技術的こだわり →</a></p>
-</div>
-</section>
-
-
-<section class="section" id="references">
-<div class="container">
-<h2 class="ev-section-sub">参考文献</h2>
-<p class="ev-section-desc">本ページで引用した論文の一覧です。</p>
-<div class="ev-refs">
-<div class="ev-ref-item">Choe, K. et al. (2025). Effectiveness of Nature-Based Interventions in Reducing Agitation Among Older Adults with Dementia. <em>Healthcare</em>, 13(14), 1727. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12294372/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Reynolds, L., Rodiek, S., Lininger, M. & McCulley, M.A. (2018). Can a Virtual Nature Experience Reduce Anxiety and Agitation in People With Dementia? <em>J Housing for the Elderly</em>, 32(2), 176-193. <a href="https://www.healthdesign.org/insights-solutions/virtual-nature-experience-reduces-anxiety-and-agitation-people-dementia" target="_blank" rel="noopener">Center for Health Design</a></div>
-<div class="ev-ref-item">Wong, K.L.Y., Hung, L., Wang, C., Pan, D., Liao, D., Ren, L.H. & Berndt, A. (2025). The perceived impacts of using dementia-friendly videos to support the psychosocial needs of people with moderate to severe dementia in care settings. <em>DIGITAL HEALTH</em>, 11, 20552076251357490. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12246666/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Nature-Based Video with Music for Individuals Experiencing Sundown Syndrome (2021). <em>Journal of Long-Term Care</em>. <a href="https://journal.ilpnetwork.org/articles/10.31389/jltc.69" target="_blank" rel="noopener">JLTC</a></div>
-<div class="ev-ref-item">Chan, S.H. et al. (2021). Nature in virtual reality improves mood and reduces stress: evidence from young adults and senior citizens. <em>Virtual Reality</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8617374/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Designing digital nature for older adults (2023). <em>DIGITAL HEALTH</em>, 9, 20552076231218504. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10695079/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Otten, K., van Rompay, T.J.L., van 't Klooster, J.W.J.R., Gerritsen, D.L. & Westerhof, G.J. (2024). Exploring small stories of older adults elicited by virtual nature videos with a randomized online survey. <em>DIGITAL HEALTH</em>, 10, 20552076241261886. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11406585/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Chen, L., Yan, R. & Yu, J. (2025). Virtual nature, real relief. <em>npj Digital Medicine</em>. <a href="https://www.nature.com/articles/s41746-025-02057-4" target="_blank" rel="noopener">Nature</a></div>
-<div class="ev-ref-item">Suseno, B. & Hastjarjo, T.D. (2023). The effect of simulated natural environments in VR and 2D video. <em>Frontiers in Psychology</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10214952/" target="_blank" rel="noopener">PMC</a></div>
-<div class="ev-ref-item">Ulrich, R.S. (1991). Effects of interior design on wellness. <em>J Health Care Interior Design</em>, 3, 97-109. <a href="https://pubmed.ncbi.nlm.nih.gov/10123973/" target="_blank" rel="noopener">PubMed</a></div>
-<div class="ev-ref-item">Kaplan, R. & Kaplan, S. (1989). <em>The Experience of Nature.</em> Cambridge University Press.</div>
-<div class="ev-ref-item">高山範理・森川岳・山内健太郎・伊藤俊一郎 (2020). 休憩時の木漏れ日照射が高齢者医療施設職員にもたらす心身の回復と職務満足度. <em>ランドスケープ研究（オンライン論文集）</em>, 13, 87-93. <a href="https://www.jstage.jst.go.jp/article/jila/75/5/75_565/_article/-char/ja/" target="_blank" rel="noopener">J-STAGE</a></div>
-<div class="ev-ref-item">Eggert, J., Dye, C.J., Vincent, E. et al. (2015). Effects of viewing a preferred nature image and hearing preferred music on engagement, agitation, and mental status in persons with dementia. <em>SAGE Open Medicine</em>, 3, 2050312115602579. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4679336/" target="_blank" rel="noopener">PMC</a></div>
-</div>
-<p class="ev-disclaimer">本ページに記載された研究結果は、それぞれの実験条件下で得られたものであり、すべての環境・対象者に同一の効果を保証するものではありません。多くの研究は短期的な介入効果の測定であり、長期的な持続効果については今後さらなる検証が必要です。また、一部の研究は健常成人やVR環境での実験であり、介護施設の入居者に対する効果を直接的に実証したものではない点にご留意ください。風景帖は医療機器・医薬品ではなく、疾病の治療を目的としたものではありません。</p>
-
-<div class="ev-bottom-nav">
-<a href="./">← 科学的根拠一覧に戻る</a>
-<a href="clinic.html">クリニック向け科学的根拠を見る →</a>
-</div>
-</div>
-</section>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "風景帖 トップ",
-          "item": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "科学的根拠",
-          "item": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/evidence/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "科学的根拠（介護施設向け）",
-          "item": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/evidence/care/"
-        }
-      ]
-    },
-    {
-      "@type": "Article",
-      "headline": "科学的根拠（介護施設向け）",
-      "description": "介護施設での自然映像の効果を示す研究まとめ。29研究・733名のメタ分析で認知症の不穏行動（BPSD）が有意に低減。屋内映像が屋外介入を効果量で上回る結果も。施設長・介護スタッフ向けに論文を解説します。",
-      "url": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/evidence/care/",
-      "inLanguage": "ja",
-      "publisher": {
-        "@type": "Organization",
-        "name": "風景帖",
-        "url": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/"
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://dr836gnypeq-ctrl.github.io/fukeichou-site/evidence/care/"
-      }
-    }
-  ]
-}
-</script>
-
-
-<section class="section section-contact" id="contact">
-<div class="container">
-<h2 class="section-heading">まず、1か月だけ試してみませんか。</h2>
-<p class="cta-offer">初月無料トライアル実施中</p>
-<p class="cta-reassure">お問い合わせは「興味を持っただけなのですが」も、もちろん大丈夫です。</p>
-<div class="contact-form-wrap">
-<form id="contactForm" class="contact-form" action="https://formsubmit.co/ajax/eafb8addb5f674b0d463db935c8905a4" method="POST">
-<input type="hidden" name="_subject" value="【風景帖】新しいお問い合わせ">
-<input type="hidden" name="_template" value="table">
-<input type="text" name="_honey" style="display:none">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_autoresponse" value="【風景帖】お問い合わせを受け付けました。内容を確認のうえ、2営業日以内にご連絡いたします。">
-<div class="form-group">
-<label for="cf-facility" class="form-label">施設名 <span class="form-req">*</span></label>
-<input type="text" id="cf-facility" name="施設名" class="form-input" required autocomplete="organization">
-</div>
-<div class="form-group">
-<label for="cf-name" class="form-label">ご担当者名 <span class="form-req">*</span></label>
-<input type="text" id="cf-name" name="ご担当者名" class="form-input" required autocomplete="name">
-</div>
-<div class="form-group">
-<label for="cf-email" class="form-label">メールアドレス <span class="form-req">*</span></label>
-<input type="email" id="cf-email" name="メールアドレス" class="form-input" required autocomplete="email">
-</div>
-<div class="form-group">
-<label for="cf-tel" class="form-label">電話番号</label>
-<input type="text" id="cf-tel" name="電話番号" class="form-input" inputmode="tel" autocomplete="tel">
-</div>
-<div class="form-group">
-<label for="cf-type" class="form-label">施設の種類 <span class="form-req">*</span></label>
-<select id="cf-type" name="施設の種類" class="form-input form-select" required>
-<option value="" disabled selected>選択してください</option>
-<option value="クリニック（内科・外科等）">クリニック（内科・外科等）</option>
-<option value="歯科医院">歯科医院</option>
-<option value="心療内科・精神科">心療内科・精神科</option>
-<option value="介護施設">介護施設</option>
-<option value="その他">その他</option>
-</select>
-</div>
-<div class="form-group">
-<label for="cf-message" class="form-label">お問い合わせ内容</label>
-<textarea id="cf-message" name="お問い合わせ内容" class="form-input form-textarea" rows="4"></textarea>
-</div>
-<button type="submit" class="form-submit" id="contactSubmitBtn">送信</button>
-<p class="form-operator-link"><a href="../company.html" class="privacy-link">運営者情報</a></p>
-</form>
-<div id="contactSuccess" class="contact-success" style="display:none">
-<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#136b5e" stroke-width="2.5"/><polyline points="14,25 22,33 34,17" fill="none" stroke="#136b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-<h3 class="success-heading">送信いただきありがとうございます</h3>
-<p class="success-text">内容を確認のうえ、2営業日以内にご連絡いたします。</p>
-</div>
-</div>
-</div>
-</section>
-
 <footer class="site-footer">
 <div class="container site-footer-inner">
 <p class="site-footer-copy">&copy; 2026 風景帖</p>
 <div class="site-footer-links">
-<a href="../privacy.html" class="site-footer-link">プライバシーポリシー</a>
-<a href="../company.html" class="site-footer-link">運営者情報</a>
+<a href="../privacy/" class="site-footer-link">プライバシーポリシー</a>
+<a href="../company/" class="site-footer-link">運営者情報</a>
 </div>
 </div>
 </footer>
