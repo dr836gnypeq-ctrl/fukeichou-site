@@ -4,16 +4,8 @@ title: プライバシーポリシー
 description: 風景帖のプライバシーポリシー。個人情報の取扱い、利用目的、安全管理措置、開示等の請求手続きについて。
 noindex: true
 no_contact: true
+no_hero: true
 ---
-
-<style>
-/* Force header to always show scrolled style (no hero on this page) */
-.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
-.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
-.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
-.site-header.at-top .logo-text{color:var(--ink)}
-.site-header.at-top .nav-toggle span{background:var(--ink)}
-</style>
 
 <section class="section section-privacy">
 <div class="container">
@@ -104,7 +96,7 @@ no_contact: true
 <script>
 (function(){
   var baseUrl = '{{ site.baseurl }}';
-  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
+  document.querySelectorAll('.header-cta-btn').forEach(function(a){
     var href = a.getAttribute('href');
     if(href && href.startsWith('#')){
       a.setAttribute('href', baseUrl + '/' + href);

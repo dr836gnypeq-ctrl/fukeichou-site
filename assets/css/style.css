@@ -540,7 +540,7 @@ a:hover{color:var(--gold)}
 /* ---- エビデンスページ 論文カード ---- */
 .ev-study{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:32px;margin-top:32px;box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .ev-study--rct{border-left:3px solid var(--moss);padding-left:20px}
-.ev-study-note{background:var(--sand-pale,#f8f5f0);border-left:3px solid var(--ink-light,#aaa);padding:12px 16px;margin-top:16px;font-size:.85rem;color:var(--ink-light,#666);line-height:1.7}
+.ev-study-note{background:#f8f5f0;border-left:3px solid var(--ink-light,#aaa);padding:12px 16px;margin-top:16px;font-size:.85rem;color:var(--ink-light,#666);line-height:1.7}
 .ev-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px}
 .ev-badge-clinical{background:#e8f5f1;color:#136b5e}
 .ev-badge-meta{background:#fef3e2;color:#9a5e15}
@@ -585,3 +585,11 @@ a:hover{color:var(--gold)}
 .company-table th{width:180px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top;white-space:nowrap}
 .company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
 .company-info-img{display:block;width:204px;max-width:100%;height:auto}
+
+/* ---- ヒーローなしページ: ヘッダー常時scrolled風 ---- */
+.page-no-hero .site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.page-no-hero .site-header.at-top .logo-text{color:var(--ink)}
+.page-no-hero .site-header.at-top .logo-reading{color:var(--ink-faint)}
+.page-no-hero .site-header.at-top .h-pill{color:var(--ink-light);border-color:var(--border)}
+.page-no-hero .site-header.at-top .h-pill.active{background:var(--moss);color:#fff;border-color:var(--moss)}
+.page-no-hero .site-header.at-top .header-cta-btn{background:var(--moss);border:1px solid transparent;color:#fff!important}

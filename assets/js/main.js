@@ -135,23 +135,6 @@ function _scrollToTarget(el, offsetFn){
   }
 })();
 
-/* ハンバーガーメニュー */
-(function(){
-  var toggle=document.getElementById('navToggle');
-  var nav=document.getElementById('mainNav');
-  if(!toggle||!nav)return;
-  toggle.addEventListener('click',function(){
-    toggle.classList.toggle('open');
-    nav.classList.toggle('open');
-  });
-  nav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click',function(){
-      toggle.classList.remove('open');
-      nav.classList.remove('open');
-    });
-  });
-})();
-
 /* Scroll Reveal */
 (function(){
   var obs=new IntersectionObserver(function(entries){
@@ -394,7 +377,7 @@ if(typeof lucide !== 'undefined'){
 
 /* ── Scroll Depth Tracking (10% increments) ── */
 (function(){
-  var thresholds = [10,20,30,40,50,60,70,80];
+  var thresholds = [10,20,30,40,50,60,70,80,90,100];
   var fired = {};
   function getScrollPercent(){
     var h = document.documentElement;
