@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>【Design v3 実験】風景帖 LP</title>
+<title>【Design v3】クリニック・歯科・介護施設向け 4K実写風景映像サービス</title>
 <meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap"></noscript>
 <style>
@@ -591,9 +593,10 @@ a:hover{color:var(--gold)}
 .company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
 .company-info-img{display:block;width:204px;max-width:100%;height:auto}
 
-/* ===== Design v3 追加: 変更点を示すバッジ ===== */
+/* Design v3 badge */
 .version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#9a5e15;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.85}
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
 </head>
 <body>
@@ -602,7 +605,7 @@ a:hover{color:var(--gold)}
 
 <header class="site-header">
 <div class="header-inner">
-<a href="../" style="text-decoration:none">
+<a href="index.html" style="text-decoration:none">
 <span class="logo-text">風景帖</span>
 <span class="logo-reading">ふうけいちょう</span>
 </a>
@@ -753,7 +756,7 @@ a:hover{color:var(--gold)}
   <button class="tab-btn ev-tab-btn" data-audience="mental" onclick="setAudience('mental')">心療内科・精神科</button>
   <button class="tab-btn ev-tab-btn" data-audience="care" onclick="setAudience('care')">介護施設</button>
 </div>
-<p style="text-align:center;margin:-16px 0 32px"><a href="../evidence/" class="text-link-btn">研究の全容と論文リストはこちら →</a></p>
+<p style="text-align:center;margin:-16px 0 32px"><a href="evidence/" class="text-link-btn">研究の全容と論文リストはこちら →</a></p>
 
 <div class="evidence-grid">
 
@@ -865,7 +868,7 @@ a:hover{color:var(--gold)}
 </div><!-- /.evidence-grid -->
 
 <div class="evidence-source">
-<p><a href="../evidence/" class="text-link-btn">研究の全容と論文リストはこちら →</a></p>
+<p><a href="evidence/" class="text-link-btn">研究の全容と論文リストはこちら →</a></p>
 </div>
 </div>
 </section>
@@ -992,7 +995,7 @@ a:hover{color:var(--gold)}
 <p class="reveal section-overview" style="margin-top:32px">
 映像を12-bit ProRes RAWで撮影し、10-bit HDRで仕上げています。<br>実在の景色を、妥協のない品質でお届けするための、技術的なこだわりがあります。
 </p>
-<p class="reveal" style="text-align:center;margin-top:16px"><a href="../quality/" class="text-link-btn">映像品質への技術的こだわり →</a></p>
+<p class="reveal" style="text-align:center;margin-top:16px"><a href="quality.html" class="text-link-btn">映像品質への技術的こだわり →</a></p>
 </div>
 </section>
 
@@ -1331,7 +1334,7 @@ function initMap(){
 </div>
 <div class="container" style="text-align:center;margin-top:40px">
 <p class="section-lead reveal reveal-d1">あなたの施設に導入したイメージを、写真1枚ご用意いただくだけでシミュレーションできます。</p>
-<a href="../simulator/" class="btn btn-primary btn-lg reveal reveal-d2">シミュレーターを開く →</a>
+<a href="simulator.html" class="btn btn-primary btn-lg reveal reveal-d2">シミュレーターを開く →</a>
 </div>
 </div>
 </section>
@@ -1608,7 +1611,7 @@ function initMap(){
 <textarea id="cf-message" name="お問い合わせ内容" class="form-input form-textarea" rows="4"></textarea>
 </div>
 <button type="submit" class="form-submit" id="contactSubmitBtn">送信</button>
-<p class="form-operator-link"><a href="../company/" class="privacy-link">運営者情報</a></p>
+<p class="form-operator-link"><a href="company.html" class="privacy-link">運営者情報</a></p>
 </form>
 <div id="contactSuccess" class="contact-success" style="display:none">
 <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#136b5e" stroke-width="2.5"/><polyline points="14,25 22,33 34,17" fill="none" stroke="#136b5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1623,8 +1626,8 @@ function initMap(){
 <div class="container site-footer-inner">
 <p class="site-footer-copy">&copy; 2026 風景帖</p>
 <div class="site-footer-links">
-<a href="../privacy/" class="site-footer-link">プライバシーポリシー</a>
-<a href="../company/" class="site-footer-link">運営者情報</a>
+<a href="privacy.html" class="site-footer-link">プライバシーポリシー</a>
+<a href="company.html" class="site-footer-link">運営者情報</a>
 </div>
 </div>
 </footer>
@@ -1634,7 +1637,7 @@ function initMap(){
 /* Service Worker 登録 */
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    /* disabled for design-v2 */ void('/fukeichou-site/sw.js', {
+    /* disabled */ void('/fukeichou-site/sw.js', {
       /* updateViaCache:'none' → SafariがHTTPキャッシュを無視してSWスクリプトを常に最新確認する
          Chromeはデフォルトでこの挙動。Safariはオプション指定が必要。 */
       updateViaCache: 'none'

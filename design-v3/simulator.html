@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【Design v3】導入シミュレーター</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap"></noscript>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--ink:#2a2a2a;--ink-light:#5a5650;--ink-faint:#6b6560;
+--paper:#ffffff;--paper-warm:#f5f7f8;
+--moss:#136b5e;--moss-light:#15795a;
+--gold:#9a5e15;--gold-light:#b06e20;
+--white:#fff;--black:#1a1a1a;--border:#e2e8ee;
+--serif:'Noto Serif JP',serif;--sans:'Noto Sans JP',sans-serif;
+--header-h:72px;--max-w:1080px;
+--ease:cubic-bezier(0.4,0,0.2,1);
+}
+html{font-size:16px}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.8;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--moss);text-decoration:none;transition:color .3s var(--ease)}
+a:hover{color:var(--gold)}
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+.section{padding:100px 0}
+.section:nth-child(even){background:var(--paper-warm)}
+.section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.06em;line-height:1.45}
+.section-lead{text-align:center;color:var(--ink-light);font-size:1rem;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
+.section-tagline{text-align:center;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-bottom:16px}
+.change-preview{color:#1a6fd4;font-size:.92em;margin-top:4px;margin-bottom:4px;padding:3px 8px;border-left:3px solid #1a6fd4;display:block}
+.change-preview-block{color:#1a6fd4;border:1.5px dashed #1a6fd4;border-radius:6px;padding:8px 12px;margin-top:6px;font-size:.92em}
+.section-overview{text-align:center;color:var(--ink-light);font-size:.95rem;line-height:2;margin-top:-28px;margin-bottom:48px;max-width:640px;margin-left:auto;margin-right:auto}
+
+/* Version badge */
+.version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#136b5e;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.6}
+
+/* Header */
+.site-header{position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:1000;border-bottom:1px solid transparent;transition:background .4s,border-color .4s,backdrop-filter .4s}
+.site-header.at-top{background:transparent}
+/* at-top: ロゴ白 */
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading{color:var(--white)}
+/* at-top: ピル白透過 */
+.site-header.at-top .h-pill{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.35)}
+.site-header.at-top .h-pill.active{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.65);color:#fff}
+.site-header.at-top .h-pill:hover:not(.active){border-color:rgba(255,255,255,.7);color:#fff;background:rgba(255,255,255,.1)}
+.site-header.at-top .h-pill-ext{color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.4)}
+.site-header.at-top .h-pill-ext:hover{background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.7)}
+/* at-top: CTA白透過 */
+.site-header.at-top .header-cta-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.45);color:#fff!important}
+.site-header.at-top .header-cta-btn:hover{background:rgba(255,255,255,.28)}
+.site-header.scrolled{background:rgba(250,248,245,.92);backdrop-filter:saturate(120%) blur(14px);border-bottom-color:var(--border)}
+.site-header.scrolled .logo-text{color:var(--ink)}
+
+/* Hero video */
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
+.hero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between}
+.logo-text{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:var(--ink);letter-spacing:.15em}
+.logo-reading{font-size:.65rem;color:var(--ink-faint);letter-spacing:.2em;display:block}
+
+/* Hero */
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(135deg,#0a3a35 0%,#0d2825 50%,#0a2530 100%)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.18)0%,rgba(0,0,0,.52)45%,rgba(0,0,0,.62)100%);z-index:2}
+.hero-overlay::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 52%,rgba(0,0,0,.32)0%,rgba(0,0,0,0)100%)}
+.hero-content{position:relative;z-index:3;text-align:center;padding:0 24px}
+.hero-tagline{display:inline-block;font-size:.72rem;font-weight:300;color:rgba(255,255,255,.95);background:none;border:none;border-radius:0;padding:0;margin-bottom:12px;letter-spacing:.22em;font-weight:400;opacity:0;transform:translateY(12px);animation:heroFadeUp .8s .1s ease forwards}
+.hero-audience-banner{font-size:.88rem;color:rgba(255,255,255,.82);line-height:1.9;margin-bottom:24px;padding:14px 20px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(255,255,255,.07);max-width:560px;margin-left:auto;margin-right:auto;text-align:left}
+.hero-title{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--white);letter-spacing:.12em;line-height:1.6;margin-bottom:24px}
+.hero-subtitle{font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.88);line-height:2;margin-bottom:40px}
+.hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-block;padding:14px 32px;font-family:var(--sans);font-size:.95rem;font-weight:500;border-radius:8px;border:none;cursor:pointer;transition:all .3s var(--ease);text-align:center;text-decoration:none}
+.btn-primary{background:var(--moss);color:var(--white)}
+.btn-primary:hover{background:var(--moss-light);color:var(--white);transform:translateY(-2px);box-shadow:0 6px 20px rgba(19,107,94,0.25),0 3px 8px rgba(0,0,0,0.06)}
+.btn-hero-cta{background:#fff;color:#136b5e;padding:13px 36px;border-radius:100px;font-size:1rem;font-weight:500;letter-spacing:.03em;border:none;transition:all .3s var(--ease)}
+.btn-hero-cta:hover{background:rgba(255,255,255,.88);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5)}
+.btn-ghost:hover{background:rgba(255,255,255,.12);color:var(--white)}
+.btn-lg{padding:18px 48px;font-size:1.05rem}
+
+/* Tab switcher */
+.tab-switcher{display:flex;justify-content:center;gap:0;margin-bottom:48px}
+.tab-btn{padding:14px 36px;font-family:var(--sans);font-size:.95rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--ink-light);cursor:pointer;transition:all .25s var(--ease)}
+.tab-btn:first-child{border-radius:8px 0 0 8px}
+.tab-btn:last-child{border-radius:0 8px 8px 0}
+.tab-btn.active{background:var(--moss);color:var(--white);border-color:var(--moss)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* Pain */
+.pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px}
+.pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.pain-icon{font-size:2.4rem;margin-bottom:16px;color:#136b5e}.pain-icon svg{width:40px;height:40px;stroke:#136b5e}
+.pain-card h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:12px;line-height:1.6}
+.pain-card p{font-size:.9rem;color:var(--ink-light);line-height:1.8}
+
+/* Features */
+.feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-bottom:48px}
+.feature-card{padding:36px;background:var(--white);border-radius:16px;border:1px solid var(--border);transition:box-shadow .3s,transform .3s;box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.feature-card:hover{box-shadow:0 8px 24px rgba(19,107,94,0.08),0 4px 12px rgba(0,0,0,0.04);transform:translateY(-1px)}
+.feature-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:12px;color:var(--ink);line-height:1.7}
+.feature-a{font-size:.9rem;color:var(--ink-light);line-height:1.9}
+
+/* Evidence */
+.evidence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px;margin-bottom:32px}
+.evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.evidence-stat{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--moss);margin-bottom:16px}
+.evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
+.evidence-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+.evidence-source{text-align:center;font-size:.9rem;color:var(--ink-faint)}
+.ev-audience-tabs{display:flex;justify-content:center;gap:0;margin:24px 0 32px}
+
+/* FAQ */
+.faq-list{max-width:720px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item summary{padding:20px 0;font-family:var(--serif);font-size:1rem;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::after{content:"+";font-size:1.4rem;font-weight:300;color:var(--ink-faint);transition:transform .3s}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{padding:0 0 20px;font-size:.9rem;color:var(--ink-light);line-height:1.9}
+
+/* Contact */
+.section.section-contact{background:var(--moss);color:var(--white)}
+.section.section-contact .section-heading{color:var(--white)}
+.section.section-contact .section-lead{color:rgba(255,255,255,.75)}
+.cta-offer{text-align:center;color:rgba(255,255,255,.85);font-size:1.05rem;font-weight:600;letter-spacing:.08em;margin-bottom:20px}
+.cta-reassure{text-align:center;color:rgba(255,255,255,.6);font-size:.88rem;line-height:1.8;margin-bottom:40px}
+.contact-form-wrap{max-width:520px;margin:2rem auto 0;background:var(--white);border-radius:16px;padding:2.5rem 2rem;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-size:.875rem;font-weight:500;color:var(--ink);margin-bottom:6px;font-family:var(--sans)}
+.form-req{color:#c0392b;font-weight:600}
+.form-input{display:block;width:100%;padding:11px 14px;font-size:.95rem;font-family:var(--sans);color:var(--ink);background:var(--paper-warm);border:1.5px solid var(--border);border-radius:8px;transition:border-color .25s var(--ease),box-shadow .25s var(--ease);outline:none;-webkit-appearance:none}
+.form-input:focus{border-color:var(--moss);box-shadow:0 0 0 3px rgba(19,107,94,.12)}
+.form-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-textarea{resize:vertical;min-height:100px}
+.form-submit{display:block;width:100%;padding:14px;font-family:var(--sans);font-size:1rem;font-weight:500;color:var(--white);background:var(--moss);border:none;border-radius:8px;cursor:pointer;transition:all .3s var(--ease);margin-top:.5rem;letter-spacing:.03em}
+.form-submit:hover{background:var(--moss-light);transform:translateY(-1px);box-shadow:0 4px 20px rgba(19,107,94,.3)}
+.form-submit:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.form-operator-link{text-align:center;margin-top:12px;font-size:.78rem}
+.contact-success{text-align:center;padding:2rem 0}
+.contact-success svg{margin:0 auto 1rem}
+.success-heading{font-family:var(--serif);font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:.5rem}
+.success-text{color:var(--ink-light);font-size:.95rem;line-height:1.8}
+@media(max-width:768px){.contact-form-wrap{padding:1.75rem 1.25rem;margin-top:1.5rem}}
+
+/* Flow */
+.flow-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
+.flow-step{text-align:center;padding:32px 16px}
+.step-number{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:var(--moss);color:var(--white);font-family:var(--serif);font-size:1.2rem;font-weight:600;margin-bottom:16px}
+.flow-step h3{font-family:var(--serif);font-size:1rem;margin-bottom:10px}
+.flow-step p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
+.step-icon{display:block;width:80px;height:80px;margin:0 auto 12px}
+.step-icon .si-bg{fill:#e8f5f2}
+.step-icon .si-s{fill:none;stroke:var(--moss);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.step-icon .si-f{fill:var(--moss)}
+.step-icon .si-scr{fill:#b2e0d8;stroke:var(--moss);stroke-width:0.5}
+.flow-note{text-align:center;padding:20px;background:var(--moss);color:var(--white);border-radius:8px;font-size:1.1rem}
+
+/* Pricing */
+.pricing-card{max-width:520px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;text-align:center;box-shadow:0 8px 30px rgba(19,107,94,0.08),0 4px 14px rgba(0,0,0,0.04)}
+.pricing-header{padding:40px 32px 32px;background:linear-gradient(135deg,#136b5e 0%,#15795a 100%);color:var(--white)}
+.pricing-badge{display:inline-block;padding:4px 16px;background:var(--gold);color:var(--white);font-size:.8rem;font-weight:700;border-radius:20px;margin-bottom:16px;letter-spacing:.1em}
+.pricing-amount{display:flex;align-items:baseline;justify-content:center;gap:4px}
+.pricing-currency{font-size:1rem;opacity:.8}
+.pricing-number{font-family:var(--serif);font-size:3rem;font-weight:700;letter-spacing:.03em}
+.pricing-unit{font-size:1rem;opacity:.8}
+.pricing-unit small{font-size:.8rem}
+.pricing-includes{padding:32px;text-align:left}
+.pricing-includes h4{font-size:.85rem;color:var(--ink-faint);margin-bottom:16px;letter-spacing:.1em}
+.pricing-includes ul{list-style:none}
+.pricing-includes li{padding:8px 0;font-size:.9rem;border-bottom:1px solid var(--border)}
+.pricing-includes li::before{content:"✓ ";color:var(--moss);font-weight:700}
+.pricing-discount{margin:16px 32px;padding:14px 16px;background:#eaf4f1;border-radius:8px;text-align:center}
+.pricing-discount p{font-size:.95rem;color:#0f6e56;line-height:1.8;margin:0}
+.pricing-discount small{color:rgba(15,110,86,0.7);font-size:.8rem}
+.pricing-note{padding:16px 32px;font-size:.8rem;color:var(--ink-faint)}
+.pricing-card .btn{margin:0 32px 32px;width:calc(100% - 64px)}
+
+/* PC hero text sizing */
+@media(min-width:769px){.hero-tagline{font-size:.8rem}}
+@media(min-width:769px){.h-pill{border-width:2.5px}.site-header.at-top .h-pill{border-color:rgba(255,255,255,.55)}}
+
+/* Responsive */
+@media(max-width:768px){
+.section{padding:64px 0}
+.hero-title{font-size:1.8rem}
+.pain-grid,.evidence-grid{grid-template-columns:1fr}
+.feature-grid{grid-template-columns:1fr}
+.flow-steps{grid-template-columns:1fr 1fr}
+.section-heading{font-size:1.5rem}
+.tab-btn{padding:10px 10px;font-size:.75rem}
+.tab-switcher{flex-wrap:nowrap}
+.tab-switcher .tab-btn{flex:1;padding:10px 4px;text-align:center}
+.ev-audience-tabs{flex-wrap:nowrap}
+.ev-audience-tabs .tab-btn{flex:1;padding:10px 4px;text-align:center}
+}
+@media(max-width:480px){
+.flow-steps{grid-template-columns:1fr}
+.hero-actions{flex-direction:column;align-items:center}
+.btn-lg{width:100%}
+}
+
+/* Map */
+.map-wrapper{max-width:640px;margin:0 auto;position:relative;overflow:visible}
+.map-loading{text-align:center;padding:80px 0;color:var(--ink-faint);font-size:.9rem}
+.map-label{transition:opacity .2s}
+.map-video-popup{display:none;position:absolute;z-index:100;width:200px;border-radius:6px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.25);pointer-events:none;border:2px solid #136b5e}
+.map-video-popup video{width:100%;height:auto;display:block}
+.map-legend{display:none}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-light)}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.map-note{text-align:center;margin-top:16px;font-size:.9rem;color:var(--ink-faint)}
+.map-source{text-align:center;margin-top:8px;font-size:.7rem;color:var(--ink-faint)}
+
+/* ── Scroll Reveal & Hero Stagger (motion addition) ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+.reveal-d5{transition-delay:.5s}
+.reveal-d6{transition-delay:.6s}
+
+/* Hero stagger */
+@keyframes heroFadeUp{to{opacity:1;transform:translateY(0)}}
+@keyframes heroScrollBounce{0%,100%{transform:translateX(-50%) translateY(0)}55%{transform:translateX(-50%) translateY(7px)}}
+.hero-scroll-indicator{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.6);text-decoration:none;opacity:0;animation:heroFadeUp .8s 1.6s ease forwards;transition:color .2s}
+.hero-scroll-indicator:hover{color:rgba(255,255,255,.95)}
+.hero-scroll-indicator svg{display:block;animation:heroScrollBounce 2s 2.4s ease-in-out infinite}
+.hero-title{opacity:0;transform:translateY(20px);animation:heroFadeUp .9s .3s ease forwards}
+.hero-subtitle{opacity:0;transform:translateY(16px);animation:heroFadeUp .9s .65s ease forwards}
+.hero-actions{opacity:0;transform:translateY(12px);animation:heroFadeUp .8s 1s ease forwards}
+
+/* ---- 比較表 ---- */
+.comp-table-outer{max-width:860px;margin-left:auto;margin-right:auto}
+.comp-table-caption{font-family:var(--serif);font-size:1.05rem;font-weight:600;text-align:center;letter-spacing:.08em;margin-bottom:24px;color:var(--ink)}
+.comp-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.comp-table{width:100%;border-collapse:collapse;font-family:var(--sans)}
+.comp-th{padding:12px 16px;font-size:.78rem;font-weight:500;letter-spacing:.05em;color:var(--ink-light);text-align:center;border-bottom:1px solid var(--border);white-space:nowrap}
+.comp-th-label{padding:12px 0;font-family:var(--serif);font-size:.8rem;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border);min-width:110px}
+.comp-th-ours{font-family:var(--serif);font-size:.85rem;font-weight:700;color:var(--moss);background:#eaf4f1;border-bottom:1px solid rgba(19,107,94,.2);position:relative;padding-top:26px}
+.comp-ours-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--moss);color:#fff;font-size:.65rem;font-weight:500;letter-spacing:.06em;padding:3px 12px;border-radius:0 0 5px 5px;white-space:nowrap;font-family:var(--sans)}
+.comp-table tbody tr{border-bottom:1px solid var(--border)}
+.comp-table tbody tr:last-child{border-bottom:none}
+.comp-table tbody tr:hover{background:transparent}
+.comp-table{cursor:default}
+.comp-td{padding:14px 16px;font-size:.82rem;color:var(--ink-light);text-align:center;vertical-align:top;line-height:1.5}
+.comp-td-label{padding:14px 0;font-family:var(--serif);font-size:.85rem;font-weight:600;color:var(--ink);text-align:left;vertical-align:middle}
+.comp-td-ours{background:#eaf4f1;color:var(--ink)}
+.comp-good{display:block;color:var(--moss);font-size:.95rem;font-weight:700;line-height:1.8}
+.comp-ok{display:block;color:#888;font-size:.9rem;line-height:1.8}
+.comp-bad{display:block;color:#aab4bc;font-size:.88rem;line-height:1.8}
+.comp-ng{display:block;color:#c8d0d6;font-size:.88rem;line-height:1.8}
+.comp-neutral{display:block;color:#bbb;font-size:.88rem;line-height:1.8}
+.comp-sub{display:block;font-size:.73rem;color:var(--ink-faint);margin-top:1px;line-height:1.5;font-weight:400}
+.comp-td-ours .comp-sub{color:rgba(19,107,94,.7)}
+.comp-td-ours .comp-good{font-size:1rem}
+.comp-footnote{margin-top:14px;font-size:.72rem;color:var(--ink-faint);line-height:1.9;padding-left:10px;border-left:2px solid var(--border)}
+@media(max-width:600px){
+  .comp-th,.comp-td,.comp-td-ours{padding:10px 10px}
+  .comp-td-label,.comp-th-label{min-width:84px;padding-right:6px;font-size:.8rem}
+  .comp-sub{font-size:.7rem}
+}
+
+/* ---- 本物宣言セクション ---- */
+.authentic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:8px}
+.authentic-card{padding:36px 28px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.authentic-icon{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--moss);margin-bottom:16px;letter-spacing:.1em}
+.authentic-card h3{font-family:var(--serif);font-size:1rem;font-weight:600;margin-bottom:12px;line-height:1.7}
+.authentic-card p{font-size:.88rem;color:var(--ink-light);line-height:1.9}
+@media(max-width:768px){
+  .authentic-grid{grid-template-columns:1fr;gap:16px}
+  .authentic-card{padding:28px 20px}
+}
+
+/* ---- 料金セクション追加要素 ---- */
+.pricing-daily{font-size:.82rem;color:var(--moss);margin-top:8px;letter-spacing:.03em}
+.pricing-zero{margin:16px 32px;padding:14px 16px;background:#eaf4f1;border-radius:8px;text-align:center}
+.pricing-zero p{font-size:.85rem;color:#0f6e56;line-height:1.8;margin:0}
+.pricing-trial{margin:0 32px 16px;text-align:center}
+.pricing-trial p{font-size:.82rem;color:var(--ink-light);line-height:1.8;margin:0}
+
+/* ---- 導入想像図セクション ---- */
+.intro-image-tabs{max-width:860px;margin:0 auto}
+.intro-image-tabs .tab-buttons{display:flex;justify-content:center;margin-bottom:32px}
+.intro-tab-content{display:none}
+.intro-tab-content.active{display:block}
+.intro-image-figure{margin:0;text-align:center}
+.intro-image-img{width:100%;max-width:860px;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.12);display:block;margin:0 auto}
+.intro-image-caption{display:block;margin-top:20px;font-size:.88rem;color:var(--ink-light);line-height:1.9;letter-spacing:.04em}
+@media(max-width:768px){
+  .intro-image-img{border-radius:8px}
+  .intro-image-caption{font-size:.82rem;margin-top:14px}
+}
+.intro-image-note{margin-top:10px;font-size:.72rem;color:var(--ink-light);opacity:.45;text-align:center;line-height:1.7}
+
+/* ===== MOBILE TEXT LEFT-ALIGN ===== */
+/* Headings / icons / stat numbers / CTAs stay centered. Body text goes left. */
+@media(max-width:768px){
+  /* LP global */
+  .section-lead,.section-overview{text-align:left}
+  .pain-card{text-align:left}
+  .pain-card .pain-icon{text-align:center}
+  .pain-card h3{text-align:center}
+  .evidence-card{text-align:left}
+  .evidence-card .evidence-stat{text-align:center}
+  .evidence-card h3{text-align:center}
+  .intro-image-caption{text-align:left}
+  .intro-image-note{text-align:left}
+  .flow-step{text-align:left}
+  .flow-step .step-number{display:flex;width:48px;margin-left:auto;margin-right:auto}
+  .flow-step h3{text-align:center}
+  .flow-note{text-align:left}
+  /* Pricing */
+  .pricing-zero,.pricing-trial{text-align:left}
+  /* Evidence page shared — stat cards stay centered (short labels) */
+  /* Map */
+  .map-note,.map-source{text-align:left}
+}
+
+/* ===== MOBILE SCROLL REDUCTION ===== */
+
+/* 比較表: モバイルで左列sticky */
+@media(max-width:768px){
+  .comp-th-label{position:sticky;left:0;z-index:3;background:var(--paper-warm)}
+  .comp-td-label{position:sticky;left:0;z-index:2;background:var(--paper-warm)}
+  .comp-table-scroll{border:1px solid var(--border);border-radius:8px}
+}
+
+/* Feature cards アコーディオン (mobile) */
+@media(max-width:768px){
+  .feature-card{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .feature-card .feature-a{max-height:0;overflow:hidden;transition:max-height .38s ease,margin-top .38s ease;margin-top:0}
+  .feature-card.fc-open .feature-a{max-height:800px;margin-top:10px}
+  .feature-q-toggle::after{content:" ＋";font-size:1rem;font-weight:300;color:var(--moss);float:right}
+  .feature-card.fc-open .feature-q-toggle::after{content:" －"}
+}
+
+/* 本物宣言カード: 本文3行clamp (mobile) */
+@media(max-width:768px){
+  .authentic-card .auth-text{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .authentic-card.auth-expanded .auth-text{display:block;overflow:visible;-webkit-line-clamp:unset}
+  .btn-auth-expand{display:inline-block;margin-top:10px;font-size:.8rem;color:var(--moss);background:none;border:none;padding:0;cursor:pointer;font-family:var(--sans)}
+}
+@media(min-width:769px){.btn-auth-expand{display:none}}
+
+/* 「もっと見る」ボタン */
+.btn-show-more{display:block;margin:20px auto 0;padding:10px 32px;font-size:.88rem;font-family:var(--sans);color:var(--moss);background:transparent;border:1px solid var(--moss);border-radius:6px;cursor:pointer;transition:all .25s var(--ease);letter-spacing:.04em}
+.btn-show-more:hover{background:var(--moss);color:#fff}
+@media(min-width:769px){.btn-show-more{display:none!important}}
+
+/* ペインカード: 4枚目以降hidden (mobile) */
+@media(max-width:768px){
+  .pain-card-extra{display:none}
+  .pain-card-extra.shown{display:block}
+}
+
+/* エビデンスカード: 4枚目以降hidden (mobile) */
+@media(max-width:768px){
+  /* evidence-card-extra: タブ切替方式に移行のため廃止 */
+}
+
+/* ===== SECTION NAVIGATION ===== */
+/* 共通: セクション定義 */
+/* ===== HEADER PILLS — 常時表示ナビ ===== */
+
+/* ピル群コンテナ (header-inner の flex item・常時表示) */
+.h-pill-wrap{
+  display:flex;
+  flex:1;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  padding:0 4px 0 4px;
+  gap:6px;
+  align-items:center;
+  -webkit-overflow-scrolling:touch;
+  position:relative;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 24px,black calc(100% - 24px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,black 24px,black calc(100% - 24px),transparent 100%);
+}
+/* ピル列右端の › ボタン */
+.h-pill-scroll-btn{
+  flex-shrink:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--ink-light);
+  font-size:1.1rem;
+  line-height:1;
+  cursor:pointer;
+  padding:0;
+  transition:opacity .2s, background .2s, color .2s;
+}
+.h-pill-scroll-btn:hover{background:var(--moss);color:#fff;border-color:var(--moss)}
+.h-pill-scroll-btn.hidden{opacity:0;pointer-events:none}
+/* at-top (ヒーロー上) でのボタン色 */
+.site-header.at-top .h-pill-scroll-btn{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.35)}
+.site-header.at-top .h-pill-scroll-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+.h-pill-wrap::-webkit-scrollbar{display:none}
+
+/* ページ内スクロールピル */
+.h-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 12px;
+  border-radius:20px;
+  font-size:.78rem;
+  font-weight:500;
+  font-family:var(--sans);
+  color:var(--ink-light);
+  background:transparent;
+  border:1px solid var(--border);
+  cursor:pointer;
+  transition:all .2s var(--ease);
+  white-space:nowrap;
+  flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;
+  letter-spacing:.03em;
+  text-decoration:none;
+}
+.h-pill.active{background:var(--moss);color:#fff;border-color:var(--moss)}
+.h-pill:hover:not(.active){border-color:var(--moss);color:var(--moss)}
+
+/* 別ページリンクピル: Evidence / Simulator */
+.h-pill-ext{
+  color:var(--moss);
+  border-color:var(--moss);
+  gap:3px;
+  font-style:italic;
+}
+.h-pill-ext:hover{background:var(--moss);color:#fff}
+.h-pill-ext svg{width:10px;height:10px;flex-shrink:0}
+
+/* 右端CTAボタン (常時表示) */
+.header-cta-btn{
+  display:inline-flex;
+  flex-shrink:0;
+  align-items:center;
+  padding:7px 14px;
+  border-radius:6px;
+  background:var(--moss);
+  color:#fff!important;
+  font-size:.8rem;
+  font-weight:600;
+  white-space:nowrap;
+  text-decoration:none;
+  letter-spacing:.03em;
+  transition:background .2s, border-color .2s;
+  border:1px solid transparent;
+}
+.header-cta-btn:hover{background:#0f5a4e}
+.cta-short{display:none}
+@media(max-width:768px){
+  .header-cta-btn{padding:6px 10px;font-size:.75rem}
+  .cta-full{display:none}
+  .cta-short{display:inline}
+}
+
+/* ---- 比較表 モバイル修正 (sticky廃止・はみ出し封鎖) ---- */
+@media(max-width:768px){
+  .comp-table-outer{
+    margin-left:-24px;margin-right:-24px; /* container padding を突き破って全幅に */
+  }
+  .comp-table-scroll{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    border-radius:0;
+    border-left:none;border-right:none;
+    /* はみ出し封鎖 */
+    max-width:100vw;
+  }
+  /* sticky廃止: Safariでoverflow-x:auto内のstickyは動作保証外 */
+  .comp-th-label{position:static!important}
+  .comp-td-label{position:static!important}
+  /* 列幅を小さくして横スクロール量を減らす */
+  .comp-th-label{min-width:72px!important;font-size:.75rem}
+  .comp-td-label{min-width:72px!important;font-size:.75rem}
+  .comp-th{min-width:90px;font-size:.72rem;padding:8px 8px}
+  .comp-td{padding:10px 8px;font-size:.75rem}
+  .comp-sub{font-size:.68rem}
+}
+
+/* ---- 比較表 モバイル v2: 幅制御 ---- */
+@media(max-width:768px){
+  .comp-table-outer{
+    margin-left:-24px;
+    margin-right:-24px;
+  }
+  .comp-table-scroll{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    border-left:none;
+    border-right:none;
+    border-radius:0;
+  }
+  /* table-layout:fixedで比率コントロール。min-widthでiPhoneはスクロール、iPadは全幅 */
+  .comp-table{
+    table-layout:fixed;
+    width:100%;
+    min-width:560px;
+  }
+  .comp-th-label,.comp-td-label{ width:76px; font-size:.72rem; padding:10px 4px 10px 8px }
+  .comp-th-ours,.comp-td-ours  { width:110px }
+  .comp-th,.comp-td            { width:118px; font-size:.72rem; padding:10px 6px }
+  .comp-sub{ font-size:.66rem; line-height:1.45 }
+  .comp-good,.comp-ok,.comp-bad,.comp-ng,.comp-neutral{ font-size:.82rem }
+  .comp-th-label{ position:static!important }
+  .comp-td-label{ position:static!important }
+}
+/* スクロールヒントマスク: iPhoneなど狭い画面のみ */
+@media(max-width:600px){
+  .comp-table-scroll{
+    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+  }
+}
+
+/* ---- 地図 モバイル: container padding を突き破って全幅に ---- */
+@media(max-width:768px){
+  #map .container{padding-left:0;padding-right:0}
+  #map .section-heading,#map .section-lead,#map .map-note,#map .map-source{
+    padding-left:24px;padding-right:24px
+  }
+  .map-wrapper{max-width:100%;border-radius:0}
+}
+
+/* ---- テキストリンクボタン（サブ誘導用） ---- */
+.text-link-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;font-size:.8rem;font-weight:500;border:1px solid var(--moss);color:var(--moss);border-radius:6px;background:rgba(19,107,94,.06);cursor:pointer;text-decoration:none;transition:all .2s var(--ease)}
+.text-link-btn:hover{background:var(--moss);color:var(--white)}
+
+/* ---- ページ下部ナビ（グローバル） ---- */
+.ev-bottom-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:48px;padding-top:40px;border-top:1px solid var(--border)}
+.ev-bottom-nav a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:.95rem;font-weight:500;border-radius:8px;border:1px solid var(--border);color:var(--ink-light);background:var(--white);transition:all .25s var(--ease);text-decoration:none}
+.ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
+
+/* ---- エビデンスページ 論文カード ---- */
+.ev-study{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:32px;margin-top:32px}
+.ev-study--rct{border-left:3px solid var(--moss);padding-left:20px}
+.ev-study-note{background:var(--sand-pale,#f8f5f0);border-left:3px solid var(--ink-light,#aaa);padding:12px 16px;margin-top:16px;font-size:.85rem;color:var(--ink-light,#666);line-height:1.7}
+.ev-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px}
+.ev-badge-clinical{background:#e8f5f1;color:#136b5e}
+.ev-badge-meta{background:#fef3e2;color:#9a5e15}
+.ev-badge-neuro{background:#eef0f8;color:#4a5a8a}
+.ev-badge-cost{background:#fce8e8;color:#8a4a4a}
+.ev-badge-care{background:#f0e8f5;color:#6a4a8a}
+.ev-study h3{font-family:var(--serif);font-size:1.15rem;font-weight:600;margin-bottom:8px;line-height:1.6}
+.ev-study-meta{font-size:.8rem;color:var(--ink-faint);margin-bottom:16px;line-height:1.6}
+.ev-study-body{font-size:.9rem;color:var(--ink-light);line-height:1.9;margin-bottom:16px}
+.ev-study-result{background:var(--paper-warm);border-radius:8px;padding:20px 24px;margin-bottom:16px}
+.ev-study-result p{font-size:.9rem;line-height:1.8;margin:0}
+.ev-study-result strong{color:var(--ink)}
+.ev-study-link{font-size:.8rem;color:var(--moss)}
+.ev-study-link:hover{color:var(--gold)}
+
+/* Site Footer */
+.site-footer{background:var(--ink);padding:20px 0;margin-top:auto}
+.site-footer-inner{display:flex;align-items:center;justify-content:space-between;font-size:.78rem;color:rgba(255,255,255,.5)}
+.site-footer-copy{margin:0}
+.site-footer-links{display:flex;gap:20px}
+.site-footer-link{color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.site-footer-link:hover{color:rgba(255,255,255,.8)}
+
+/* Privacy Page */
+.section-privacy{padding:120px 0 80px}
+.privacy-title{font-family:var(--serif);font-size:1.6rem;font-weight:700;margin-bottom:4px}
+.privacy-updated{font-size:.8rem;color:var(--ink-faint);margin-bottom:48px}
+.privacy-body h2{font-size:1rem;font-weight:700;margin:32px 0 12px;color:var(--ink)}
+.privacy-body p{font-size:.9rem;line-height:1.9;color:var(--ink-light);margin-bottom:12px}
+.privacy-table-wrap{overflow-x:auto;margin:16px 0}
+.privacy-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.privacy-table th{background:var(--paper-warm);padding:10px 16px;text-align:left;font-weight:600;border-bottom:1px solid #ddd}
+.privacy-table td{padding:10px 16px;border-bottom:1px solid #eee}
+.privacy-list{font-size:.9rem;line-height:1.9;color:var(--ink-light);padding-left:1.4em;margin:8px 0 16px}
+.privacy-link{color:var(--moss);text-decoration:underline;text-underline-offset:2px}
+.privacy-link:hover{color:var(--gold)}
+.privacy-email-img{display:inline-block;height:1.1em;width:auto;vertical-align:baseline;position:relative;top:1px}
+.privacy-back{margin-top:48px;padding-top:32px;border-top:1px solid #e8e6e0}
+
+/* Company Page */
+.company-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:24px 0}
+.company-table th{width:180px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top;white-space:nowrap}
+.company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
+.company-info-img{display:block;width:204px;max-width:100%;height:auto}
+
+/* Design v3 badge */
+.version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#9a5e15;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.85}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
+</head>
+<body>
+
+<div class="version-badge">Design v3</div>
+
+<header class="site-header">
+<div class="header-inner">
+<a href="index.html" style="text-decoration:none">
+<span class="logo-text">風景帖</span>
+<span class="logo-reading">ふうけいちょう</span>
+</a>
+<!-- 常時表示: スクロールピル群 (JS生成) -->
+<button class="h-pill-scroll-btn h-pill-scroll-btn--left hidden" id="pillScrollBtnLeft" aria-label="前へ" type="button">&#8249;</button>
+<div class="h-pill-wrap" id="headerPills"
+  data-evidence="../evidence/"
+  data-simulator="../simulator/"></div>
+<button class="h-pill-scroll-btn" id="pillScrollBtn" aria-label="もっと見る" type="button">&#8250;</button>
+<!-- 右端CTA (常時表示) -->
+<a href="#contact" class="header-cta-btn">
+  <span class="cta-full">お問い合わせ</span><span class="cta-short">相談</span>
+</a>
+</div>
+</header>
+
+
+
+<style>
+/* Force header to always show scrolled style (no hero on this page) */
+.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
+.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
+.site-header.at-top .logo-text{color:var(--ink)}
+.site-header.at-top .nav-toggle span{background:var(--ink)}
+
+/* ─── Simulator page scoped styles ─── */
+.sim-hero{padding:120px 0 60px;text-align:center;background:var(--paper-warm)}
+.sim-hero h1{font-family:var(--serif);font-size:2rem;font-weight:600;letter-spacing:.1em;margin-bottom:12px}
+.sim-hero p{color:var(--ink-light);font-size:1rem;line-height:2}
+
+/* Tab for clinic / care */
+.sim-tabs{display:flex;justify-content:center;gap:0;margin:32px 0 24px}
+.sim-tab{padding:12px 32px;font-family:var(--sans);font-size:.9rem;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--ink-light);cursor:pointer;transition:all .25s var(--ease)}
+.sim-tab:first-child{border-radius:8px 0 0 8px}
+.sim-tab:last-child{border-radius:0 8px 8px 0}
+.sim-tab:not(:first-child){border-left:none}
+.sim-tab.active{background:var(--moss);color:var(--white);border-color:var(--moss)}
+
+/* Workspace */
+.sim-workspace{max-width:960px;margin:0 auto;padding:0 24px 40px}
+
+.sim-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.sim-toolbar-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--white);font-family:var(--sans);font-size:.8rem;color:var(--ink);cursor:pointer;transition:all .2s}
+.sim-toolbar-btn:hover{border-color:var(--moss);color:var(--moss)}
+.sim-toolbar-sep{flex:1}
+.sim-toolbar-label{font-size:.75rem;color:var(--ink-faint)}
+.sim-size-slider{width:120px;accent-color:var(--moss)}
+
+.sim-canvas-wrap{position:relative;width:100%;aspect-ratio:1376/768;background:#e8e5de;border-radius:8px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.1);cursor:default;touch-action:none}
+.sim-canvas-wrap img.sim-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+
+/* Monitor overlay */
+.sim-monitor{position:absolute;cursor:grab;user-select:none;filter:drop-shadow(0 4px 16px rgba(0,0,0,.35))}
+.sim-monitor:active{cursor:grabbing}
+.sim-monitor-bezel{position:absolute;inset:0;border:2px solid #1a1a1a;border-radius:2px;pointer-events:none;z-index:2}
+.sim-monitor-screen{position:relative;width:100%;height:100%;overflow:hidden;border-radius:1px;background:#000}
+.sim-resize{position:absolute;bottom:-4px;right:-4px;width:20px;height:20px;cursor:nwse-resize;z-index:10;display:flex;align-items:center;justify-content:center}
+.sim-resize::after{content:'';width:10px;height:10px;border-right:2px solid var(--moss);border-bottom:2px solid var(--moss);opacity:.7}
+
+/* Upload area */
+.sim-upload-area{max-width:720px;margin:0 auto 24px;padding:0 24px}
+.sim-dropzone{border:2px dashed rgba(19,107,94,.3);border-radius:8px;padding:48px 24px;text-align:center;cursor:pointer;transition:all .3s;background:rgba(255,255,255,.5);position:relative}
+.sim-dropzone:hover,.sim-dropzone.dragover{border-color:var(--moss);background:rgba(19,107,94,.03)}
+.sim-dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.sim-dropzone h3{font-family:var(--serif);font-size:1rem;font-weight:500;margin-bottom:6px}
+.sim-dropzone p{font-size:.8rem;color:var(--ink-faint)}
+.sim-privacy{font-size:.72rem;color:var(--ink-faint);text-align:center;margin-top:8px;opacity:.8}
+
+/* Drag hint icon */
+.sim-drag-hint{position:absolute;top:-28px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;transition:opacity .4s}
+.sim-drag-hint svg{opacity:.55;filter:drop-shadow(0 1px 3px rgba(0,0,0,.3))}
+.sim-drag-hint.hidden{opacity:0}
+
+/* Wobble animation */
+@keyframes sim-wobble{
+  0%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)}
+  60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} 100%{transform:translateX(0)}
+}
+.sim-monitor.wobble{animation:sim-wobble .6s ease-in-out}
+
+
+/* Hint bar above canvas */
+.sim-hint-bar{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:10px;
+  padding:10px 20px;
+  background:rgba(19,107,94,.10);
+  border:1.5px solid rgba(19,107,94,.30);
+  border-radius:10px;
+  font-size:.88rem;font-weight:500;
+  color:var(--moss);
+  transition:opacity .6s,max-height .6s;
+  max-height:60px;overflow:hidden;
+}
+.sim-hint-bar svg{flex-shrink:0;opacity:.8}
+.sim-hint-bar.hidden{opacity:0;max-height:0;margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}
+
+/* CTA */
+.sim-tv-size{background:var(--paper-warm);padding:64px 24px}
+.sim-tv-size-inner{max-width:640px;margin:0 auto;text-align:center}
+.sim-tv-size-heading{font-family:var(--serif);font-size:1.4rem;font-weight:600;letter-spacing:.08em;margin-bottom:12px}
+.sim-tv-size-lead{color:var(--ink-light);font-size:.95rem;line-height:1.8;margin-bottom:32px}
+.sim-tv-size-table-wrap{overflow-x:auto}
+.sim-tv-size-table{width:100%;border-collapse:collapse;font-size:.95rem}
+.sim-tv-size-table th{background:var(--moss);color:var(--white);padding:12px 20px;font-weight:500;letter-spacing:.05em}
+.sim-tv-size-table td{padding:12px 20px;border-bottom:1px solid var(--border);color:var(--ink)}
+.sim-tv-size-table td:first-child{font-weight:600;color:var(--moss)}
+.sim-tv-size-table tbody tr:last-child td{border-bottom:none}
+.sim-tv-size-table tbody tr:hover{background:rgba(19,107,94,.04)}
+.sim-tv-size-note{margin-top:16px;font-size:.78rem;color:var(--ink-faint);line-height:1.7}
+.sim-cta{text-align:center;padding:60px 24px 40px}
+.sim-cta p{font-family:var(--serif);font-size:1.1rem;font-weight:400;margin-bottom:20px;letter-spacing:.06em}
+
+/* State control */
+.sim-state-upload{display:block}
+.sim-state-workspace{display:none}
+.sim-active .sim-state-upload{display:none}
+.sim-active .sim-state-workspace{display:block}
+
+@media(max-width:600px){
+  .sim-hero h1{font-size:1.5rem}
+  .sim-tab{padding:10px 20px;font-size:.82rem}
+  .sim-toolbar{gap:6px}
+  .sim-toolbar-btn{padding:6px 10px;font-size:.75rem}
+}
+@media(max-width:768px){
+  .sim-hero{text-align:left}
+  .sim-hero h1{text-align:center}
+  .sim-tv-size-inner{text-align:left}
+  .sim-tv-size-heading{text-align:center}
+}
+.ev-bottom-nav{margin-bottom:48px}
+</style>
+
+<div id="simApp">
+
+<!-- Hero -->
+<div class="sim-hero">
+  <div class="container">
+    <h1>導入シミュレーター</h1>
+    <p>あなたの施設に、風景帖の映像を置いてみませんか。</p>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Tabs: sample clinic / care / upload own -->
+<div class="sim-tabs">
+  <button class="sim-tab active" data-target="clinic">クリニック・歯科</button>
+  <button class="sim-tab" data-target="care">介護施設</button>
+  <button class="sim-tab" data-target="upload">ご自分の写真で試す</button>
+</div>
+
+</div>
+
+<!-- Upload zone (shown only for "upload" tab) -->
+<div class="sim-state-upload sim-upload-area" id="simUploadZone" style="display:none">
+  <div class="sim-dropzone" id="simDropzone">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin:0 auto 12px;display:block;stroke:var(--moss);opacity:.5">
+      <rect x="6" y="10" width="36" height="28" rx="3" stroke-width="2"/>
+      <circle cx="18" cy="22" r="4" stroke-width="2"/>
+      <path d="M6 34l10-8 6 5 8-10 12 13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h3>施設の写真をアップロード</h3>
+    <p class="sim-privacy" style="margin-bottom:8px">※ モニターを置く壁面を正面から撮影した写真をご用意ください。</p>
+    <p>ドラッグ＆ドロップ、またはクリックして選択</p>
+    <input type="file" accept="image/*" id="simFileInput">
+  </div>
+  <p class="sim-privacy">※ 写真はブラウザ内でのみ処理されます。サーバーへの送信は一切ありません。</p>
+</div>
+
+<!-- Workspace -->
+<div class="sim-workspace" id="simWorkspace">
+
+  <div class="sim-toolbar">
+    <button class="sim-toolbar-btn" id="simBtnUpload" style="display:none">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      写真を変更
+    </button>
+    <span class="sim-toolbar-sep"></span>
+    <span class="sim-toolbar-label">モニターサイズ</span>
+    <input type="range" class="sim-size-slider" id="simSizeSlider" min="15" max="60" value="30">
+  </div>
+
+  <!-- Hint bar above canvas -->
+  <div class="sim-hint-bar" id="simHintBar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+    <span id="simHintText">モニターをドラッグして、好きな位置に動かせます</span>
+  </div>
+
+  <div class="sim-canvas-wrap" id="simContainer">
+    <img class="sim-bg" id="simBgPhoto" src="../assets/images/sample-clinic.jpg" alt="施設の写真">
+    <div class="sim-monitor" id="simMonitor">
+      <div class="sim-drag-hint" id="simDragHint">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+      </div>
+      <div class="sim-monitor-bezel"></div>
+      <div class="sim-monitor-screen">
+        <video id="simVideo" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block"></video>
+      </div>
+      <div class="sim-resize" id="simResize"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<div class="sim-tv-size">
+  <div class="sim-tv-size-inner">
+    <h2 class="sim-tv-size-heading">何インチのモニターが置けますか？</h2>
+    <p class="sim-tv-size-lead">壁や設置スペースの幅を測って、参考にしてください。</p>
+    <div class="sim-tv-size-table-wrap">
+      <table class="sim-tv-size-table">
+        <thead>
+          <tr>
+            <th>サイズ</th>
+            <th>幅</th>
+            <th>高さ</th>
+            <th>対角線</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>50型</td><td>111 cm</td><td>62 cm</td><td>127 cm</td></tr>
+          <tr><td>55型</td><td>122 cm</td><td>69 cm</td><td>140 cm</td></tr>
+          <tr><td>65型</td><td>144 cm</td><td>81 cm</td><td>165 cm</td></tr>
+          <tr><td>75型</td><td>166 cm</td><td>93 cm</td><td>190 cm</td></tr>
+          <tr><td>85型</td><td>188 cm</td><td>106 cm</td><td>216 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sim-tv-size-note">※ 数値はパネルのみ（スタンド・ベゼル除く）の参考値です。機種により多少異なります。</p>
+  </div>
+</div>
+
+<div class="ev-bottom-nav">
+  <a href="../#intro-image">← 導入イメージに戻る</a>
+</div>
+
+
+
+</div>
+
+<script>
+(function(){
+  var baseUrl = '';
+  var sampleImages = {
+    clinic: baseUrl + '/assets/images/sample-clinic.jpg',
+    care: baseUrl + '/assets/images/sample-care.jpg'
+  };
+
+  var defaultPositions = {
+    clinic:   { x: 0.52, y: 0.42 },
+    care:     { x: 0.56, y: 0.35 },
+    upload:   { x: 0.50, y: 0.40 }
+  };
+
+  var container  = document.getElementById('simContainer');
+  var bgPhoto    = document.getElementById('simBgPhoto');
+  var overlay    = document.getElementById('simMonitor');
+  var sizeSlider = document.getElementById('simSizeSlider');
+  var uploadZone = document.getElementById('simUploadZone');
+  var dropzone   = document.getElementById('simDropzone');
+  var fileInput  = document.getElementById('simFileInput');
+  var btnUpload  = document.getElementById('simBtnUpload');
+  var workspace  = document.getElementById('simWorkspace');
+  var video      = document.getElementById('simVideo');
+  var dragHint   = document.getElementById('simDragHint');
+  var hintBar    = document.getElementById('simHintBar');
+  var hintText   = document.getElementById('simHintText');
+
+  // スマホ/タッチ判定でヒントテキストを切替
+  var isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  if(isTouch){
+    hintText.textContent = 'モニターをタップして、好きな位置に動かせます';
+  }
+
+  // ヒントバーを初回ドラッグ/タッチ操作で非表示に
+  var hintBarDismissed = false;
+  function dismissHintBar(){
+    if(hintBarDismissed) return;
+    hintBarDismissed = true;
+    hintBar.classList.add('hidden');
+  }
+
+  var monitorWidthPercent = 30;
+  var currentTab = 'clinic';
+  var userImageLoaded = false;
+
+  var mon = { xP: 0.52, yP: 0.42, dragging: false, resizing: false, sx: 0, sy: 0, sxP: 0, syP: 0, swP: 0 };
+
+  // ─── Tabs ───
+  document.querySelectorAll('.sim-tab').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.sim-tab').forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentTab = tab.dataset.target;
+
+      if (currentTab === 'upload') {
+        if (userImageLoaded) {
+          uploadZone.style.display = 'none';
+          workspace.style.display = '';
+          btnUpload.style.display = '';
+        } else {
+          uploadZone.style.display = '';
+          workspace.style.display = 'none';
+        }
+      } else {
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = 'none';
+        bgPhoto.src = sampleImages[currentTab];
+        bgPhoto.onerror = function() {
+          bgPhoto.src = sampleImages['clinic'];
+          bgPhoto.onerror = null;
+        };
+        var pos = defaultPositions[currentTab];
+        mon.xP = pos.x; mon.yP = pos.y;
+        bgPhoto.onload = function(){ positionMonitor(); };
+        if (bgPhoto.complete) positionMonitor();
+      }
+    });
+  });
+
+  // ─── File Upload ───
+  function handleFile(file){
+    if (!file || !file.type.startsWith('image/')) return;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      bgPhoto.src = e.target.result;
+      bgPhoto.onload = function(){
+        userImageLoaded = true;
+        uploadZone.style.display = 'none';
+        workspace.style.display = '';
+        btnUpload.style.display = '';
+        var pos = defaultPositions.upload;
+        mon.xP = pos.x; mon.yP = pos.y;
+        positionMonitor();
+        hintBarDismissed=false; hintBar.classList.remove('hidden');
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+
+  fileInput.addEventListener('change', function(e){ handleFile(e.target.files[0]); });
+  dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('dragover'); });
+  dropzone.addEventListener('drop', function(e){ e.preventDefault(); dropzone.classList.remove('dragover'); handleFile(e.dataTransfer.files[0]); });
+
+  btnUpload.addEventListener('click', function(){
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = 'image/*';
+    inp.onchange = function(e){ handleFile(e.target.files[0]); };
+    inp.click();
+  });
+
+  // ─── Monitor position ───
+  function positionMonitor(){
+    var cw=container.offsetWidth, ch=container.offsetHeight;
+    var mw=cw*(monitorWidthPercent/100), mh=mw*9/16;
+    overlay.style.width=mw+'px'; overlay.style.height=mh+'px';
+    overlay.style.left=(mon.xP*cw-mw/2)+'px'; overlay.style.top=(mon.yP*ch-mh/2)+'px';
+  }
+
+  // ─── Drag & Resize ───
+  function ptr(e){var t=e.touches?e.touches[0]:e,r=container.getBoundingClientRect(); return{x:t.clientX-r.left,y:t.clientY-r.top};}
+  var resizeEl = document.getElementById('simResize');
+
+  function startDrag(e){if(e.target===resizeEl||mon.resizing)return; e.preventDefault(); var p=ptr(e); mon.dragging=true; mon.sx=p.x; mon.sy=p.y; mon.sxP=mon.xP; mon.syP=mon.yP; dragHint.classList.add('hidden'); dismissHintBar();}
+  function startResize(e){e.preventDefault(); e.stopPropagation(); mon.resizing=true; var p=ptr(e); mon.sx=p.x; mon.swP=monitorWidthPercent;}
+  function onMove(e){if(!mon.dragging&&!mon.resizing)return; e.preventDefault(); var p=ptr(e), cw=container.offsetWidth, ch=container.offsetHeight;
+    if(mon.dragging){var dx=(p.x-mon.sx)/cw, dy=(p.y-mon.sy)/ch; mon.xP=Math.max(.1,Math.min(.9,mon.sxP+dx)); mon.yP=Math.max(.1,Math.min(.9,mon.syP+dy)); positionMonitor();}
+    else if(mon.resizing){var dx=(p.x-mon.sx)/cw*100; monitorWidthPercent=Math.max(15,Math.min(60,mon.swP+dx)); sizeSlider.value=monitorWidthPercent; positionMonitor();}
+  }
+  function endInt(){mon.dragging=false; mon.resizing=false;}
+
+  overlay.addEventListener('mousedown',startDrag); overlay.addEventListener('touchstart',startDrag,{passive:false});
+  resizeEl.addEventListener('mousedown',startResize); resizeEl.addEventListener('touchstart',startResize,{passive:false});
+  document.addEventListener('mousemove',onMove); document.addEventListener('mouseup',endInt); document.addEventListener('touchend',endInt);
+  container.addEventListener('touchmove',onMove,{passive:false});
+
+  sizeSlider.addEventListener('input',function(e){monitorWidthPercent=parseInt(e.target.value); positionMonitor();});
+  window.addEventListener('resize',function(){positionMonitor();});
+
+  // ─── Hint ───
+
+  // ─── Init ───
+  // 動画は画面内に入ったとき初めてロード（ページロード時の帯域を節約）
+  var vidBase = baseUrl + '/assets/images/';
+  var videoLoaded = false;
+  function loadVideo(){
+    if(videoLoaded) return;
+    videoLoaded = true;
+    var ua=navigator.userAgent;
+    var isIpad=/iPad/.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua));
+    if(window.innerWidth<=768||isIpad){
+      video.innerHTML='<source src="'+vidBase+'hero-mobile.mp4" type="video/mp4">';
+    }else{
+      video.innerHTML='<source src="'+vidBase+'hero-pc.mp4" type=\'video/mp4; codecs="av01.0.12M.10"\'>'
+                     +'<source src="'+vidBase+'hero-pc-fallback.mp4" type="video/mp4">';
+    }
+    video.load();
+    video.play().catch(function(){});
+  }
+  if('IntersectionObserver' in window){
+    var videoObs = new IntersectionObserver(function(entries){
+      if(entries[0].isIntersecting){ loadVideo(); videoObs.disconnect(); }
+    },{threshold:0.1});
+    videoObs.observe(document.getElementById('simContainer'));
+  }else{
+    loadVideo(); // フォールバック：即時ロード
+  }
+
+  // aspect-ratioでコンテナサイズが確定しているため即時配置可能
+  positionMonitor();
+  bgPhoto.onload = function(){ triggerWobble(); hintBarDismissed=false; hintBar.classList.remove('hidden'); };
+
+  function triggerWobble(){
+    setTimeout(function(){
+      overlay.classList.add('wobble');
+      overlay.addEventListener('animationend',function(){overlay.classList.remove('wobble');},{once:true});
+    },1200);
+  }
+
+  // ─── Fix header nav links to point back to LP ───
+  document.querySelectorAll('.site-header nav a').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      a.setAttribute('href', baseUrl + '/' + href);
+    }
+  });
+
+})();
+</script>
+
+
+<footer class="site-footer">
+<div class="container site-footer-inner">
+<p class="site-footer-copy">&copy; 2026 風景帖</p>
+<div class="site-footer-links">
+<a href="privacy.html" class="site-footer-link">プライバシーポリシー</a>
+<a href="company.html" class="site-footer-link">運営者情報</a>
+</div>
+</div>
+</footer>
+
+
+<script>
+/* Service Worker 登録 */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    /* disabled */ void('/fukeichou-site/sw.js', {
+      /* updateViaCache:'none' → SafariがHTTPキャッシュを無視してSWスクリプトを常に最新確認する
+         Chromeはデフォルトでこの挙動。Safariはオプション指定が必要。 */
+      updateViaCache: 'none'
+    }).catch(function(e){ console.warn('SW registration failed:', e); });
+  });
+}
+
+/* ===== グローバル受診者選択 ===== */
+window._audience = 'clinic'; // 初期値
+
+function setAudience(target){
+  window._audience = target;
+
+  /* 1. #pain タブ */
+  var painBtns = document.querySelectorAll('#pain .tab-btn');
+  var painMap  = {clinic:0, mental:1, care:2};
+  painBtns.forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('#pain .tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  if(painBtns[painMap[target]]) painBtns[painMap[target]].classList.add('active');
+  var pc = document.getElementById('tab-' + target);
+  if(pc) pc.classList.add('active');
+
+  /* 2. #intro-image タブ (mental → clinic に吸収) */
+  var introTarget = (target === 'care') ? 'intro-care' : 'intro-clinic';
+  document.querySelectorAll('#intro-tab-buttons .tab-btn')
+          .forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.intro-tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  var ib = document.querySelector(
+    '#intro-tab-buttons .tab-btn[data-tab="'+introTarget+'"]');
+  if(ib) ib.classList.add('active');
+  var ic = document.getElementById(introTarget);
+  if(ic) ic.classList.add('active');
+
+  /* 3. #evidence タブボタン */
+  document.querySelectorAll('#evidence .ev-tab-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-audience') === target);
+  });
+
+  /* 4. #evidence カード表示切替 */
+  document.querySelectorAll('#evidence .evidence-card').forEach(function(card){
+    var ev = card.getAttribute('data-ev');
+    card.style.display = (ev === target) ? '' : 'none';
+  });
+}
+
+/* 後方互換 */
+function switchTab(target){ setAudience(target); }
+
+/* 導入想像図タブから逆方向連動 */
+(function(){
+  var introButtons = document.querySelectorAll('#intro-tab-buttons .tab-btn');
+  var introTabMap  = {'intro-clinic':'clinic', 'intro-care':'care'};
+  introButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = btn.getAttribute('data-tab');
+      setAudience(introTabMap[t] || 'clinic');
+    });
+  });
+})();
+
+/* ヘッダー透明→不透明 切り替え */
+(function(){
+  var header=document.querySelector('.site-header');
+  function check(){
+    if(window.scrollY<80){
+      header.classList.add('at-top');
+      header.classList.remove('scrolled');
+    }else{
+      header.classList.remove('at-top');
+      header.classList.add('scrolled');
+    }
+  }
+  check();
+  window.addEventListener('scroll',check,{passive:true});
+})();
+
+/* ── スクロールユーティリティ ──
+   毎フレーム目標位置を再計算する自作スムーズスクロール。
+   レイアウトシフトに追従するため補正が不要。           */
+function _scrollToTarget(el, offsetFn){
+  var startY = window.pageYOffset;
+  var target = el.getBoundingClientRect().top + startY - offsetFn();
+  var dist   = Math.abs(target - startY);
+  /* 距離に応じた所要時間: 300〜800ms */
+  var dur = Math.min(800, Math.max(300, dist * 0.4));
+  var t0  = null;
+
+  function easeInOut(t){
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  (function frame(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts - t0) / dur, 1);
+    /* 毎フレーム目標を再計算（レイアウトシフト追従） */
+    var liveTarget = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+    var pos = startY + (liveTarget - startY) * easeInOut(p);
+    window.scrollTo(0, pos);
+    if(p < 1) requestAnimationFrame(frame);
+  })(performance.now());
+}
+
+/* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
+(function(){
+  function getOffset(){
+    var offset = document.querySelector('.site-header').offsetHeight;
+    var subNav = document.querySelector('.ev-page-nav');
+    if(subNav) offset += subNav.offsetHeight;
+    return offset;
+  }
+  function scrollToHash(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    _scrollToTarget(el, getOffset);
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').substring(1);
+    if(!document.getElementById(id)) return;
+    e.preventDefault();
+    history.pushState(null, '', '#' + id);
+    scrollToHash(id);
+  });
+  if(location.hash){
+    setTimeout(function(){ scrollToHash(location.hash.substring(1)); }, 100);
+  }
+})();
+
+/* ハンバーガーメニュー */
+(function(){
+  var toggle=document.getElementById('navToggle');
+  var nav=document.getElementById('mainNav');
+  if(!toggle||!nav)return;
+  toggle.addEventListener('click',function(){
+    toggle.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      toggle.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+})();
+
+/* Scroll Reveal */
+(function(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+})();
+
+if(typeof lucide !== 'undefined'){
+  lucide.createIcons();
+}else{
+  document.addEventListener('DOMContentLoaded', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+  window.addEventListener('load', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+}
+
+/* ===== MOBILE SCROLL REDUCTION ===== */
+(function(){
+  var isMobile = window.innerWidth <= 768;
+
+  /* 1. Feature cards アコーディオン (mobile only) */
+  if(isMobile){
+    document.querySelectorAll('.feature-card').forEach(function(card){
+      var q = card.querySelector('.feature-q');
+      if(q) q.classList.add('feature-q-toggle');
+      card.addEventListener('click', function(){
+        card.classList.toggle('fc-open');
+      });
+    });
+  }
+
+  /* 2. 本物宣言カード: 本文fold + 「続きを読む」ボタン */
+  document.querySelectorAll('.authentic-card').forEach(function(card){
+    var p = card.querySelector('p');
+    if(!p) return;
+    p.classList.add('auth-text');
+    var btn = document.createElement('button');
+    btn.className = 'btn-auth-expand';
+    btn.textContent = '続きを読む →';
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      card.classList.add('auth-expanded');
+      btn.style.display = 'none';
+    });
+    card.appendChild(btn);
+  });
+
+  /* 3. クリニックペインカード: 4枚目を「もっと見る」 */
+  if(isMobile){
+    var clinicGrid = document.querySelector('#tab-clinic .pain-grid');
+    if(clinicGrid){
+      var pcards = clinicGrid.querySelectorAll('.pain-card');
+      if(pcards.length > 3){
+        for(var i=3;i<pcards.length;i++) pcards[i].classList.add('pain-card-extra');
+        var pbtn = document.createElement('button');
+        pbtn.className = 'btn-show-more';
+        pbtn.textContent = '他のお悩みも見る';
+        pbtn.onclick = function(){
+          clinicGrid.querySelectorAll('.pain-card-extra').forEach(function(c){c.classList.add('shown');});
+          pbtn.style.display='none';
+        };
+        clinicGrid.after(pbtn);
+      }
+    }
+  }
+
+  /* 4. エビデンスカード: タブ切替方式に移行。show-more廃止 */
+})();
+
+
+/* ===== HEADER HERO-PASS TRANSFORM + SECTION PILLS ===== */
+(function(){
+  var SECTIONS = [
+    {id:'pain',        label:'お悩み'},
+    {id:'evidence',    label:'科学的根拠'},
+    {id:'service',     label:'サービス概要'},
+    {id:'authentic',   label:'本物へのこだわり'},
+    {id:'map',         label:'撮影地'},
+    {id:'pricing',     label:'料金'},
+    {id:'flow',        label:'導入の流れ'},
+    {id:'intro-image', label:'導入イメージ'},
+    {id:'faq',         label:'FAQ'},
+  ].filter(function(s){ return !!document.getElementById(s.id); });
+
+  var headerPills = document.getElementById('headerPills');
+  if(!headerPills) return;
+
+  var currentIdx = -1;
+  var pillItems  = [];
+
+  /* ── ページ内スクロールピルを生成 ── */
+  SECTIONS.forEach(function(s){
+    var pi = document.createElement('button');
+    pi.className = 'h-pill';
+    pi.textContent = s.label;
+    pi.addEventListener('click', function(){
+      var el = document.getElementById(s.id);
+      if(!el) return;
+      _scrollToTarget(el, function(){
+        return document.querySelector('.site-header').offsetHeight;
+      });
+    });
+    headerPills.appendChild(pi);
+    pillItems.push(pi);
+  });
+
+  /* ── 現在地ハイライト ── */
+  function setActive(idx){
+    if(idx === currentIdx) return;
+    currentIdx = idx;
+    pillItems.forEach(function(el, i){ el.classList.toggle('active', i===idx); });
+    /* アクティブピルを中央にスクロール */
+    var pill = pillItems[idx];
+    if(pill && headerPills){
+      headerPills.scrollTo({
+        left: pill.offsetLeft - headerPills.offsetWidth/2 + pill.offsetWidth/2,
+        behavior:'smooth'
+      });
+    }
+  }
+
+  /* IntersectionObserver でセクション検出 */
+  var secObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      for(var i=0; i<SECTIONS.length; i++){
+        if(SECTIONS[i].id === entry.target.id){ setActive(i); break; }
+      }
+    });
+  },{rootMargin:'-25% 0px -65% 0px'});
+
+  SECTIONS.forEach(function(s){
+    var el = document.getElementById(s.id);
+    if(el) secObs.observe(el);
+  });
+
+  /* ── ‹ › ボタン: スクロール制御 ── */
+  var scrollBtn     = document.getElementById('pillScrollBtn');
+  var scrollBtnLeft = document.getElementById('pillScrollBtnLeft');
+  if(headerPills){
+    function updateScrollBtns(){
+      var atEnd   = headerPills.scrollLeft + headerPills.clientWidth >= headerPills.scrollWidth - 4;
+      var atStart = headerPills.scrollLeft <= 4;
+      if(scrollBtn)     scrollBtn.classList.toggle('hidden', atEnd);
+      if(scrollBtnLeft) scrollBtnLeft.classList.toggle('hidden', atStart);
+    }
+    headerPills.addEventListener('scroll', updateScrollBtns, {passive:true});
+    window.addEventListener('resize', updateScrollBtns);
+    updateScrollBtns();
+    if(scrollBtn)     scrollBtn.addEventListener('click',     function(){ headerPills.scrollBy({left:  120, behavior:'smooth'}); });
+    if(scrollBtnLeft) scrollBtnLeft.addEventListener('click', function(){ headerPills.scrollBy({left: -120, behavior:'smooth'}); });
+  }
+})();
+
+/* ===== URLパラメータ 業態自動切替 ===== */
+(function(){
+  var AUDIENCE_MESSAGES = {
+    clinic: '待合室のワイドショー——音量のジレンマ、待ち時間の口コミ、診察前の患者の緊張。<br>その三つ、まとめて解決できます。',
+    mental: '刺激的なニュースをやめたい、でも消すわけにもいかない——<br>心療内科・精神科の待合室に、静かな自然映像という答えがあります。',
+    care:   '外に出られない入居者に、桜と紅葉と海を届けたい——<br>その思いに、映像という答えを。共用スペースのテレビを、もうひとつの窓に変えます。'
+  };
+
+  function getParam(key){
+    try {
+      return new URLSearchParams(window.location.search).get(key);
+    } catch(e){ return null; }
+  }
+
+  function injectHeroBanner(audience){
+    var msg = AUDIENCE_MESSAGES[audience];
+    if(!msg) return;
+    var hero = document.querySelector('.hero-content');
+    if(!hero) return;
+    var banner = document.createElement('div');
+    banner.className = 'hero-audience-banner';
+    banner.innerHTML = msg;
+    var actions = hero.querySelector('.hero-actions');
+    if(actions) hero.insertBefore(banner, actions);
+    else hero.appendChild(banner);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var from = getParam('from');
+    var validAudiences = ['clinic','mental','care'];
+    if(from && validAudiences.indexOf(from) !== -1){
+      if(typeof setAudience === 'function') setAudience(from);
+      injectHeroBanner(from);
+    }
+  });
+})();
+
+/* Contact form (formsubmit.co AJAX) */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('contactForm');
+    if(!form) return;
+    var btn = document.getElementById('contactSubmitBtn');
+    var successEl = document.getElementById('contactSuccess');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+
+      var data = new FormData(form);
+
+      /* ── formsubmit.co（メール通知・成功/失敗をUXに反映） ── */
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res){
+        if(res.ok){
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+          if(typeof gtag === 'function'){
+            gtag('event', 'form_submit', {
+              event_category: 'contact',
+              event_label: data.get('施設の種類') || 'unknown'
+            });
+          }
+        } else {
+          btn.disabled = false;
+          btn.textContent = '送信';
+          alert('送信に失敗しました。お手数ですがメールでお問い合わせください。');
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        btn.textContent = '送信';
+        alert('通信エラーが発生しました。お手数ですがメールでお問い合わせください。');
+      });
+    });
+  });
+})();
+
+/* ── Scroll Depth Tracking (10% increments) ── */
+(function(){
+  var thresholds = [10,20,30,40,50,60,70,80];
+  var fired = {};
+  function getScrollPercent(){
+    var h = document.documentElement;
+    var b = document.body;
+    var scrollTop = h.scrollTop || b.scrollTop;
+    var scrollHeight = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+    return scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
+  }
+  window.addEventListener('scroll', function(){
+    var pct = getScrollPercent();
+    for(var i = 0; i < thresholds.length; i++){
+      var t = thresholds[i];
+      if(pct >= t && !fired[t]){
+        fired[t] = true;
+        if(typeof gtag === 'function'){
+          gtag('event', 'scroll_depth', {
+            percent_scrolled: t,
+            page_path: location.pathname
+          });
+        }
+      }
+    }
+  }, {passive: true});
+})();
+
+</script>
+
+</body>
+</html>

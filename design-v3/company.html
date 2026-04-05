@@ -1,6 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【Design v3】運営者情報</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap"></noscript>
+<style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
---ink:#2a2a2a;--ink-light:#555555;--ink-faint:#6b6b6b;
+--ink:#2a2a2a;--ink-light:#5a5650;--ink-faint:#6b6560;
 --paper:#ffffff;--paper-warm:#f5f7f8;
 --moss:#136b5e;--moss-light:#15795a;
 --gold:#9a5e15;--gold-light:#b06e20;
@@ -17,7 +29,7 @@ a:hover{color:var(--gold)}
 .container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
 .section{padding:100px 0}
 .section:nth-child(even){background:var(--paper-warm)}
-.section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.08em}
+.section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.06em;line-height:1.45}
 .section-lead{text-align:center;color:var(--ink-light);font-size:1rem;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
 .section-tagline{text-align:center;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-bottom:16px}
 .change-preview{color:#1a6fd4;font-size:.92em;margin-top:4px;margin-bottom:4px;padding:3px 8px;border-left:3px solid #1a6fd4;display:block}
@@ -41,7 +53,7 @@ a:hover{color:var(--gold)}
 /* at-top: CTA白透過 */
 .site-header.at-top .header-cta-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.45);color:#fff!important}
 .site-header.at-top .header-cta-btn:hover{background:rgba(255,255,255,.28)}
-.site-header.scrolled{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.scrolled{background:rgba(250,248,245,.92);backdrop-filter:saturate(120%) blur(14px);border-bottom-color:var(--border)}
 .site-header.scrolled .logo-text{color:var(--ink)}
 
 /* Hero video */
@@ -61,9 +73,9 @@ a:hover{color:var(--gold)}
 .hero-title{font-family:var(--serif);font-size:3rem;font-weight:700;color:var(--white);letter-spacing:.12em;line-height:1.6;margin-bottom:24px}
 .hero-subtitle{font-size:1.05rem;font-weight:300;color:rgba(255,255,255,.88);line-height:2;margin-bottom:40px}
 .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;padding:14px 32px;font-family:var(--sans);font-size:.95rem;font-weight:500;border-radius:6px;border:none;cursor:pointer;transition:all .3s var(--ease);text-align:center;text-decoration:none}
+.btn{display:inline-block;padding:14px 32px;font-family:var(--sans);font-size:.95rem;font-weight:500;border-radius:8px;border:none;cursor:pointer;transition:all .3s var(--ease);text-align:center;text-decoration:none}
 .btn-primary{background:var(--moss);color:var(--white)}
-.btn-primary:hover{background:var(--moss-light);color:var(--white);transform:translateY(-1px);box-shadow:0 4px 20px rgba(19,107,94,.3)}
+.btn-primary:hover{background:var(--moss-light);color:var(--white);transform:translateY(-2px);box-shadow:0 6px 20px rgba(19,107,94,0.25),0 3px 8px rgba(0,0,0,0.06)}
 .btn-hero-cta{background:#fff;color:#136b5e;padding:13px 36px;border-radius:100px;font-size:1rem;font-weight:500;letter-spacing:.03em;border:none;transition:all .3s var(--ease)}
 .btn-hero-cta:hover{background:rgba(255,255,255,.88);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.5)}
@@ -81,21 +93,21 @@ a:hover{color:var(--gold)}
 
 /* Pain */
 .pain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px}
-.pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.pain-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .pain-icon{font-size:2.4rem;margin-bottom:16px;color:#136b5e}.pain-icon svg{width:40px;height:40px;stroke:#136b5e}
 .pain-card h3{font-family:var(--serif);font-size:1.05rem;margin-bottom:12px;line-height:1.6}
 .pain-card p{font-size:.9rem;color:var(--ink-light);line-height:1.8}
 
 /* Features */
 .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-bottom:48px}
-.feature-card{padding:36px;background:var(--white);border-radius:12px;border:1px solid var(--border);transition:box-shadow .3s}
-.feature-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.06)}
+.feature-card{padding:36px;background:var(--white);border-radius:16px;border:1px solid var(--border);transition:box-shadow .3s,transform .3s;box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
+.feature-card:hover{box-shadow:0 8px 24px rgba(19,107,94,0.08),0 4px 12px rgba(0,0,0,0.04);transform:translateY(-1px)}
 .feature-q{font-family:var(--serif);font-size:1.05rem;font-weight:600;margin-bottom:12px;color:var(--ink);line-height:1.7}
 .feature-a{font-size:.9rem;color:var(--ink-light);line-height:1.9}
 
 /* Evidence */
 .evidence-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:32px;margin-bottom:32px}
-.evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.evidence-card{text-align:center;padding:40px 24px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .evidence-stat{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--moss);margin-bottom:16px}
 .evidence-card h3{font-family:var(--serif);font-size:1rem;margin-bottom:12px}
 .evidence-card p{font-size:.85rem;color:var(--ink-light);line-height:1.8}
@@ -148,7 +160,7 @@ a:hover{color:var(--gold)}
 .flow-note{text-align:center;padding:20px;background:var(--moss);color:var(--white);border-radius:8px;font-size:1.1rem}
 
 /* Pricing */
-.pricing-card{max-width:520px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;text-align:center}
+.pricing-card{max-width:520px;margin:0 auto;background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;text-align:center;box-shadow:0 8px 30px rgba(19,107,94,0.08),0 4px 14px rgba(0,0,0,0.04)}
 .pricing-header{padding:40px 32px 32px;background:linear-gradient(135deg,#136b5e 0%,#15795a 100%);color:var(--white)}
 .pricing-badge{display:inline-block;padding:4px 16px;background:var(--gold);color:var(--white);font-size:.8rem;font-weight:700;border-radius:20px;margin-bottom:16px;letter-spacing:.1em}
 .pricing-amount{display:flex;align-items:baseline;justify-content:center;gap:4px}
@@ -161,9 +173,9 @@ a:hover{color:var(--gold)}
 .pricing-includes ul{list-style:none}
 .pricing-includes li{padding:8px 0;font-size:.9rem;border-bottom:1px solid var(--border)}
 .pricing-includes li::before{content:"✓ ";color:var(--moss);font-weight:700}
-.pricing-discount{padding:20px 32px;background:var(--paper-warm)}
-.pricing-discount p{font-size:.95rem}
-.pricing-discount small{color:var(--ink-faint);font-size:.8rem}
+.pricing-discount{margin:16px 32px;padding:14px 16px;background:#eaf4f1;border-radius:8px;text-align:center}
+.pricing-discount p{font-size:.95rem;color:#0f6e56;line-height:1.8;margin:0}
+.pricing-discount small{color:rgba(15,110,86,0.7);font-size:.8rem}
 .pricing-note{padding:16px 32px;font-size:.8rem;color:var(--ink-faint)}
 .pricing-card .btn{margin:0 32px 32px;width:calc(100% - 64px)}
 
@@ -256,7 +268,7 @@ a:hover{color:var(--gold)}
 
 /* ---- 本物宣言セクション ---- */
 .authentic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:8px}
-.authentic-card{padding:36px 28px;background:var(--white);border-radius:12px;border:1px solid var(--border)}
+.authentic-card{padding:36px 28px;background:var(--white);border-radius:16px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,0.02),0 4px 12px rgba(0,0,0,0.02)}
 .authentic-icon{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--moss);margin-bottom:16px;letter-spacing:.1em}
 .authentic-card h3{font-family:var(--serif);font-size:1rem;font-weight:600;margin-bottom:12px;line-height:1.7}
 .authentic-card p{font-size:.88rem;color:var(--ink-light);line-height:1.9}
@@ -461,7 +473,7 @@ a:hover{color:var(--gold)}
     margin-left:-24px;margin-right:-24px; /* container padding を突き破って全幅に */
   }
   .comp-table-scroll{
-    overflow-x:scroll;
+    overflow-x:auto;
     -webkit-overflow-scrolling:touch;
     border-radius:0;
     border-left:none;border-right:none;
@@ -477,43 +489,41 @@ a:hover{color:var(--gold)}
   .comp-th{min-width:90px;font-size:.72rem;padding:8px 8px}
   .comp-td{padding:10px 8px;font-size:.75rem}
   .comp-sub{font-size:.68rem}
-  /* スクロールヒント: 右端に薄いグラデーション */
-  .comp-table-scroll{
-    -webkit-mask-image:linear-gradient(to right,black 85%,transparent 100%);
-    mask-image:linear-gradient(to right,black 85%,transparent 100%);
-  }
 }
 
-/* ---- 比較表 モバイル v2: table-layout固定で確実に幅制御 ---- */
+/* ---- 比較表 モバイル v2: 幅制御 ---- */
 @media(max-width:768px){
   .comp-table-outer{
     margin-left:-24px;
     margin-right:-24px;
   }
   .comp-table-scroll{
-    overflow-x:scroll;
+    overflow-x:auto;
     -webkit-overflow-scrolling:touch;
     border-left:none;
     border-right:none;
     border-radius:0;
-    /* マスクで右端が切れることを示す */
-    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
-    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
   }
-  /* table-layout:fixedにして幅を完全コントロール */
+  /* table-layout:fixedで比率コントロール。min-widthでiPhoneはスクロール、iPadは全幅 */
   .comp-table{
     table-layout:fixed;
-    width:560px; /* 5列分の合計: 76+110+118+118+118=540 + 余白 */
-    min-width:unset;
+    width:100%;
+    min-width:560px;
   }
   .comp-th-label,.comp-td-label{ width:76px; font-size:.72rem; padding:10px 4px 10px 8px }
   .comp-th-ours,.comp-td-ours  { width:110px }
   .comp-th,.comp-td            { width:118px; font-size:.72rem; padding:10px 6px }
   .comp-sub{ font-size:.66rem; line-height:1.45 }
   .comp-good,.comp-ok,.comp-bad,.comp-ng,.comp-neutral{ font-size:.82rem }
-  /* stickyは完全廃止（Safari overflow内で動作保証なし） */
   .comp-th-label{ position:static!important }
   .comp-td-label{ position:static!important }
+}
+/* スクロールヒントマスク: iPhoneなど狭い画面のみ */
+@media(max-width:600px){
+  .comp-table-scroll{
+    -webkit-mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+    mask-image:linear-gradient(to right,#000 80%,transparent 100%);
+  }
 }
 
 /* ---- 地図 モバイル: container padding を突き破って全幅に ---- */
@@ -535,7 +545,7 @@ a:hover{color:var(--gold)}
 .ev-bottom-nav a:hover{color:var(--moss);border-color:var(--moss);background:var(--paper-warm);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.06)}
 
 /* ---- エビデンスページ 論文カード ---- */
-.ev-study{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:36px;margin-bottom:24px;margin-top:32px}
+.ev-study{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:32px;margin-top:32px}
 .ev-study--rct{border-left:3px solid var(--moss);padding-left:20px}
 .ev-study-note{background:var(--sand-pale,#f8f5f0);border-left:3px solid var(--ink-light,#aaa);padding:12px 16px;margin-top:16px;font-size:.85rem;color:var(--ink-light,#666);line-height:1.7}
 .ev-study-badge{display:inline-block;padding:3px 12px;font-size:.75rem;font-weight:700;letter-spacing:.08em;border-radius:4px;margin-bottom:12px}
@@ -582,3 +592,522 @@ a:hover{color:var(--gold)}
 .company-table th{width:180px;padding:16px 20px;text-align:left;font-weight:600;color:var(--ink);border-bottom:1px solid #e8e6e0;vertical-align:top;white-space:nowrap}
 .company-table td{padding:16px 20px;color:var(--ink-light);border-bottom:1px solid #e8e6e0;line-height:1.8}
 .company-info-img{display:block;width:204px;max-width:100%;height:auto}
+
+/* Design v3 badge */
+.version-badge{position:fixed;bottom:12px;left:12px;z-index:9999;background:#9a5e15;color:#fff;padding:6px 14px;border-radius:6px;font-size:.75rem;font-weight:700;letter-spacing:.05em;box-shadow:0 2px 10px rgba(0,0,0,.2);opacity:.85}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" defer></script>
+</head>
+<body>
+
+<div class="version-badge">Design v3</div>
+
+<header class="site-header">
+<div class="header-inner">
+<a href="index.html" style="text-decoration:none">
+<span class="logo-text">風景帖</span>
+<span class="logo-reading">ふうけいちょう</span>
+</a>
+<!-- 常時表示: スクロールピル群 (JS生成) -->
+<button class="h-pill-scroll-btn h-pill-scroll-btn--left hidden" id="pillScrollBtnLeft" aria-label="前へ" type="button">&#8249;</button>
+<div class="h-pill-wrap" id="headerPills"
+  data-evidence="../evidence/"
+  data-simulator="../simulator/"></div>
+<button class="h-pill-scroll-btn" id="pillScrollBtn" aria-label="もっと見る" type="button">&#8250;</button>
+<!-- 右端CTA (常時表示) -->
+<a href="#contact" class="header-cta-btn">
+  <span class="cta-full">お問い合わせ</span><span class="cta-short">相談</span>
+</a>
+</div>
+</header>
+
+
+
+<style>
+/* Force header to always show scrolled style (no hero on this page) */
+.site-header.at-top{background:rgba(250,248,245,.95);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.site-header.at-top .logo-text,.site-header.at-top .logo-reading,.site-header.at-top nav a{color:var(--ink-light)}
+.site-header.at-top .nav-cta{background:var(--moss)!important;border:none;color:var(--white)!important}
+.site-header.at-top .logo-text{color:var(--ink)}
+.site-header.at-top .nav-toggle span{background:var(--ink)}
+</style>
+
+<section class="section section-privacy">
+<div class="container">
+<h1 class="privacy-title">運営者情報</h1>
+
+<div class="privacy-body">
+
+<table class="company-table">
+<tbody>
+<tr><th>会社名</th><td>アイメル合同会社</td></tr>
+<tr><th>資本金</th><td>800万円</td></tr>
+<tr><th>代表者・所在地</th><td><img src="../assets/images/company-info.png" alt="" class="company-info-img"></td></tr>
+<tr><th>法人番号</th><td>0127-03-002771</td></tr>
+<tr><th>お問い合わせ</th><td><a href="../#contact" class="privacy-link">お問い合わせフォームはこちら</a><br><img src="../assets/images/privacy-email.png" alt="メールアドレス" class="privacy-email-img" style="margin-top:6px"></td></tr>
+</tbody>
+</table>
+
+<p><small>※迷惑メール対策のため、一部情報を画像で表示しています。</small></p>
+
+</div>
+
+<div class="privacy-back">
+<a href="index.html" class="text-link-btn">← トップページに戻る</a>
+</div>
+
+</div>
+</section>
+
+<script>
+(function(){
+  var baseUrl = '';
+  document.querySelectorAll('.site-header nav a, .header-cta-btn').forEach(function(a){
+    var href = a.getAttribute('href');
+    if(href && href.startsWith('#')){
+      a.setAttribute('href', baseUrl + '/' + href);
+    }
+  });
+})();
+</script>
+
+
+<footer class="site-footer">
+<div class="container site-footer-inner">
+<p class="site-footer-copy">&copy; 2026 風景帖</p>
+<div class="site-footer-links">
+<a href="privacy.html" class="site-footer-link">プライバシーポリシー</a>
+<a href="company.html" class="site-footer-link">運営者情報</a>
+</div>
+</div>
+</footer>
+
+
+<script>
+/* Service Worker 登録 */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    /* disabled */ void('/fukeichou-site/sw.js', {
+      /* updateViaCache:'none' → SafariがHTTPキャッシュを無視してSWスクリプトを常に最新確認する
+         Chromeはデフォルトでこの挙動。Safariはオプション指定が必要。 */
+      updateViaCache: 'none'
+    }).catch(function(e){ console.warn('SW registration failed:', e); });
+  });
+}
+
+/* ===== グローバル受診者選択 ===== */
+window._audience = 'clinic'; // 初期値
+
+function setAudience(target){
+  window._audience = target;
+
+  /* 1. #pain タブ */
+  var painBtns = document.querySelectorAll('#pain .tab-btn');
+  var painMap  = {clinic:0, mental:1, care:2};
+  painBtns.forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('#pain .tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  if(painBtns[painMap[target]]) painBtns[painMap[target]].classList.add('active');
+  var pc = document.getElementById('tab-' + target);
+  if(pc) pc.classList.add('active');
+
+  /* 2. #intro-image タブ (mental → clinic に吸収) */
+  var introTarget = (target === 'care') ? 'intro-care' : 'intro-clinic';
+  document.querySelectorAll('#intro-tab-buttons .tab-btn')
+          .forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.intro-tab-content')
+          .forEach(function(c){c.classList.remove('active');});
+  var ib = document.querySelector(
+    '#intro-tab-buttons .tab-btn[data-tab="'+introTarget+'"]');
+  if(ib) ib.classList.add('active');
+  var ic = document.getElementById(introTarget);
+  if(ic) ic.classList.add('active');
+
+  /* 3. #evidence タブボタン */
+  document.querySelectorAll('#evidence .ev-tab-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-audience') === target);
+  });
+
+  /* 4. #evidence カード表示切替 */
+  document.querySelectorAll('#evidence .evidence-card').forEach(function(card){
+    var ev = card.getAttribute('data-ev');
+    card.style.display = (ev === target) ? '' : 'none';
+  });
+}
+
+/* 後方互換 */
+function switchTab(target){ setAudience(target); }
+
+/* 導入想像図タブから逆方向連動 */
+(function(){
+  var introButtons = document.querySelectorAll('#intro-tab-buttons .tab-btn');
+  var introTabMap  = {'intro-clinic':'clinic', 'intro-care':'care'};
+  introButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var t = btn.getAttribute('data-tab');
+      setAudience(introTabMap[t] || 'clinic');
+    });
+  });
+})();
+
+/* ヘッダー透明→不透明 切り替え */
+(function(){
+  var header=document.querySelector('.site-header');
+  function check(){
+    if(window.scrollY<80){
+      header.classList.add('at-top');
+      header.classList.remove('scrolled');
+    }else{
+      header.classList.remove('at-top');
+      header.classList.add('scrolled');
+    }
+  }
+  check();
+  window.addEventListener('scroll',check,{passive:true});
+})();
+
+/* ── スクロールユーティリティ ──
+   毎フレーム目標位置を再計算する自作スムーズスクロール。
+   レイアウトシフトに追従するため補正が不要。           */
+function _scrollToTarget(el, offsetFn){
+  var startY = window.pageYOffset;
+  var target = el.getBoundingClientRect().top + startY - offsetFn();
+  var dist   = Math.abs(target - startY);
+  /* 距離に応じた所要時間: 300〜800ms */
+  var dur = Math.min(800, Math.max(300, dist * 0.4));
+  var t0  = null;
+
+  function easeInOut(t){
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  (function frame(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts - t0) / dur, 1);
+    /* 毎フレーム目標を再計算（レイアウトシフト追従） */
+    var liveTarget = el.getBoundingClientRect().top + window.pageYOffset - offsetFn();
+    var pos = startY + (liveTarget - startY) * easeInOut(p);
+    window.scrollTo(0, pos);
+    if(p < 1) requestAnimationFrame(frame);
+  })(performance.now());
+}
+
+/* ページ内アンカーリンクのスクロール補正（ヘッダー高さ分） */
+(function(){
+  function getOffset(){
+    var offset = document.querySelector('.site-header').offsetHeight;
+    var subNav = document.querySelector('.ev-page-nav');
+    if(subNav) offset += subNav.offsetHeight;
+    return offset;
+  }
+  function scrollToHash(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    _scrollToTarget(el, getOffset);
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').substring(1);
+    if(!document.getElementById(id)) return;
+    e.preventDefault();
+    history.pushState(null, '', '#' + id);
+    scrollToHash(id);
+  });
+  if(location.hash){
+    setTimeout(function(){ scrollToHash(location.hash.substring(1)); }, 100);
+  }
+})();
+
+/* ハンバーガーメニュー */
+(function(){
+  var toggle=document.getElementById('navToggle');
+  var nav=document.getElementById('mainNav');
+  if(!toggle||!nav)return;
+  toggle.addEventListener('click',function(){
+    toggle.classList.toggle('open');
+    nav.classList.toggle('open');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      toggle.classList.remove('open');
+      nav.classList.remove('open');
+    });
+  });
+})();
+
+/* Scroll Reveal */
+(function(){
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+})();
+
+if(typeof lucide !== 'undefined'){
+  lucide.createIcons();
+}else{
+  document.addEventListener('DOMContentLoaded', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+  window.addEventListener('load', function(){
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+  });
+}
+
+/* ===== MOBILE SCROLL REDUCTION ===== */
+(function(){
+  var isMobile = window.innerWidth <= 768;
+
+  /* 1. Feature cards アコーディオン (mobile only) */
+  if(isMobile){
+    document.querySelectorAll('.feature-card').forEach(function(card){
+      var q = card.querySelector('.feature-q');
+      if(q) q.classList.add('feature-q-toggle');
+      card.addEventListener('click', function(){
+        card.classList.toggle('fc-open');
+      });
+    });
+  }
+
+  /* 2. 本物宣言カード: 本文fold + 「続きを読む」ボタン */
+  document.querySelectorAll('.authentic-card').forEach(function(card){
+    var p = card.querySelector('p');
+    if(!p) return;
+    p.classList.add('auth-text');
+    var btn = document.createElement('button');
+    btn.className = 'btn-auth-expand';
+    btn.textContent = '続きを読む →';
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      card.classList.add('auth-expanded');
+      btn.style.display = 'none';
+    });
+    card.appendChild(btn);
+  });
+
+  /* 3. クリニックペインカード: 4枚目を「もっと見る」 */
+  if(isMobile){
+    var clinicGrid = document.querySelector('#tab-clinic .pain-grid');
+    if(clinicGrid){
+      var pcards = clinicGrid.querySelectorAll('.pain-card');
+      if(pcards.length > 3){
+        for(var i=3;i<pcards.length;i++) pcards[i].classList.add('pain-card-extra');
+        var pbtn = document.createElement('button');
+        pbtn.className = 'btn-show-more';
+        pbtn.textContent = '他のお悩みも見る';
+        pbtn.onclick = function(){
+          clinicGrid.querySelectorAll('.pain-card-extra').forEach(function(c){c.classList.add('shown');});
+          pbtn.style.display='none';
+        };
+        clinicGrid.after(pbtn);
+      }
+    }
+  }
+
+  /* 4. エビデンスカード: タブ切替方式に移行。show-more廃止 */
+})();
+
+
+/* ===== HEADER HERO-PASS TRANSFORM + SECTION PILLS ===== */
+(function(){
+  var SECTIONS = [
+    {id:'pain',        label:'お悩み'},
+    {id:'evidence',    label:'科学的根拠'},
+    {id:'service',     label:'サービス概要'},
+    {id:'authentic',   label:'本物へのこだわり'},
+    {id:'map',         label:'撮影地'},
+    {id:'pricing',     label:'料金'},
+    {id:'flow',        label:'導入の流れ'},
+    {id:'intro-image', label:'導入イメージ'},
+    {id:'faq',         label:'FAQ'},
+  ].filter(function(s){ return !!document.getElementById(s.id); });
+
+  var headerPills = document.getElementById('headerPills');
+  if(!headerPills) return;
+
+  var currentIdx = -1;
+  var pillItems  = [];
+
+  /* ── ページ内スクロールピルを生成 ── */
+  SECTIONS.forEach(function(s){
+    var pi = document.createElement('button');
+    pi.className = 'h-pill';
+    pi.textContent = s.label;
+    pi.addEventListener('click', function(){
+      var el = document.getElementById(s.id);
+      if(!el) return;
+      _scrollToTarget(el, function(){
+        return document.querySelector('.site-header').offsetHeight;
+      });
+    });
+    headerPills.appendChild(pi);
+    pillItems.push(pi);
+  });
+
+  /* ── 現在地ハイライト ── */
+  function setActive(idx){
+    if(idx === currentIdx) return;
+    currentIdx = idx;
+    pillItems.forEach(function(el, i){ el.classList.toggle('active', i===idx); });
+    /* アクティブピルを中央にスクロール */
+    var pill = pillItems[idx];
+    if(pill && headerPills){
+      headerPills.scrollTo({
+        left: pill.offsetLeft - headerPills.offsetWidth/2 + pill.offsetWidth/2,
+        behavior:'smooth'
+      });
+    }
+  }
+
+  /* IntersectionObserver でセクション検出 */
+  var secObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      for(var i=0; i<SECTIONS.length; i++){
+        if(SECTIONS[i].id === entry.target.id){ setActive(i); break; }
+      }
+    });
+  },{rootMargin:'-25% 0px -65% 0px'});
+
+  SECTIONS.forEach(function(s){
+    var el = document.getElementById(s.id);
+    if(el) secObs.observe(el);
+  });
+
+  /* ── ‹ › ボタン: スクロール制御 ── */
+  var scrollBtn     = document.getElementById('pillScrollBtn');
+  var scrollBtnLeft = document.getElementById('pillScrollBtnLeft');
+  if(headerPills){
+    function updateScrollBtns(){
+      var atEnd   = headerPills.scrollLeft + headerPills.clientWidth >= headerPills.scrollWidth - 4;
+      var atStart = headerPills.scrollLeft <= 4;
+      if(scrollBtn)     scrollBtn.classList.toggle('hidden', atEnd);
+      if(scrollBtnLeft) scrollBtnLeft.classList.toggle('hidden', atStart);
+    }
+    headerPills.addEventListener('scroll', updateScrollBtns, {passive:true});
+    window.addEventListener('resize', updateScrollBtns);
+    updateScrollBtns();
+    if(scrollBtn)     scrollBtn.addEventListener('click',     function(){ headerPills.scrollBy({left:  120, behavior:'smooth'}); });
+    if(scrollBtnLeft) scrollBtnLeft.addEventListener('click', function(){ headerPills.scrollBy({left: -120, behavior:'smooth'}); });
+  }
+})();
+
+/* ===== URLパラメータ 業態自動切替 ===== */
+(function(){
+  var AUDIENCE_MESSAGES = {
+    clinic: '待合室のワイドショー——音量のジレンマ、待ち時間の口コミ、診察前の患者の緊張。<br>その三つ、まとめて解決できます。',
+    mental: '刺激的なニュースをやめたい、でも消すわけにもいかない——<br>心療内科・精神科の待合室に、静かな自然映像という答えがあります。',
+    care:   '外に出られない入居者に、桜と紅葉と海を届けたい——<br>その思いに、映像という答えを。共用スペースのテレビを、もうひとつの窓に変えます。'
+  };
+
+  function getParam(key){
+    try {
+      return new URLSearchParams(window.location.search).get(key);
+    } catch(e){ return null; }
+  }
+
+  function injectHeroBanner(audience){
+    var msg = AUDIENCE_MESSAGES[audience];
+    if(!msg) return;
+    var hero = document.querySelector('.hero-content');
+    if(!hero) return;
+    var banner = document.createElement('div');
+    banner.className = 'hero-audience-banner';
+    banner.innerHTML = msg;
+    var actions = hero.querySelector('.hero-actions');
+    if(actions) hero.insertBefore(banner, actions);
+    else hero.appendChild(banner);
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var from = getParam('from');
+    var validAudiences = ['clinic','mental','care'];
+    if(from && validAudiences.indexOf(from) !== -1){
+      if(typeof setAudience === 'function') setAudience(from);
+      injectHeroBanner(from);
+    }
+  });
+})();
+
+/* Contact form (formsubmit.co AJAX) */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var form = document.getElementById('contactForm');
+    if(!form) return;
+    var btn = document.getElementById('contactSubmitBtn');
+    var successEl = document.getElementById('contactSuccess');
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = '送信中…';
+
+      var data = new FormData(form);
+
+      /* ── formsubmit.co（メール通知・成功/失敗をUXに反映） ── */
+      fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res){
+        if(res.ok){
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+          if(typeof gtag === 'function'){
+            gtag('event', 'form_submit', {
+              event_category: 'contact',
+              event_label: data.get('施設の種類') || 'unknown'
+            });
+          }
+        } else {
+          btn.disabled = false;
+          btn.textContent = '送信';
+          alert('送信に失敗しました。お手数ですがメールでお問い合わせください。');
+        }
+      }).catch(function(){
+        btn.disabled = false;
+        btn.textContent = '送信';
+        alert('通信エラーが発生しました。お手数ですがメールでお問い合わせください。');
+      });
+    });
+  });
+})();
+
+/* ── Scroll Depth Tracking (10% increments) ── */
+(function(){
+  var thresholds = [10,20,30,40,50,60,70,80];
+  var fired = {};
+  function getScrollPercent(){
+    var h = document.documentElement;
+    var b = document.body;
+    var scrollTop = h.scrollTop || b.scrollTop;
+    var scrollHeight = (h.scrollHeight || b.scrollHeight) - h.clientHeight;
+    return scrollHeight > 0 ? Math.round((scrollTop / scrollHeight) * 100) : 0;
+  }
+  window.addEventListener('scroll', function(){
+    var pct = getScrollPercent();
+    for(var i = 0; i < thresholds.length; i++){
+      var t = thresholds[i];
+      if(pct >= t && !fired[t]){
+        fired[t] = true;
+        if(typeof gtag === 'function'){
+          gtag('event', 'scroll_depth', {
+            percent_scrolled: t,
+            page_path: location.pathname
+          });
+        }
+      }
+    }
+  }, {passive: true});
+})();
+
+</script>
+
+</body>
+</html>
