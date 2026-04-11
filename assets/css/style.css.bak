@@ -19,13 +19,6 @@ a:hover{color:var(--gold)}
 .section:nth-child(even){background:var(--paper-warm)}
 .section-heading{font-family:var(--serif);font-size:2rem;font-weight:600;text-align:center;margin-bottom:20px;letter-spacing:.06em;line-height:1.45}
 .section-lead{text-align:center;color:var(--ink-light);font-size:1rem;line-height:2;margin-bottom:48px;max-width:480px;margin-left:auto;margin-right:auto}
-.section-lead--wide{max-width:520px}
-.sample-block{max-width:860px;margin-left:auto;margin-right:auto}
-.sample-title{text-align:center;margin-bottom:12px;font-family:var(--serif);font-size:1.1rem;font-weight:600;letter-spacing:.04em;color:var(--ink)}
-.sample-location{font-weight:400;font-size:.85rem;color:var(--ink-light)}
-.sample-desc{text-align:center;margin-bottom:28px;color:var(--ink-light);font-size:.92rem;line-height:1.8}
-.sample-note{margin-top:12px;text-align:center;font-size:.92rem;color:var(--ink-light);line-height:1.8}
-.sample-footnote{margin-top:28px;font-size:.85rem;color:var(--stone);text-align:center}
 .section-tagline{text-align:center;font-family:var(--serif);font-size:1.15rem;font-weight:500;letter-spacing:.06em;color:var(--ink);margin-bottom:16px}
 .change-preview{color:#1a6fd4;font-size:.92em;margin-top:4px;margin-bottom:4px;padding:3px 8px;border-left:3px solid #1a6fd4;display:block}
 .change-preview-block{color:#1a6fd4;border:1.5px dashed #1a6fd4;border-radius:6px;padding:8px 12px;margin-top:6px;font-size:.92em}

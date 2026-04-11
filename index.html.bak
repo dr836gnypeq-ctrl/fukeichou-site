@@ -22,9 +22,9 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <div class="tab-content active" id="tab-clinic">
 <div class="pain-grid">
 <div class="pain-card reveal reveal-d1">
-<div class="pain-icon"><i data-lucide="frown"></i></div>
-<h3>治療台に座る前から<br>患者さんの緊張が始まっている</h3>
-<p>歯科不安の研究で、「ストレスフルな待合室環境」が不安のトリガーになると報告されています。治療が始まる前に緊張をほぐす待合室は、それ自体が治療の一部です。</p>
+<div class="pain-icon"><i data-lucide="volume-2"></i></div>
+<h3>ワイドショーの音が<br>診察の妨げになる</h3>
+<p>音量を上げれば呼び出しの声がかき消され、下げれば高齢の患者さんには聞こえない。字幕をつけても根本的な解決にならない。</p>
 </div>
 <div class="pain-card reveal reveal-d2">
 <div class="pain-icon"><i data-lucide="timer"></i></div>
@@ -32,9 +32,9 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <p>診療の質には自信がある。でも「待ち時間が長い」の一言がGoogleの星を下げる。待合室の体感時間を変える手立てがほしい。</p>
 </div>
 <div class="pain-card reveal reveal-d3">
-<div class="pain-icon"><i data-lucide="volume-2"></i></div>
-<h3>ワイドショーの音が<br>診察の妨げになる</h3>
-<p>音量を上げれば呼び出しの声がかき消され、下げれば高齢の患者さんには聞こえない。字幕をつけても根本的な解決にならない。</p>
+<div class="pain-icon"><i data-lucide="frown"></i></div>
+<h3>治療台に座る前から<br>患者さんの緊張が始まっている</h3>
+<p>歯科不安の研究で、「ストレスフルな待合室環境」が不安のトリガーになると報告されています。治療が始まる前に緊張をほぐす待合室は、それ自体が治療の一部です。</p>
 </div>
 </div>
 </div>
@@ -43,9 +43,9 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <div class="tab-content" id="tab-mental">
 <div class="pain-grid">
 <div class="pain-card reveal reveal-d1">
-<div class="pain-icon"><i data-lucide="door-open"></i></div>
-<h3>「病院らしい空間」が<br>来院のハードルを上げている</h3>
-<p>受診をためらう患者さんにとって、待合室の雰囲気は来院継続の判断材料になる。穏やかで落ち着いた空間は、「また来てもいい」という感覚を積み重ねます。</p>
+<div class="pain-icon"><i data-lucide="brain"></i></div>
+<h3>刺激的なニュースが<br>症状を悪化させるリスクがある</h3>
+<p>センセーショナルなニュースや事件報道は、不安・抑うつの症状を抱える患者さんの精神状態に悪影響を与えることがある。かといって何も流さない沈黙の空間が、患者さんを落ち着かせるとも限らない。「穏やかな映像」という選択肢が、待合室にはあります。</p>
 </div>
 <div class="pain-card reveal reveal-d2">
 <div class="pain-icon"><i data-lucide="eye-off"></i></div>
@@ -53,9 +53,9 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <p>心療内科・精神科の待合室では、「知人に見られたくない」「誰かと目が合うのが怖い」という患者さんが少なくない。モニターに視線が自然に向かう環境は、その緊張を静かにほぐします。</p>
 </div>
 <div class="pain-card reveal reveal-d3">
-<div class="pain-icon"><i data-lucide="brain"></i></div>
-<h3>刺激的なニュースが<br>症状を悪化させるリスクがある</h3>
-<p>センセーショナルなニュースや事件報道は、不安・抑うつの症状を抱える患者さんの精神状態に悪影響を与えることがある。かといって何も流さない沈黙の空間が、患者さんを落ち着かせるとも限らない。「穏やかな映像」という選択肢が、待合室にはあります。</p>
+<div class="pain-icon"><i data-lucide="door-open"></i></div>
+<h3>「病院らしい空間」が<br>来院のハードルを上げている</h3>
+<p>受診をためらう患者さんにとって、待合室の雰囲気は来院継続の判断材料になる。穏やかで落ち着いた空間は、「また来てもいい」という感覚を積み重ねます。</p>
 </div>
 </div>
 </div>
@@ -74,14 +74,14 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <p>テレビをつけっぱなしにするとチャンネル争いや音量問題が起きる。かといって何もない共用スペースは殺風景で、入居者が自然に集まりにくい。「ちょうどいい映像」が、まだ見つかっていません。</p>
 </div>
 <div class="pain-card reveal reveal-d3">
-<div class="pain-icon"><i data-lucide="user-check"></i></div>
-<h3>入居者が落ち着かないと<br>スタッフも消耗する</h3>
-<p>自然映像が入居者の不穏行動を和らげることで、スタッフの対応負担も軽くなります。複数の研究で、入居者の落ち着きと介護負担の軽減に関連が確認されています。</p>
-</div>
-<div class="pain-card reveal reveal-d4">
 <div class="pain-icon"><i data-lucide="sofa"></i></div>
 <h3>レクのネタが尽きてきた</h3>
 <p>準備に時間がかかる割に盛り上がらない。季節の風景映像があれば、「あら、ここ知ってる」と自然に会話が始まる——そんな場面を作りたい。</p>
+</div>
+<div class="pain-card reveal reveal-d4">
+<div class="pain-icon"><i data-lucide="user-check"></i></div>
+<h3>入居者が落ち着かないと<br>スタッフも消耗する</h3>
+<p>自然映像が入居者の不穏行動を和らげることで、スタッフの対応負担も軽くなります。複数の研究で、入居者の落ち着きと介護負担の軽減に関連が確認されています。</p>
 </div>
 </div>
 </div>
@@ -325,7 +325,7 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <section class="section" id="authentic">
 <div class="container">
 <h2 class="section-heading reveal">本物の風景だから、起きること</h2>
-<p class="section-lead section-lead--wide reveal reveal-d1">風景帖の映像はすべて、実在する日本の景勝地で撮影したものです。<br>その「実在」が、患者さんや入居者の方に、ある反応を引き起こします。</p>
+<p class="section-lead reveal reveal-d1">風景帖の映像はすべて、実在する日本の景勝地で撮影したものです。<br>その「実在」が、患者さんや入居者の方に、ある反応を引き起こします。</p>
 <div class="authentic-grid">
 
 <div class="authentic-card reveal reveal-d1">
@@ -352,20 +352,12 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 </p>
 <p class="reveal" style="text-align:center;margin-top:16px"><a href="{{ '/quality/' | relative_url }}" class="text-link-btn">映像品質への技術的こだわり →</a></p>
 
-</div>
-</section>
+<div class="reveal" style="margin-top:52px">
+  <h3 style="text-align:center;margin-bottom:12px;font-family:var(--serif);font-size:1.15rem;font-weight:600;letter-spacing:.06em">映像サンプル</h3>
+  <p style="text-align:center;margin-bottom:36px;color:var(--ink-light);font-size:.95rem;line-height:1.8">風景帖の映像は、1シーン約1時間。ありのままの時間を、そのまま映しています。<br>ここでは、雰囲気の異なる2つのシーンをご紹介します。</p>
 
-{% include map.html %}
-
-<!-- 映像サンプル -->
-<section class="section" id="samples">
-<div class="section-inner">
-<h2 class="section-heading reveal">映像サンプル</h2>
-<p class="section-lead reveal reveal-d1">風景帖の映像は、1シーン約1時間。ありのままの時間を、そのまま映しています。<br>ここでは、雰囲気の異なる2つのシーンをご紹介します。</p>
-
-<div class="sample-block reveal">
-  <h3 class="sample-title">瀬戸内海の日の入り <span class="sample-location">── 水島展望台（岡山県倉敷市）</span></h3>
-  <p class="sample-desc">日没前後の「マジックアワー」と呼ばれる時間帯は、空の色が刻々と変わります。<br>やがてコンビナートに灯りがともり、景色はまったく別の表情になります。<br>同じ場所、同じカメラ位置で——景色だけが、これだけ変わります。</p>
+  <p style="text-align:center;margin-bottom:12px;font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink)">瀬戸内海の日の入り <span style="font-weight:400;font-size:.85rem;color:var(--ink-light)">── 水島展望台（岡山県倉敷市）</span></p>
+  <p style="text-align:center;margin-bottom:28px;color:var(--ink-light);font-size:.92rem;line-height:1.8">日没前後の「マジックアワー」と呼ばれる時間帯は、空の色が刻々と変わります。<br>やがてコンビナートに灯りがともり、景色はまったく別の表情になります。<br>同じ場所、同じカメラ位置で——景色だけが、これだけ変わります。</p>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto 28px">
     <figure style="margin:0;text-align:center">
       <img src="{{ '/assets/images/Washu_001.jpg' | relative_url }}" alt="水島展望台 0分" style="width:100%;border-radius:8px" loading="lazy">
@@ -385,22 +377,25 @@ description: 待合室のモニターに何を流すか迷っていませんか�
       <iframe src="https://www.youtube-nocookie.com/embed/RR9ND0dfim4" title="風景帖 映像サンプル — 水島展望台（倉敷）日の入り" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
     </div>
   </div>
-</div>
 
-<div class="sample-block reveal" style="margin-top:48px">
-  <h3 class="sample-title">日中の静けさ <span class="sample-location">── 青い池（北海道美瑛町）</span></h3>
-  <p class="sample-desc">待合室で最も長く流れるのは、日中の映像です。<br>穏やかな水面、ゆっくり動く雲——静かだけれど、目が離せなくなる時間がここにあります。</p>
-  <div style="max-width:800px;margin:0 auto">
-    <div style="position:relative;width:100%;padding-top:56.25%">
-      <iframe src="https://www.youtube-nocookie.com/embed/47yYO_q2F-s" title="風景帖 映像サンプル — 美瑛 青い池" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+  <div style="margin-top:48px;max-width:800px;margin-left:auto;margin-right:auto">
+    <p style="text-align:center;margin-bottom:12px;font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--ink)">日中の静けさ <span style="font-weight:400;font-size:.85rem;color:var(--ink-light)">── 青い池（北海道美瑛町）</span></p>
+    <p style="text-align:center;margin-bottom:16px;color:var(--ink-light);font-size:.92rem;line-height:1.8">待合室で最も長く流れるのは、日中の映像です。<br>穏やかな水面、ゆっくり動く雲——静かだけれど、目が離せなくなる時間がここにあります。</p>
+    <div style="max-width:800px;margin:0 auto">
+      <div style="position:relative;width:100%;padding-top:56.25%">
+        <iframe src="https://www.youtube-nocookie.com/embed/47yYO_q2F-s" title="風景帖 映像サンプル — 美瑛 青い池" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+      </div>
     </div>
+    <p style="margin-top:12px;text-align:center;font-size:.92rem;color:var(--ink-light);line-height:1.8">42分頃、対岸にふと鹿が現れます。<br>ありのままの時間を映しているからこそ出会える、予期しない瞬間です。</p>
   </div>
-  <p class="sample-note">42分頃、対岸にふと鹿が現れます。<br>ありのままの時間を映しているからこそ出会える、予期しない瞬間です。</p>
+
+  <p style="margin-top:24px;font-size:.85rem;color:var(--stone);text-align:center">※ 実際の提供映像に音声はありません</p>
 </div>
 
-<p class="sample-footnote">※ 実際の提供映像に音声はありません</p>
 </div>
 </section>
+
+{% include map.html %}
 
 <!-- 料金 -->
 <section class="section" id="pricing">

@@ -218,7 +218,6 @@ if(typeof lucide !== 'undefined'){
     {id:'service',     label:'サービス概要'},
     {id:'authentic',   label:'本物へのこだわり'},
     {id:'map',         label:'撮影地'},
-    {id:'samples',     label:'映像サンプル'},
     {id:'pricing',     label:'料金'},
     {id:'flow',        label:'導入の流れ'},
     {id:'intro-image', label:'導入イメージ'},
