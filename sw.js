@@ -2,13 +2,13 @@
  * v12変更点: smooth scroll + post-settle correction
  */
 
-var CACHE_STATIC = 'fk-static-v13';
-var CACHE_PAGES  = 'fk-pages-v13';
-var BASE = '/fukeichou-site';
+var CACHE_STATIC = 'fk-static-v14';
+var CACHE_PAGES  = 'fk-pages-v14';
+var BASE = '';
 
 var PRECACHE_STATIC = [
-  BASE + '/assets/css/style.css?v=20260410a',
-  BASE + '/assets/js/main.js?v=20260405a',
+  BASE + '/assets/css/style.css?v=20260411b',
+  BASE + '/assets/js/main.js?v=20260415a',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',

@@ -1,7 +1,7 @@
 /* Service Worker 登録 */
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('/fukeichou-site/sw.js', {
+    navigator.serviceWorker.register('/sw.js', {
       /* updateViaCache:'none' → SafariがHTTPキャッシュを無視してSWスクリプトを常に最新確認する
          Chromeはデフォルトでこの挙動。Safariはオプション指定が必要。 */
       updateViaCache: 'none'
