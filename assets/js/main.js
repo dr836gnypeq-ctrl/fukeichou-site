@@ -403,3 +403,42 @@ if(typeof lucide !== 'undefined'){
     }
   }, {passive: true});
 })();
+
+/* ── Section View Tracking (IntersectionObserver, threshold 25%) ── */
+(function(){
+  /* 全ページ横断の計測対象セクションID */
+  var targetSections = [
+    /* LP (index.html) */
+    'pricing', 'evidence', 'service', 'faq', 'samples',
+    /* evidence/clinic.html */
+    'clinical', 'neuroscience', 'media-impact', 'dental-anxiety', 'mental',
+    /* evidence/care.html */
+    'dementia', 'elderly', 'foundation',
+    /* evidence共通 (clinic/care両方) */
+    'theory', 'relevance', 'references',
+    /* quality.html */
+    'banding', 'study', 'spec'
+  ];
+  var fired = {};
+
+  if(!('IntersectionObserver' in window)) return;
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting && !fired[entry.target.id]){
+        fired[entry.target.id] = true;
+        if(typeof gtag === 'function'){
+          gtag('event', 'section_view', {
+            section_id: entry.target.id,
+            page_path: location.pathname
+          });
+        }
+      }
+    });
+  }, { threshold: 0.25 });
+
+  targetSections.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+})();
