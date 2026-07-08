@@ -18,28 +18,30 @@ function setAudience(target){
   /* 1. #pain タブ */
   var painBtns = document.querySelectorAll('#pain .tab-btn');
   var painMap  = {clinic:0, mental:1, care:2};
-  painBtns.forEach(function(b){b.classList.remove('active');});
+  painBtns.forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false');});
   document.querySelectorAll('#pain .tab-content')
           .forEach(function(c){c.classList.remove('active');});
-  if(painBtns[painMap[target]]) painBtns[painMap[target]].classList.add('active');
+  if(painBtns[painMap[target]]){painBtns[painMap[target]].classList.add('active');painBtns[painMap[target]].setAttribute('aria-selected','true');}
   var pc = document.getElementById('tab-' + target);
   if(pc) pc.classList.add('active');
 
   /* 2. #intro-image タブ (mental → clinic に吸収) */
   var introTarget = (target === 'care') ? 'intro-care' : 'intro-clinic';
   document.querySelectorAll('#intro-tab-buttons .tab-btn')
-          .forEach(function(b){b.classList.remove('active');});
+          .forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false');});
   document.querySelectorAll('.intro-tab-content')
           .forEach(function(c){c.classList.remove('active');});
   var ib = document.querySelector(
     '#intro-tab-buttons .tab-btn[data-tab="'+introTarget+'"]');
-  if(ib) ib.classList.add('active');
+  if(ib){ib.classList.add('active');ib.setAttribute('aria-selected','true');}
   var ic = document.getElementById(introTarget);
   if(ic) ic.classList.add('active');
 
   /* 3. #evidence タブボタン */
   document.querySelectorAll('#evidence .ev-tab-btn').forEach(function(b){
-    b.classList.toggle('active', b.getAttribute('data-audience') === target);
+    var sel = b.getAttribute('data-audience') === target;
+    b.classList.toggle('active', sel);
+    b.setAttribute('aria-selected', sel ? 'true' : 'false');
   });
 
   /* 4. #evidence カード表示切替 */

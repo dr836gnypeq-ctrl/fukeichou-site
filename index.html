@@ -12,14 +12,14 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <h2 class="section-heading reveal">待合室や共用スペースの時間を、どう整えていますか？</h2>
 <p class="section-lead reveal reveal-d1">施設の種類によって、よく聞かれるお悩みが異なります。近いほうをご覧ください。</p>
 
-<div class="tab-switcher">
-<button class="tab-btn active" onclick="setAudience('clinic')">クリニック・歯科の方</button>
-<button class="tab-btn" onclick="setAudience('mental')">心療内科・精神科の方</button>
-<button class="tab-btn" onclick="setAudience('care')">介護施設の方</button>
+<div class="tab-switcher" role="tablist" aria-label="施設の種類を選択">
+<button class="tab-btn active" role="tab" id="pain-tab-clinic" aria-selected="true" aria-controls="tab-clinic" onclick="setAudience('clinic')">クリニック・歯科の方</button>
+<button class="tab-btn" role="tab" id="pain-tab-mental" aria-selected="false" aria-controls="tab-mental" onclick="setAudience('mental')">心療内科・精神科の方</button>
+<button class="tab-btn" role="tab" id="pain-tab-care" aria-selected="false" aria-controls="tab-care" onclick="setAudience('care')">介護施設の方</button>
 </div>
 
 <!-- クリニック・歯科向け -->
-<div class="tab-content active" id="tab-clinic">
+<div class="tab-content active" id="tab-clinic" role="tabpanel" aria-labelledby="pain-tab-clinic">
 <div class="pain-grid">
 <div class="pain-card reveal reveal-d1">
 <div class="pain-icon"><i data-lucide="frown"></i></div>
@@ -40,7 +40,7 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 </div>
 
 <!-- 心療内科・精神科向け -->
-<div class="tab-content" id="tab-mental">
+<div class="tab-content" id="tab-mental" role="tabpanel" aria-labelledby="pain-tab-mental">
 <div class="pain-grid">
 <div class="pain-card reveal reveal-d1">
 <div class="pain-icon"><i data-lucide="door-open"></i></div>
@@ -61,7 +61,7 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 </div>
 
 <!-- 介護施設向け -->
-<div class="tab-content" id="tab-care">
+<div class="tab-content" id="tab-care" role="tabpanel" aria-labelledby="pain-tab-care">
 <div class="pain-grid">
 <div class="pain-card reveal reveal-d1">
 <div class="pain-icon"><i data-lucide="image"></i></div>
@@ -95,10 +95,10 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <h2 class="section-heading reveal">なぜ、風景映像なのか（科学的根拠）</h2>
 <p class="section-lead reveal reveal-d1">自然映像の効果には、研究による裏付けがあります。複数の研究で、生理的・心理的な変化が確認されています。</p>
 
-<div class="ev-audience-tabs reveal reveal-d2">
-  <button class="tab-btn ev-tab-btn active" data-audience="clinic" onclick="setAudience('clinic')">クリニック・歯科</button>
-  <button class="tab-btn ev-tab-btn" data-audience="mental" onclick="setAudience('mental')">心療内科・精神科</button>
-  <button class="tab-btn ev-tab-btn" data-audience="care" onclick="setAudience('care')">介護施設</button>
+<div class="ev-audience-tabs reveal reveal-d2" role="tablist" aria-label="エビデンスの対象施設を選択">
+  <button class="tab-btn ev-tab-btn active" role="tab" id="ev-tab-clinic" aria-selected="true" data-audience="clinic" onclick="setAudience('clinic')">クリニック・歯科</button>
+  <button class="tab-btn ev-tab-btn" role="tab" id="ev-tab-mental" aria-selected="false" data-audience="mental" onclick="setAudience('mental')">心療内科・精神科</button>
+  <button class="tab-btn ev-tab-btn" role="tab" id="ev-tab-care" aria-selected="false" data-audience="care" onclick="setAudience('care')">介護施設</button>
 </div>
 <p style="text-align:center;margin:-16px 0 32px"><a href="{{ '/evidence/' | relative_url }}" class="text-link-btn">研究の全容と論文リストはこちら →</a></p>
 
@@ -459,18 +459,18 @@ description: 待合室のモニターに何を流すか迷っていませんか�
 <p class="section-tagline reveal">リフォームではなく、映像が空間をつくる</p>
 <p class="section-lead reveal reveal-d1">映像を設置した空間のイメージです。</p>
 <div class="intro-image-tabs reveal reveal-d2">
-  <div class="tab-buttons" id="intro-tab-buttons">
-    <button class="tab-btn active" data-tab="intro-clinic">クリニック・歯科の方</button>
-    <button class="tab-btn" data-tab="intro-care">介護施設の方</button>
+  <div class="tab-buttons" id="intro-tab-buttons" role="tablist" aria-label="導入イメージの施設を選択">
+    <button class="tab-btn active" role="tab" id="intro-tab-clinic" aria-selected="true" aria-controls="intro-clinic" data-tab="intro-clinic">クリニック・歯科の方</button>
+    <button class="tab-btn" role="tab" id="intro-tab-care" aria-selected="false" aria-controls="intro-care" data-tab="intro-care">介護施設の方</button>
   </div>
-  <div class="intro-tab-content active" id="intro-clinic">
+  <div class="intro-tab-content active" id="intro-clinic" role="tabpanel" aria-labelledby="intro-tab-clinic">
     <figure class="intro-image-figure">
       <img src="{{ '/assets/images/intro-clinic.jpg' | relative_url }}" alt="クリニック待合室に風景映像を導入したイメージ" class="intro-image-img" loading="lazy">
       <figcaption class="intro-image-caption">自然の映像が流れる待合室。患者さんの緊張が、静かにほぐれていきます。</figcaption>
       <p class="intro-image-note">※ 室内空間はイメージです。モニターに映る映像は、実際にご提供する実写映像です。</p>
     </figure>
   </div>
-  <div class="intro-tab-content" id="intro-care">
+  <div class="intro-tab-content" id="intro-care" role="tabpanel" aria-labelledby="intro-tab-care">
     <figure class="intro-image-figure">
       <img src="{{ '/assets/images/intro-care.jpg' | relative_url }}" alt="介護施設の共用スペースに風景映像を導入したイメージ" class="intro-image-img" loading="lazy">
       <figcaption class="intro-image-caption">河口湖の桜と富士山。「富士山、昔登ったよ」——そんな会話が、自然に始まります。</figcaption>
