@@ -347,13 +347,14 @@ if(typeof lucide !== 'undefined'){
 
       var data = new FormData(form);
 
-      /* ── formsubmit.co（メール通知・成功/失敗をUXに反映） ── */
+      /* ── GAS Web App（メール通知・シート記録・成功/失敗をUXに反映） ── */
       fetch(form.action, {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        body: new URLSearchParams(data)
       }).then(function(res){
-        if(res.ok){
+        return res.json();
+      }).then(function(json){
+        if(json.ok){
           form.style.display = 'none';
           successEl.style.display = 'block';
           if(typeof gtag === 'function'){
