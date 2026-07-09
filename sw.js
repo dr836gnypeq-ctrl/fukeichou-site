@@ -1,14 +1,19 @@
-/* 風景帖 Service Worker v13
+/* 風景帖 Service Worker v15
+ * v15変更点: PRECACHE_STATIC から CSS/JS を除外（?v= 同期の恒久的解消）
+ *            CSS/JS は fetch ハンドラの cacheFirst で実行時キャッシュされる
  * v12変更点: smooth scroll + post-settle correction
  */
 
-var CACHE_STATIC = 'fk-static-v14';
-var CACHE_PAGES  = 'fk-pages-v14';
+var CACHE_STATIC = 'fk-static-v15';
+var CACHE_PAGES  = 'fk-pages-v15';
 var BASE = '';
 
+/* CSS/JS は意図的に含めない。
+ * fetch ハンドラのキャッシュキーは pathname + search（?v= 込み）のため、
+ * ここに ?v= を書くと style.css / _layouts/default.html との3点同期が必要になり、
+ * 実際に不整合が発生した。CSS/JS は初回ナビゲーション時に cacheFirst で保存される。
+ */
 var PRECACHE_STATIC = [
-  BASE + '/assets/css/style.css?v=20260411b',
-  BASE + '/assets/js/main.js?v=20260415a',
   BASE + '/assets/images/hero-fallback.jpg',
   BASE + '/assets/images/sample-clinic.jpg',
   BASE + '/assets/images/sample-care.jpg',
