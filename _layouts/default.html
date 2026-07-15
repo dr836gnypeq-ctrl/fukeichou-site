@@ -10,6 +10,17 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-8LN4ZQF3CV');
+
+  /* ── 内部テストモード判定(?internal=1でアクセス→タブを閉じるまで内部トラフィック扱い) ── */
+  (function(){
+    var params = new URLSearchParams(location.search);
+    if (params.get('internal') === '1') {
+      sessionStorage.setItem('fk_internal_test', '1');
+    }
+    if (sessionStorage.getItem('fk_internal_test') === '1') {
+      gtag('set', 'traffic_type', 'internal');
+    }
+  })();
 </script>
 <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
 <meta name="description" content="{{ page.description | default: site.description }}">
