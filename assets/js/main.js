@@ -414,9 +414,9 @@ if(typeof lucide !== 'undefined'){
     /* LP (index.html) */
     'pricing', 'evidence', 'service', 'faq', 'samples',
     /* evidence/clinic.html */
-    'clinical', 'neuroscience', 'media-impact', 'dental-anxiety', 'mental',
+    'clinical', 'neuroscience', 'mental',
     /* evidence/care.html */
-    'dementia', 'elderly', 'foundation',
+    'dementia', 'elderly', 'staff',
     /* evidence共通 (clinic/care両方) */
     'theory', 'relevance', 'references',
     /* quality.html */
