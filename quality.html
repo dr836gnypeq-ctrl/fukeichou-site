@@ -1,7 +1,7 @@
 ---
 layout: default
-title: 4K HDRと8bit SDRの違い — 自然映像が生体反応に与える影響
-description: 同じ自然映像でも、4K HDR（10bit）と地上波SDR（8bit）では生体反応が異なることが研究で示されています。バンディングノイズの仕組み・査読論文の結果から、風景帖が映像品質にこだわる理由を解説します。クリニック・介護施設向け。
+title: 映像品質へのこだわり — 4K・HDRと、自然映像の伝わり方
+description: 「高画質」はひとつの性質ではありません。解像度（4K/2K）と、明るさ・色の記録のしかた（SDR/HDR）に分けて、8bit映像に生じるバンディングノイズの実物と査読論文から、風景帖が映像品質にこだわる理由を解説します。クリニック・介護施設向け。
 ---
 
 {% include evidence-styles.html %}
@@ -27,6 +27,21 @@ canvas.ql-canvas{display:block;width:100%;height:160px}
 .ql-banding-lr{display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:start}
 .ql-banding-left{}
 .ql-banding-right{}
+
+/* Terms explainer */
+.ql-terms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:28px;max-width:880px;margin-left:auto;margin-right:auto}
+.ql-term{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:24px 22px;display:flex;flex-direction:column}
+.ql-term-tag{display:inline-block;align-self:flex-start;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:4px;background:#e8f5f1;color:#136b5e;margin-bottom:10px}
+.ql-term h3{font-family:var(--serif);font-size:1.02rem;font-weight:600;margin-bottom:10px;line-height:1.55}
+.ql-term p{font-size:.85rem;color:var(--ink-light);line-height:1.85;margin:0}
+.ql-term-fig{margin:16px 0 14px}
+.ql-term-fig svg{display:block;width:100%;height:auto;border-radius:4px}
+.ql-term-note{font-size:.78rem;color:var(--ink-faint);line-height:1.75;margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+.ql-myth{margin-top:28px;padding:20px 24px;background:var(--paper-warm);border-radius:8px;border-left:3px solid var(--moss);font-size:.88rem;line-height:1.9;color:var(--ink-light)}
+.ql-myth strong{color:var(--ink)}
+@media(max-width:768px){
+.ql-terms-grid{grid-template-columns:1fr}
+}
 
 
 /* Study card */
@@ -98,23 +113,92 @@ canvas.ql-bit-canvas{height:40px}
   <div class="container">
     <a href="{{ '/' | relative_url }}" class="ev-back">← トップページに戻る</a>
     <h1 class="section-heading">風景帖が映像品質にこだわる理由</h1>
-    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>地上波テレビや動画配信サイトで広く使われている映像規格は「8bit SDR」（Standard Dynamic Range＝従来の輝度規格）です。<br>一方で風景帖が採用する「10bit HDR」（High Dynamic Range＝高輝度・広色域の映像規格）は、より多くの明暗・色を再現できる上位規格です。同じ映像素材でも、この規格の違いで生体反応が異なることが研究で示されています。だからこそ私たちは、映像規格の選択を妥協せず、その根拠を外部研究で確認しながら制作しています。</p>
+    <p class="section-lead">自然映像に癒やし効果があることは研究で示されています。ただし、映像であれば何でも同じではありません。<br>「高画質」とひとことで言っても、その中身は<strong>解像度</strong>（2K か 4K か）と、<strong>明るさ・色の記録のしかた</strong>（SDR か HDR か）という、別々の性質からできています。地上波テレビや動画配信サイトで広く使われているのは 8bit の SDR。風景帖は 10bit の HDR、4Kで制作しています。<br>このページでは、まず用語を整理したうえで、8bit映像の限界を実物の映像で、解像度とHDRそれぞれの働きを外部の査読論文で——ひとつずつ見ていきます。根拠のあるものと、私たちの制作上の判断とを、はっきり分けてお伝えします。</p>
   </div>
 </div>
 
 <nav class="ev-page-nav" aria-label="ページ内ナビゲーション">
   <div class="ev-page-nav-inner">
-    <a class="h-pill" data-section="banding" href="#banding">8bitの限界</a>
-    <a class="h-pill" data-section="study" href="#study">科学的裏付け</a>
+    <a class="h-pill" data-section="terms" href="#terms">ことばの整理</a>
+    <a class="h-pill" data-section="banding" href="#banding">8bit（SDR）の限界</a>
+    <a class="h-pill" data-section="study" href="#study">解像度とHDR</a>
     <a class="h-pill" data-section="spec" href="#spec">風景帖の規格</a>
   </div>
 </nav>
+
+<!-- Terms explainer -->
+<section class="section" id="terms">
+  <div class="container">
+    <h2 class="ev-section-sub">はじめに、2つのことばを整理します</h2>
+    <p class="ev-section-desc">このページには「4K」「8bit」「HDR」といった用語が出てきます。ひとまとめに「高画質」と語られがちですが、その中身は<strong>「点の数」</strong>と<strong>「明るさ・色の記録のしかた」</strong>という2つの性質に分かれます。ここだけ読んでいただければ、以降の話はすべて追えます。</p>
+
+    <div class="ql-terms-grid">
+
+      <div class="ql-term">
+        <span class="ql-term-tag">解像度 ── 2K / 4K</span>
+        <h3>画面が、いくつの点でできているか</h3>
+        <div class="ql-term-fig">
+          <svg viewBox="0 0 240 144" role="img" aria-label="4Kの画面は2Kの画面を縦横2倍に広げたもので、2Kをそのまま内包する">
+            <rect x="1" y="1" width="238" height="134" rx="3" fill="var(--moss)" opacity="0.05"/>
+            <rect x="1" y="1" width="238" height="134" rx="3" fill="none" stroke="var(--moss)" stroke-width="2"/>
+            <rect x="1" y="68" width="119" height="67" fill="var(--moss)" opacity="0.18"/>
+            <rect x="1" y="68" width="119" height="67" fill="none" stroke="var(--moss)" stroke-width="1.5"/>
+            <text x="60" y="98" text-anchor="middle" font-size="13" font-weight="700" fill="var(--moss)">2K</text>
+            <text x="60" y="113" text-anchor="middle" font-size="8" fill="var(--ink-light)">1920×1080</text>
+            <text x="232" y="22" text-anchor="end" font-size="13" font-weight="700" fill="var(--moss)">4K</text>
+            <text x="232" y="36" text-anchor="end" font-size="8" fill="var(--ink-light)">3840×2160</text>
+            <line x1="120" y1="128" x2="234" y2="128" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="177" y="122" text-anchor="middle" font-size="8" fill="var(--ink-faint)">横 ×2</text>
+            <line x1="112" y1="1" x2="112" y2="62" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="106" y="34" text-anchor="end" font-size="8" fill="var(--ink-faint)">縦 ×2</text>
+          </svg>
+        </div>
+        <p>画面を構成する点（画素）の数です。<strong>2K</strong>（フルHD＝地上波放送やBlu-rayの画質）は約207万画素。<strong>4K</strong>は、2Kの画面を縦横それぞれ2倍に広げたもので、約829万画素——<strong>2Kの4倍</strong>のきめ細かさです。数が多いほど、遠くの木の葉のような細かいものまで記録できます。</p>
+        <p class="ql-term-note">図のとおり、4Kの枠は2Kの枠をまるごと含んでいます。同じ大きさのモニタに映せば、その分だけ一つひとつの点が細かくなります。</p>
+      </div>
+
+      <div class="ql-term">
+        <span class="ql-term-tag">明るさ・色の記録 ── SDR / HDR</span>
+        <h3>明るさと色を、どれだけ細かく・どれだけ広く記録するか</h3>
+        <div class="ql-term-fig">
+          <svg viewBox="0 0 240 136" role="img" aria-label="8bit（SDR）は256段階で段差が見え、10bit（HDR）は1024段階でなめらか">
+            <defs>
+              <linearGradient id="qlTermSmooth" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#f5eedc"/><stop offset="1" stop-color="#6e8cb4"/>
+              </linearGradient>
+            </defs>
+            <text x="2" y="14" font-size="9" font-weight="700" fill="var(--ink-faint)">8bit（SDR）＝ 256段階</text>
+            <g>
+              <rect x="1" y="22" width="39.6" height="34" fill="#f5eedc"/>
+              <rect x="40.6" y="22" width="39.6" height="34" fill="#ddd9cf"/>
+              <rect x="80.2" y="22" width="39.6" height="34" fill="#c4c3c1"/>
+              <rect x="119.8" y="22" width="39.6" height="34" fill="#aaadb4"/>
+              <rect x="159.4" y="22" width="39.6" height="34" fill="#8c9aa7"/>
+              <rect x="199" y="22" width="40" height="34" fill="#6e8cb4"/>
+              <rect x="1" y="22" width="238" height="34" fill="none" stroke="var(--border)"/>
+            </g>
+            <text x="2" y="82" font-size="9" font-weight="700" fill="var(--moss)">10bit（HDR）＝ 1,024段階</text>
+            <rect x="1" y="90" width="238" height="34" fill="url(#qlTermSmooth)" stroke="var(--border)"/>
+          </svg>
+        </div>
+        <p>映像の規格では、明るさ・色を刻む細かさ（階調＝ビット深度）と、扱える明暗の幅（ダイナミックレンジ）がセットで定められています。一般的な映像制作・配信では、<strong>8bit</strong>（256段階）で作られた従来の映像を <strong>SDR</strong>（スタンダードダイナミックレンジ）、<strong>10bit</strong>（1,024段階）以上の階調で明暗の幅を広げた映像を <strong>HDR</strong>（ハイダイナミックレンジ）と呼びます。</p>
+        <p class="ql-term-note">明暗の幅を広げるほど、細かい階調が必要になります。HDRが10bit以上を前提にしているのはこのためです。段階が足りないと何が起きるかは、次のセクションで実物の映像で確かめます。</p>
+      </div>
+
+    </div>
+
+    <div class="ql-myth">
+      <strong>よくある誤解：「HDR＝画面が明るいこと」ではありません。</strong>とても明るいSDRのモニタも存在します。HDRとSDRの違いはモニタの明るさではなく、<strong>映像そのものが、明るさと色をどれだけ広い幅で・どれだけ細かく記録しているか</strong>にあります。<br>
+      そして解像度（点の数）は、これとはまったく別の性質です。点がいくら多くても、記録の段階が足りなければ、空のグラデーションの段差は消えません。だからこのページでは、この2つを分けて見ていきます。
+    </div>
+  </div>
+</section>
 
 <!-- Banding visualization -->
 <section class="section" id="banding">
   <div class="container">
     <h2 class="ev-section-sub">8bitの限界は、この縞に現れる ── バンディングノイズを実写で確認する</h2>
-    <p class="ev-section-desc">北海道・美瑛で実際に撮影した映像フレームです。これが「8bit」規格で書き出すと何が起きるかの証拠です。地上波テレビ・スマホ動画・YouTubeのほとんどが、この規格で配信されています。画面下部の空を、よく見てください。</p>
+    <p class="ev-section-desc">北海道・美瑛で実際に撮影した映像フレームです。これを「8bit」（SDR）規格で書き出すと何が起きるかの証拠です。地上波テレビ・スマホ動画・YouTubeのほとんどが、この規格で配信されています。画面下部の空を、よく見てください。</p>
 
     <div class="ql-banding-wrap">
 
@@ -149,7 +233,7 @@ canvas.ql-bit-canvas{height:40px}
 
       <p class="ql-banding-note">
         黄枠内を右に拡大しています。木の右側に見える白い輝点が夕日です。そこから放射状に広がるグラデーションは明るさが極めて緩やかに変化します。8bitの256段階ではその変化を表現しきれず、縞状の段差（バンディングノイズ）が生じます。<br>
-        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が肉眼では区別できない限界以下に抑えられています。実際の映像品質は、初月無料のトライアルでご体感いただけます。
+        風景帖の映像は10-bit（1,024段階）で収録されており、この段差が肉眼では区別できない限界以下に抑えられています。こうした違いは、施設のモニタに実際に映してご覧いただくのがいちばんです。風景帖は届いた月の翌月末まで無料ですので、映像の質をじっくりお確かめください。
       </p>
     </div>
 
@@ -162,12 +246,12 @@ canvas.ql-bit-canvas{height:40px}
       <div class="ql-reason-step">
         <div class="ql-step-num">② 10bitで何が変わるか</div>
         <h4>段数が4倍、段差が見えなくなる</h4>
-        <p>10bitは1チャンネルあたり1,024段階。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。脳が「自然な光」として処理できる条件が整います。</p>
+        <p>10bitは1チャンネルあたり1,024段階。段差が肉眼の識別限界以下まで細かくなり、グラデーションが連続して見えます。空や水面のような、緩やかに色が移ろう風景ほど、この差が表れます。</p>
       </div>
       <div class="ql-reason-step">
         <div class="ql-step-num">③ 体験への影響</div>
-        <h4>品質は「見た目」だけでなく「体験の深さ」に関わる</h4>
-        <p>不自然な縞は、意識しなくても脳が「補正しようとする」処理を引き起こします。その無意識の負荷が、リラックスや注意の回復に向かうべきリソースを消費します。待合室や共用スペースという「何もしない時間」を質の高い休息にするには、脳に余計な仕事をさせないことが重要です。</p>
+        <h4>縞は、映像の印象を確実に下げる</h4>
+        <p>バンディングノイズは、他の点では高品質な映像であっても主観的な品質評価を明確に下げることが、画質評価の研究で繰り返し確認されています。待合室や共用スペースに長時間流れ続ける映像だからこそ、映像そのものが気になる要素にならないことを重視しています。</p>
       </div>
     </div>
 
@@ -243,66 +327,36 @@ canvas.ql-bit-canvas{height:40px}
 <!-- Study section -->
 <section class="section" id="study">
   <div class="container">
-    <p class="ev-section-desc" style="margin-bottom:32px;padding:20px 24px;background:var(--paper-warm);border-radius:8px;border-left:3px solid var(--moss)">この問題を認識した上で、私たちは外部の査読論文も参照しながら映像規格を選んでいます。以下は、映像規格の差が実際の生体反応に影響することを示した研究です。</p>
-    <h2 class="ev-section-sub">映像規格の違いが生体反応に影響することを示した研究</h2>
-    <p class="ev-section-desc">主観評価ではなく、皮膚温度・脳血流・心拍数という生体信号で測定した実験です。</p>
-
-    <div class="ql-study">
-      <span class="ql-study-badge">査読論文・2021年</span>
-      <h3>広色域・高輝度（HDR）映像の視聴時に、8bit SDRより副交感神経が優位になることを確認</h3>
-      <div class="ql-study-meta">
-        篠原未歩, 石井英里子, 星野祐子, 山田光穗（東海大学・鹿児島県立短期大学）<br>
-        「高品質な映像条件が人にもたらす癒やし効果の検討」<br>
-        パーソナルコンピュータ利用技術学会論文誌, 16巻2号, pp. 40–55（2021年）
-      </div>
-      <div class="ql-study-body">
-        被験者12名に、映像規格の異なる自然画像（花・動物を含む風景）を各5分間視聴させ、心拍数・呼吸数・脳血流動態（NIRS＝近赤外分光法、脳の血流変化を光で非侵襲的に測定する手法）・皮膚温度の4種類の生体信号を計測した。比較した映像規格は以下の3種類。
-        <table class="ql-spec-table" style="margin-top:16px;margin-bottom:0">
-          <tr><th>規格</th><th>ビット深度</th><th>色域</th><th>輝度</th></tr>
-          <tr><td>BT.709</td><td>8bit</td><td>Rec.709（従来）</td><td>SDR</td></tr>
-          <tr><td>BT.2020</td><td>10/12bit</td><td>Rec.2020（広色域）</td><td>SDR</td></tr>
-          <tr><td class="ql-highlight">BT.2100 HLG</td><td class="ql-highlight">10/12bit</td><td class="ql-highlight">Rec.2020（広色域）</td><td class="ql-highlight">HDR</td></tr>
-        </table>
-      </div>
-      <div class="ql-result">
-        <p><strong>皮膚温度（副交感神経優位＝リラックスの指標）</strong><br>
-        BT.2100（広色域・HDR）で動物を含む自然画像を視聴した際、被験者12名中10名が安静時より皮膚温度が上昇し、有意差が確認された（p = 0.000）。皮膚温度の上昇は副交感神経の活性化を示す。<br><br>
-        <strong>脳血流動態（右脳のヘモグロビン濃度変化＝脳活動の代替指標）</strong><br>
-        映像規格の主効果に有意差あり（F=3.824, p < 0.05）。BT.2100 vs BT.2020 間で有意差が確認された。BT.2100視聴中は感性・映像処理に関わる右脳の活動が穏やかに安定する傾向が見られた。<br><br>
-        <strong>主観評価（フラストレーション）</strong><br>
-        被験者12名中7名が、BT.709（8bit SDR）視聴後にフラストレーションのスコアが最も高くなった。広色域・HDRの映像規格ほどストレスなく視聴できることが示唆された。</p>
-      </div>
-      <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-bottom:0">
-        <strong>著者らの結論：</strong>「高品質な映像条件で視聴することによって、実際に見る景色に近づき、自然の中にいる時と同等の癒やし効果を得られる可能性が高いことを示した。」<br>
-        <span style="font-size:.8rem;color:var(--ink-faint)">※被験者12名・単施設研究であり、結果はすべての環境・対象者に同一の効果を保証するものではありません。</span><br>
-        <span style="font-size:.8rem;color:var(--ink-faint)">※統計記号：p は有意確率（p < 0.05 で「偶然でない差」と判定）。F は分散分析の検定統計量。以下の論文でも同じ基準を使用しています。</span>
-      </p>
-      <a class="ev-study-link" href="https://doi.org/10.24663/jjpcats.16.2_40" target="_blank" rel="noopener">DOIリンクで論文を確認 →</a>
-    </div>
+    <p class="ev-section-desc" style="margin-bottom:32px;padding:20px 24px;background:var(--paper-warm);border-radius:8px;border-left:3px solid var(--moss)">ここからは、<strong>解像度</strong>（4K か 2K か）と<strong>ダイナミックレンジ</strong>（HDR か SDR か）を見ていきます。この2つは「4K HDR」とひとまとめに語られがちですが、点の数と明暗の幅という、まったく別の性質です。外部の査読論文でも、両者は分けて検証されています。</p>
+    <h2 class="ev-section-sub">解像度とダイナミックレンジは、分けて考える必要がある</h2>
+    <p class="ev-section-desc">この2つを実際に分離して検証した研究が存在します。結論から言うと、両者の効き方は同じではありません。</p>
 
     <div class="ql-study">
       <span class="ql-study-badge">査読論文・2022年</span>
-      <h3>HDR映像は、SDR映像より自然映像の没入感を有意に高める</h3>
+      <h3>解像度とダイナミックレンジを分離して検証すると、没入感を高めたのはHDRだった</h3>
       <div class="ql-study-meta">
-        Hinde, S. J., Noland, K. C., Thomas, G. A., Bull, D. R., & Gilchrist, I. D.「On the Immersive Properties of High Dynamic Range Video」<br>
-        ACM Transactions on Applied Perception, Vol. 19, No. 2, Article 7（2022年）
+        Hinde, S. J., Noland, K. C., Thomas, G. A., Bull, D. R., &amp; Gilchrist, I. D.「On the Immersive Properties of High Dynamic Range Video」<br>
+        ACM Transactions on Applied Perception, Vol. 19, No. 2, Article 7（2022年）<br>
+        対象: 大学生（実験1: n=24／実験2: n=48）・65インチTV・視距離160cm
       </div>
       <div class="ql-study-body">
-        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、HD-SDRと4K(UHD)-HDRの視聴中の没入感を二次課題反応時間法（映像への没入が深いほど外部刺激への反応が遅くなることを利用した客観的指標）で測定。50分間の長尺視聴を2つの独立した実験で検証した。
+        BBC自然史ドキュメンタリー（Planet Earth II・Blue Planet II）を素材に、視聴中の没入感を二次課題反応時間法（映像への没入が深いほど外部刺激への反応が遅くなることを利用した客観的指標）で測定。<strong>実験2では、解像度とダイナミックレンジを独立した変数として分離</strong>し、どちらが効いているのかを切り分けた。
       </div>
       <div class="ql-result">
-        <p><strong>実験1：</strong>HD-SDR vs 4K(UHD)-HDRで、4K(UHD)-HDR群が有意に没入感が高い（F=295, p < 0.001）。<br><br>
-        <strong>実験2（解像度とダイナミックレンジを独立変数に分離）：</strong><br>
-        HDRの主効果：有意（p=.038）<strong>——没入感を高めたのはHDRの効果</strong><br>
-        解像度（4K(UHD) vs HD）の主効果：<strong>有意差なし（p=.83）</strong><br><br>
-        解像度（4K vs HD）ではなく、<strong>ダイナミックレンジ（HDR）の有無が没入感を左右した</strong>という重要な知見。</p>
+        <p><strong>実験1（解像度とダイナミックレンジが同時に変わる条件）：</strong>HD-SDR vs 4K(UHD)-HDR で、4K(UHD)-HDR群が有意に没入感が高い（F=295, p &lt; 0.001）。ただしこの条件では2つの性質が同時に変わっており、どちらが効いたのかは判別できない。<br><br>
+        <strong>実験2（解像度とダイナミックレンジを分離）：</strong><br>
+        ・<strong>ダイナミックレンジ（HDR）の主効果：有意（p = .038）</strong><br>
+        ・<strong>解像度（4K vs HD）の主効果：有意差なし（p = .83）</strong><br><br>
+        没入感を左右したのは解像度ではなく、<strong>ダイナミックレンジ（HDR）の有無</strong>だった。</p>
+        <div class="ev-study-note" style="margin-top:14px">測定しているのは「没入感＝注意の集中」であり、鎮静やストレス低減、生理指標ではありません。待合室で求められる「穏やかさ」とは別の構成概念です。また素材はナレーションと音楽を伴うBBCの自然史番組で、風景帖の無音・無物語のループとは条件が異なるため、音量ゼロ運用の根拠にはなりません。被験者は若年の大学生です。</div>
       </div>
+      <p style="font-size:.8rem;color:var(--ink-faint);line-height:1.8;margin-bottom:0">※統計記号：p は有意確率（p &lt; 0.05 で「偶然でない差」と判定）。F は分散分析の検定統計量。以下の論文でも同じ基準を使用しています。</p>
       <a class="ev-study-link" href="https://doi.org/10.1145/3524692" target="_blank" rel="noopener">ACM Digital Library で論文を確認 →</a>
     </div>
 
     <div class="ql-study">
       <span class="ql-study-badge">査読論文・2015年</span>
-      <h3>ストレス負荷後、無音の4K自然映像でネガティブ情動が有意に低減——HD映像では有意差なし</h3>
+      <h3>解像度に着目した国内の研究：ストレス負荷後、無音の4K自然映像でネガティブ情動が有意に低減——HD映像では有意差なし</h3>
       <div class="ql-study-meta">
         川久保惇, 吉岡明里, 小口孝司（立教大学大学院現代心理学研究科ほか）<br>
         「自然環境の映像と音がストレス低減に及ぼす影響」<br>
@@ -326,6 +380,17 @@ canvas.ql-bit-canvas{height:40px}
       <a class="ev-study-link" href="https://rikkyo.repo.nii.ac.jp/record/10982/files/AA11430459_57_02.pdf" target="_blank" rel="noopener">論文全文を読む（立教大学） →</a>
     </div>
 
+    <div class="ql-banding-note" style="margin-top:8px">
+      <strong>研究から言えることを、まとめます。</strong><br>
+      <strong>ダイナミックレンジ（HDR vs SDR）</strong>には、両者を分離して検証した研究があり、没入感を高めるのはHDRのほうだと示されています（Hinde 2022）。<br>
+      <strong>解像度（4K vs 2K）</strong>は、川久保ら（2015）が4K条件でのみ有意な低減を報告する一方、Hindeら（2022）では解像度の主効果に有意差がなく、研究間で結果が分かれています。心理的な働きの検証は、まだ続いている段階です。
+    </div>
+
+    <div class="ql-banding-note" style="margin-top:16px">
+      <strong>そのうえで、風景帖が4Kにこだわる理由。</strong><br>
+      待合室や共用スペースの大画面は、ソファのすぐ横や通路際など、思いのほか近い距離から見られます。4Kは、フルHDの半分の視聴距離——画面の高さの約1.5倍——まで近づいても画素の粗が見えない規格です。遠景の木の葉の一枚、湖面の細かなきらめきまでを描き切り、「映像を流している画面」ではなく「窓の外に広がる景色」として空間になじむこと。風景帖が目指す「もうひとつの窓」という見え方には、この精細さが欠かせません。撮影は4Kを上回る解像度で行い、その豊かな情報を4Kに凝縮して収録しています。収録から再生まで引き伸ばし（アップコンバート）を挟まないため、お使いのモニタの性能をそのまま引き出します。
+    </div>
+
     <p class="section-overview" style="margin-top:40px;padding:24px;background:var(--paper-warm);border-radius:8px;font-size:.9rem;max-width:none">
       施設での臨床研究など、自然映像が患者・入居者にもたらす効果の科学的根拠は別ページにまとめています。<br>
       <a href="{{ '/evidence/' | relative_url }}" class="text-link-btn" style="margin-top:10px;display:inline-block">自然映像の科学的根拠を見る →</a>
@@ -337,7 +402,7 @@ canvas.ql-bit-canvas{height:40px}
 <section class="section" id="spec">
   <div class="container">
     <h2 class="ev-section-sub">風景帖の映像規格</h2>
-    <p class="ev-section-desc">上記の研究が効果を確認した映像規格と同等の仕様で、すべての映像を制作・収録しています。</p>
+    <p class="ev-section-desc">解像度・明るさ・色の記録のいずれの面でも、上位の規格を選んで制作・収録しています。</p>
 
     <div class="ql-study" style="padding:28px 36px">
       <table class="ql-spec-table">
@@ -349,7 +414,7 @@ canvas.ql-bit-canvas{height:40px}
         <tr>
           <td>映像規格</td>
           <td class="ql-highlight">BT.2100 HLG 相当</td>
-          <td>地上波テレビ（BT.709）の上位規格。NHK・BBC主導で策定されたHDR方式。篠原ら（2021）が最も高い生体効果を確認した規格と同等</td>
+          <td>地上波テレビ（BT.709）の上位規格。NHK・BBC主導で策定されたHDR方式</td>
         </tr>
         <tr>
           <td>ビット深度</td>
@@ -362,14 +427,14 @@ canvas.ql-bit-canvas{height:40px}
           <td>可視光の約76%をカバー。従来のRec.709（現在の地上波テレビ・Blu-rayの色域＝約36%）の約2倍。BT.2100はRec.2020の色域をそのまま継承</td>
         </tr>
         <tr>
-          <td>輝度</td>
+          <td>ダイナミックレンジ</td>
           <td class="ql-highlight">HLG（Hybrid Log-Gamma）</td>
-          <td>NHKとBBCが共同開発。HDR対応モニタでは高輝度・広色域でフル表現、SDR対応モニタでも映像が破綻せず自然に再生される、両対応に優れた規格</td>
+          <td>NHKとBBCが共同開発したHDR方式。HDR対応モニタでは広い明暗の幅をフルに表現し、SDR対応モニタでも映像が破綻せず自然に再生される、両対応に優れた規格</td>
         </tr>
         <tr>
           <td>解像度</td>
           <td class="ql-highlight">4K（3840×2160）</td>
-          <td>UHD（Ultra High Definition）とも呼ばれる規格。フルHDの4倍。遠景の木の葉一枚まで記録</td>
+          <td>UHD（Ultra High Definition）とも呼ばれる規格。フルHDの4倍。4Kを上回る解像度で撮影した映像を凝縮して収録し、遠景の木の葉一枚まで記録</td>
         </tr>
         <tr>
           <td>再生方式</td>
@@ -385,7 +450,7 @@ canvas.ql-bit-canvas{height:40px}
       <p style="font-size:.85rem;color:var(--ink-light);line-height:1.8;margin-top:20px;padding:16px 20px;background:var(--paper-warm);border-radius:8px">
         <sup>※1</sup> 一部シーンを除く。<br>
         ※ 映像の最終的な表示品質は、お客様にご用意いただくモニタの性能に依存します。HDR10（現在最も普及しているHDR規格のひとつ）対応の4Kテレビをご使用の場合に本来の画質でご覧いただけます。<br>
-        HDR非対応（従来のSDR）のモニタをご使用の場合、HDRの高輝度表現は再現されませんが、映像が破綻することはありません。地上波放送に近い水準の、自然で見やすい映像としてご覧いただけます。
+        HDR非対応（従来のSDR）のモニタをご使用の場合、HDRの広い明暗の幅は再現されませんが、映像が破綻することはありません。地上波放送に近い水準の、自然で見やすい映像としてご覧いただけます。
       </p>
     </div>
   </div>
@@ -395,7 +460,7 @@ canvas.ql-bit-canvas{height:40px}
 <section class="section">
   <div class="container">
 
-    <p class="ql-disclaimer">本ページで引用した研究結果は、それぞれの実験条件下で得られたものであり、すべての環境・対象者に同一の効果を保証するものではありません。篠原ら（2021）は被験者12名・単施設の研究であり、今後のさらなる検証が必要です。風景帖は医療機器・医薬品ではなく、疾病の治療を目的としたものではありません。</p>
+    <p class="ql-disclaimer">本ページで引用した研究結果は、それぞれの実験条件下で得られたものであり、すべての環境・対象者に同一の効果を保証するものではありません。いずれも若年の大学生を対象とした小規模な実験室研究であり、医療施設の患者層への外挿には慎重さが必要です。また測定されているのは没入感や主観的な情動であって、生理指標での効果は確認されていません。解像度そのものの効果については研究間で結果が一致しておらず、確立していません。風景帖は医療機器・医薬品ではなく、疾病の治療を目的としたものではありません。</p>
 
     <div class="ev-bottom-nav">
       <a href="{{ '/' | relative_url }}">← トップページに戻る</a>
@@ -420,15 +485,15 @@ canvas.ql-bit-canvas{height:40px}
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "4K HDRと8bit SDRの違い — 自然映像が生体反応に与える影響",
+          "name": "映像品質へのこだわり — 4K・HDRと、自然映像の伝わり方",
           "item": "https://eyemel.co.jp/quality/"
         }
       ]
     },
     {
       "@type": "Article",
-      "headline": "4K HDRと8bit SDRの違い — 自然映像が生体反応に与える影響",
-      "description": "同じ自然映像でも、4K HDR（10bit）と地上波SDR（8bit）では生体反応が異なることが研究で示されています。バンディングノイズの仕組み・査読論文の結果から、風景帖が映像品質にこだわる理由を解説します。",
+      "headline": "映像品質へのこだわり — 4K・HDRと、自然映像の伝わり方",
+      "description": "「高画質」はひとつの性質ではありません。解像度（4K/2K）と、明るさ・色の記録のしかた（SDR/HDR）に分けて、8bit映像に生じるバンディングノイズの実物と査読論文から、風景帖が映像品質にこだわる理由を解説します。",
       "url": "https://eyemel.co.jp/quality/",
       "inLanguage": "ja",
       "publisher": {
